@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#!" type="image/x-icon">
+    <title>Kioboard - Example</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 1em/1.4 sans-serif;
+            height: 300dvh;
+            color: #333;
+            background: linear-gradient(0deg, rgba(17,170,238,1) 0%, rgba(16,208,255,1)  100%);
+            background: #222;
+        }
+
+        #app {
+            scroll-margin-top: 2em;
+            display: flex;
+            padding: 3rem;
+            justify-content: center;
+            gap: 1em;
+        }
+
+        select,
+        input,
+        textarea {
+            padding: 1em;
+            vertical-align: top;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <select id="theme">
+            <option value="default">Default light</option>
+            <option value="default-dark">Default dark</option>
+            <option value="flat">Flat light</option>
+            <option value="flat-dark">Flat dark</option>
+            <option value="glass">Glass light</option>
+            <option value="glass-dark">Glass dark</option>
+        </select>
+        <select id="layout">
+            <option value="en">English</option>
+            <option value="hr">Hrvatski</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="es">Español</option>
+        </select>
+        <br>
+        <textarea class="kio1" id="textarea" data-kioboard>Example textarea</textarea>
+        <input class="kio1" id="input" type="text" data-kioboard  value="" maxlength="3" autocomplete="off">
+        <br>
+        <textarea class="kio2" id="textarea2" data-kioboard>Example textarea</textarea>
+        <input class="kio2" id="input" type="text" data-kioboard  value="" maxlength="3" autocomplete="off">
+    </div>
+
+    <script type="module" src="./index.js"></script>
+</body>
+
+</html>

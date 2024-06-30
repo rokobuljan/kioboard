@@ -1,0 +1,162 @@
+.kioboard {
+    --alpha: 1;
+    --primary-color: hsl(203, 80%, 53%);
+    --color: currentColor;
+    --background: hsl(0 0% 90% / var(--alpha));
+    --background-btn: hsl(0 0% 100% / var(--alpha));
+    --keySize: clamp(0.2em, 2vw, 1.1em);
+    --radius: 0.3em;
+    --shadow: inset 0 -1px 0 hsl(0 0% 0% / 0.3);
+    --gap: 0.3em;
+
+    position: fixed;
+    z-index: 9000;
+    display: flex;
+    flex-direction: column;
+    bottom: 1em;
+    left: 1em;
+    right: 1em;
+    margin: auto;
+    padding: calc(var(--gap) * 2);
+    transition: opacity 0.3s;
+    gap: var(--gap);
+    font-size: var(--keySize);
+    font-weight: bold;
+    touch-action: none;
+    border-radius: calc(var(--radius) * 2);
+    max-width: min(52em, 100dvw);
+    background: var(--background);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    &.is-visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    /* Layout */
+
+    &[data-kioboard-layout="hr"] {
+        /* layout specific styles */
+    }
+
+    /* Themes */
+
+    &[data-kioboard-theme^="default"] {
+        --gap: 0.3em;
+    }
+
+    &[data-kioboard-theme^="flat"] {
+        --gap: 0.1em;
+        --radius: 0px;
+        --shadow: none;
+    }
+
+    &[data-kioboard-theme^="glass"] {
+        overflow: hidden;
+        border-radius: 0.2em;
+        --alpha: 0.6;
+        --shadow: none;
+        --gap: 1px;
+        --radius: 0px;
+        backdrop-filter: blur(10px);
+    }
+
+    &[data-kioboard-theme$="-dark"] {
+        --color: hsl(0 0% 85% / 1);
+        --background: hsl(0 0% 8% / var(--alpha));
+        --background-btn: hsl(0 0% 17% / var(--alpha));
+    }
+
+    /* Rows and buttons */
+
+    & [data-kioboard-row] {
+        display: flex;
+        gap: var(--gap);
+    }
+
+    & button {
+        padding: 0;
+        vertical-align: middle;
+        flex-grow: 1;
+        font: inherit;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: calc(var(--keySize) * 2.8);
+        transition: box-shadow 0.05s;
+        background: var(--background-btn);
+        touch-action: none;
+        border: 0;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        color: var(--color);
+        cursor: pointer;
+        user-select: none;
+        -webkit-tap-highlight-color: hsl(0 0% 0% / 0);
+
+        & .kioboard-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 1em;
+        }
+
+        & svg {
+            height: 1.5em;
+            fill: var(--color);
+            margin: 0 -1em;
+        }
+
+        &[data-kioboard-key="enter"] {
+            flex-grow: 2;
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        &[data-kioboard-key="space"] {
+            flex-grow: 10;
+        }
+
+        &[data-kioboard-key="drag"],
+        &[data-kioboard-key="close"] {
+            background: transparent;
+            box-shadow: none;
+        }
+
+        /* Active has to go last */
+        &:active {
+            box-shadow: inset 0 0 0 0.2em var(--primary-color);
+        }
+
+        .is-shift & {
+            &[data-kioboard-key="shift"] {
+                box-shadow: inset 0 0 0 0.2em var(--primary-color);
+            }
+        }
+
+        .is-caps & {
+            &[data-kioboard-key="shift"] {
+                background: var(--primary-color);
+                color: #fff;
+            }
+        }
+    }
+
+    /* Layer styles */
+
+    &[data-kioboard-layer="numpad"] {
+        max-width: 14em !important;
+
+        & [data-kioboard-key="enter"] {
+            flex-grow: 1;
+        }
+    }
+
+    &[data-kioboard-layer="emoji"] {
+        max-width: 32em !important;
+    }
+}
