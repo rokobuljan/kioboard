@@ -477,13 +477,16 @@ class Kioboard {
             return this;
         }
         keysArray(keys).forEach((key) => {
-            if (this.emitter.events.has(key)) {
+
+            this.key = key;
+
+            if (this.emitter.events.has(this.key)) {
                 // Run a custom action
-                this.emitter.events.get(key).forEach(callback => {
+                this.emitter.events.get(this.key).forEach(callback => {
                     // If the action value is (as expected) a callback
                     if (!typeof callback === "function") return;
                     // trigger the callback:
-                    const returnedValue = callback.call(this, key, this);
+                    const returnedValue = callback.call(this, this.key, this);
                     // If callback returns a string, insert it:
                     if (typeof returnedValue === "string") {
                         this.insert(returnedValue);
@@ -492,9 +495,18 @@ class Kioboard {
             } else {
                 // Insert key is the defalt behavior for
                 // any key that has no custom action assigned
-                this.insert(key);
+                this.insert(this.key);
             }
-            this.key = key;
+
+            // Highlight active keys
+            const elKeys = els(`[data-kioboard-key="${this.key}"]`, this.elKioboard);
+            elKeys.forEach((elKey) => {
+                elKey.classList.add("is-active");
+                elKey.addEventListener("animationend", () => {
+                    elKey.classList.remove("is-active");
+                }, { once: true });
+            });
+
             this.input?.dispatchEvent(new Event("input", {
                 bubbles: true,
                 cancelable: true,
@@ -605,6 +617,11 @@ class Kioboard {
      * ```
      */
     changeLayer(layerName = this.layerNameInitial) {
+
+        if (layerName !== "shift") {
+            this.shift(0); // Reset shift to "off"
+        }
+
         // Handle "default" layer + shift state.
         // Even if layer is set to "default" we need to modify it on the fly
         // to accomodate for the shiftState
@@ -615,10 +632,7 @@ class Kioboard {
         else if (layerName === this.layerNameShift) {
             layerName = this.shiftState > 0 ? this.layerNameShift : this.layerNameDefault;
         }
-        // Handle all other layers
-        else {
-            this.shift(0); // Reset shift to "off"
-        }
+
 
         // Update current layer name
         this.layerName = layerName;

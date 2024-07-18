@@ -42,6 +42,7 @@ const kio2 = new Kioboard({ inputs: ".kio2", layoutName: "hr", shiftState: 2 });
 kio.load("de", (layout) => {
     console.log(`Loaded: layouts/${kio.layoutName}.js layout`, layout);
     kio.show(); // Optionally, show it!
+    kio.sequence("shift H default e l l o space emoji default shift W default o r l d shift ! default", 300);
 });
 
 // const kio = new Kioboard().load("de", (data) => {
@@ -55,8 +56,6 @@ const elLang = document.querySelector("#layout");
 elLang.addEventListener("change", (evt) => {
     kio.load(evt.currentTarget.value);
     kio.show();
-    //const text = `T h i s space i s space ${[...elLang.options[elLang.selectedIndex].text].join(" ")} enter`;
-    //kio.emit(text);
 });
 
 document.querySelector("#theme").addEventListener("change", (evt) => {
@@ -66,7 +65,6 @@ document.querySelector("#theme").addEventListener("change", (evt) => {
 // document.querySelector("#input").addEventListener("input", (evt) => {
 //     console.log(kio.key);
 // });
-
 
 // const kio = new Kioboard({
 //     inputs: "[data-kioboard]", // selector, Element, Element[], collection or NodeList
@@ -78,12 +76,6 @@ document.querySelector("#theme").addEventListener("change", (evt) => {
 //     isenterSubmit: true, // for <input> only
 //     isAlwaysVisible: false,
 //     isVisible: false,
-//     // onShow() {
-//     //     // console.log("Kioboard visible");
-//     // },
-//     // onHide() {
-//     //     // console.log("Kioboard hidden");
-//     // },
 //     onShow() {
 //         //console.log(this.input);
 //     },
@@ -101,33 +93,3 @@ document.querySelector("#theme").addEventListener("change", (evt) => {
 //         // themes are ready to be used / manipulated
 //     }
 // });
-
-// document.querySelector("input").addEventListener("change", (evt) => {
-//     console.log(evt.currentTarget.value);
-// });
-
-
-
-
-// kio.on("x X enter", function (key) {
-//     console.log(`Pressed key ${key}`);
-// });
-
-// const ggg = function () {
-//     console.log("enterrrrr");
-// };
-
-// kio.on("enter", ggg, true);
-
-// const actionKeys_yY = function (key) {
-//     console.log(key, this);
-// }
-// kio.on(["y", "Y"], actionKeys_yY);
-
-// setTimeout(() => {
-//     kio.off("enter");
-// }, 3000);
-
-
-
-
