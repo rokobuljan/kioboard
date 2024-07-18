@@ -165,7 +165,7 @@ class Kioboard {
      *   onInit() {
      *     console.log("kioboard initialized!", this);
      *   },
-     *   onkeyDown(key) {
+     *   onKeyDown(key) {
      *     console.log("Pressed key", key);
      *   },
      *   onShow() {
