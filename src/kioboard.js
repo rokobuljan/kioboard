@@ -523,7 +523,7 @@ class Kioboard {
      * @returns {function} Call the returned function to stop the loop
      * @example
      * ```js
-     * kio.sequence("X z Y"); // Trigger in succession every 100ms
+     * kio.sequence("X z Y"); // Trigger in succession every N ms
      * // Or: do someting on finish:
      * const stop = kio.sequence("X Y Z enter", 150, () => { console.log("Done!"); });
      * // stop(); // call the returned function to prematurely stop the sequencer loop.
