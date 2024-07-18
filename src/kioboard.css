@@ -10,21 +10,22 @@
     --gap: 0.3em;
 
     position: absolute;
-    z-index: 9000;
-    display: flex;
-    flex-direction: column;
-    bottom: 1em;
-    left: 1em;
-    right: 1em;
     margin: auto;
-    padding: calc(var(--gap) * 2);
-    transition: opacity 0.3s;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9000;
+    max-width: min-content;
+    display: flex;
+    flex-flow: column nowrap;
     gap: var(--gap);
+    padding: calc(var(--gap) * 2);
+
+    transition: opacity 0.3s;
     font-size: var(--keySize);
-    font-weight: bold;
+    font-weight: 600;
     touch-action: none;
     border-radius: calc(var(--radius) * 2);
-    max-width: min(52em, 100dvw);
     background: var(--background);
 
     opacity: 0;
@@ -39,9 +40,8 @@
 
     /* Layout */
 
-    &[data-kioboard-layout="hr"] {
-        /* layout specific styles */
-    }
+    /* &[data-kioboard-layout="hr"] {
+    } */
 
     /* Themes */
 
@@ -56,7 +56,6 @@
     }
 
     &[data-kioboard-theme^="glass"] {
-        overflow: hidden;
         border-radius: 0.2em;
         --alpha: 0.6;
         --shadow: none;
@@ -75,44 +74,45 @@
 
     & [data-kioboard-row] {
         display: flex;
+        justify-content: center;
         gap: var(--gap);
     }
 
     & button {
-        padding: 0;
-        vertical-align: middle;
-        flex-grow: 1;
-        font: inherit;
         display: inline-flex;
+        padding: 0;
+        flex: 1;
+        touch-action: none;
         align-items: center;
         justify-content: center;
         height: calc(var(--keySize) * 2.8);
-        transition: box-shadow 0.05s;
-        background: var(--background-btn);
-        touch-action: none;
+        min-width: 3em;
+        font: inherit;
         border: 0;
+        color: var(--color);
         border-radius: var(--radius);
         box-shadow: var(--shadow);
-        color: var(--color);
-        cursor: pointer;
+        background: var(--background-btn);
+        transition: box-shadow 0.05s;
         user-select: none;
         -webkit-tap-highlight-color: hsl(0 0% 0% / 0);
+        cursor: pointer;
 
         & .kioboard-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 1em;
         }
 
         & svg {
-            height: 1.5em;
+            width: 1em;
+            height: 1em;
+            scale: 1.5;
             fill: var(--color);
-            margin: 0 -1em;
         }
 
         &[data-kioboard-key="enter"] {
-            flex-grow: 2;
+            flex-grow: 2.5;
             background-color: var(--primary-color);
             color: #fff;
         }
@@ -149,14 +149,9 @@
     /* Layer styles */
 
     &[data-kioboard-layer="numpad"] {
-        max-width: 14em !important;
 
         & [data-kioboard-key="enter"] {
             flex-grow: 1;
         }
-    }
-
-    &[data-kioboard-layer="emoji"] {
-        max-width: 32em !important;
     }
 }
