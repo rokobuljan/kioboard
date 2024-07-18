@@ -27,8 +27,13 @@ npm i @rbuljan/kioboard
 ```
 
 ```js
-import { Kioboard } from "@rbuljan/kioboard";
-const kio = new Kioboard({layoutName: "en"});
+import Kioboard from '@rbuljan/kioboard';
+import '@rbuljan/kioboard/dist/kioboard.css';
+
+const kio = new Kioboard({
+    layoutName: "en",
+    theme: "glass-dark",
+});
 ```
 
 ```html
@@ -40,26 +45,26 @@ const kio = new Kioboard({layoutName: "en"});
 Customization options example:
 
 ```js
-import { Kioboard } from "@rbuljan/kioboard";
-
 const kio = new Kioboard({
-    layoutName: "en",
-    inputs: "[data-kioboard]", // selector, Element, Element[], collection or NodeList
-    parent: "body",            // selector or Element
-    theme: "default",
-    submitOnEnter: true,       // for <input> only
-    isAlwaysVisible: false,
-    isVisible: false,
-    onShow() {
-        console.log("Kioboard visible");
-    },
-    onHide() {
-        console.log("Kioboard hidden");
-    }
+    layoutName: "en", // "en|de|es|fr|hr" // Contribute for more!
+    inputs: "[data-kioboard]", // selector|Element|Element[]|NodeList
+    parent: "body", // selector|Element
+    theme: "default", // "default|flat|glass-(light|dark)"
+    layerName: "default",
+    layers: {}, // instead of layoutName use custom layers
+    icons: {}, // custom icons
+    isEnterSubmit: true, // should Enter submit closest Form
+    isVisible: false, // On init
+    isAlwaysVisible: false, // Always
+    shiftState: 0, // 0=off 1=on 2=capsLock
+    onInit() { /*initialized*/ },
+    onLoad() { /*layout loaded*/ },
+    onShow() { /*after show*/ },
+    onHide() { /*after hide*/ },
+    onKeyDown() { /*after key press*/ },
+    onKeyUp() { /*after key release*/ },
 });
 ```
-
-___
 
 ## API documentation
 
@@ -68,6 +73,10 @@ ___
 ## Tutorial
 
 **[Open the quick Tutorial &rarr;](tutorial.md)**
+
+## Feature requests / issues
+
+[Github: rokobuljan/kioboard/issues &rarr;](https://github.com/rokobuljan/kioboard/issues)
 
 ## Licence
 

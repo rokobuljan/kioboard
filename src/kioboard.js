@@ -183,10 +183,10 @@ class Kioboard {
      */
     constructor(options) {
         Object.assign(this, {
-            parent: "body",
-            inputs: "[data-kioboard]",
-            theme: "default",
             layoutName: "",
+            inputs: "[data-kioboard]",
+            parent: "body",
+            theme: "default",
             layerName: "default",
             layerNameDefault: "default",
             layerNameShift: "shift",
