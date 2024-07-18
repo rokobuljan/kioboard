@@ -24,7 +24,6 @@
         "kiosk",
         "digital signage"
     ],
-    "private": true,
     "type": "module",
     "main": "dist/kioboard.js",
     "module": "dist/kioboard.js",
