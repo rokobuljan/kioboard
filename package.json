@@ -1,7 +1,7 @@
 {
     "name": "@rbuljan/kioboard",
     "description": "Virtual keyboard for digital signage kiosk touch screens",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "author": {
         "name": "Roko C. Buljan",
         "url": "https://github.com/rokobuljan"
@@ -14,7 +14,7 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "docs": "jsdoc2md --template docs.hbs --files src/kioboard.js > ../docs.md"
+        "docs": "jsdoc2md --template docs.hbs --files src/kioboard.js > docs.md"
     },
     "keywords": [
         "virtual keyboard",
