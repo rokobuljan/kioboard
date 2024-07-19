@@ -3,6 +3,7 @@ import Emitter from "./emitter.js";
 
 /**
  * DOM helper - Get one DOM element
+ * @ignore
  * @param {string} sel Selector
  * @param {HTMLElement=} par Optional parent defaults to window.document
  * @returns {HTMLElement}
@@ -11,6 +12,7 @@ const el = (sel, par = document) => par.querySelector(sel);
 
 /**
  * DOM helper - Get multiple DOM elements
+ * @ignore
  * @param {string} sel Selector
  * @param {HTMLElement=} par Optional parent defaults to window.document
  * @returns {NodeList}
@@ -19,6 +21,7 @@ const els = (sel, par = document) => par.querySelectorAll(sel);
 
 /**
  * DOM helper - Create new DOM element
+ * @ignore
  * @param {string} tag Tag name
  * @param {Object=} prop Optional element properties
  * @returns {HTMLElement}
@@ -27,6 +30,7 @@ const elNew = (tag, prop) => Object.assign(document.createElement(tag), prop);
 
 /**
  * Convert a string or array of strings - to array
+ * @ignore
  * @param {string|Array<string>} keys
  * @returns {Array<string>}
  */
@@ -136,7 +140,7 @@ class Kioboard {
 
     /**
      * @param {Object} options
-     * @param {string|NodeList|undefined} options.parent=body - Element to insert kioboard into
+     * @param {string|Element|undefined} options.parent=body - Element to insert kioboard into
      * @param {string|NodeList|HTMLElement|undefined} options.inputs=[data-kioboard]] Selector string, Element or elements. The input(s) to bind to
      * @param {HTMLInputElement|HTMLTextAreaElement} options.input=options.inputs[0]] The currently active input
      * @param {string|undefined} [options.layoutName] The /layouts/<name>.js to use
@@ -860,7 +864,7 @@ class Kioboard {
     /**
      * Insert value at caret position.
      * Respects also the input's maxlength.
-     * @param {string} val="" Text to insert at caret position or highlighted section
+     * @param {string} val Text to insert at caret position or highlighted section
      * @param {number} from=this.input.selectionStart
      * @param {number} to=this.input.selectionEnd
      * @example

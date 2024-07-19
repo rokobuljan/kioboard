@@ -6,18 +6,16 @@ your  **virtual keyboard** for digital signage kiosk touchscreens
 
 ## Features
 
-- [x] Fully customizable layouts
-- [x] Fully customizable buttons icons
+- [x] Fully customizable layouts and layers
 - [x] Fully customizable buttons actions
+- [x] Fully customizable buttons icons (Unicode, SVG)
 - [x] Themes: default, flat, glass. In light and dark mode
-- [x] Layout files (contribute to the project!)
+- [x] Language presets (contribute to the project!)
 - [x] Shift + Caps-Lock
 - [x] Close Kioboard button
+- [x] Togle or set initial visibility
 - [x] Drag/move Kioboard handler
-- [x] Customizable button icons (supported: Unicode, SVG)
-- [x] Per-button custom action callbacks
-- [x] Toggle Kioboard visibility or set as permanently open
-- [x] Different layouts per input-sets
+- [x] Different layouts per input groups
 - [x] Long key press - repeat input
 
 ## Usage
@@ -48,10 +46,11 @@ Customization options example:
 const kio = new Kioboard({
     layoutName: "en", // "en|de|es|fr|hr" // Contribute for more!
     inputs: "[data-kioboard]", // selector|Element|Element[]|NodeList
+    input: null, // The curently active input Element
     parent: "body", // selector|Element
-    theme: "default", // "default|flat|glass-(light|dark)"
+    theme: "default", // "default|flat|glass"-"light|dark"
     layerName: "default",
-    layers: {}, // instead of layoutName use custom layers
+    layers: {}, // custom layers
     icons: {}, // custom icons
     isEnterSubmit: true, // should Enter submit closest Form
     isVisible: false, // On init
@@ -76,7 +75,7 @@ const kio = new Kioboard({
 
 ## Feature requests / issues
 
-[Github: rokobuljan/kioboard/issues &rarr;](https://github.com/rokobuljan/kioboard/issues)
+[GitHub: rokobuljan/kioboard/issues &rarr;](https://github.com/rokobuljan/kioboard/issues)
 
 ## Licence
 

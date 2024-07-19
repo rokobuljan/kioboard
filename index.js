@@ -6,7 +6,6 @@ import Kioboard from "./src/kioboard.js";
 // kio.load("hr");
 
 const myLayout = {
-    name: "XXX",
     layers: {
         default: [
             "a b c backspace",
@@ -19,7 +18,7 @@ const myLayout = {
             "extras space",
         ],
         myExtras: [
-            "! $ & backspace 1 \u1234",
+            "! $ & backspace 1",
             "% # * enter",
             "default space",
         ]
@@ -35,15 +34,21 @@ const myLayout = {
 };
 
 // const kio = new Kioboard(myLayout);
-const kio = new Kioboard({ inputs: ".kio1", layoutName: "en" });
-const kio2 = new Kioboard({ inputs: ".kio2", layoutName: "hr", shiftState: 2 });
+const kio = new Kioboard({
+    inputs: ".kio1",
+    theme: "my-custom",
+    isAlwaysVisible: true,
+    ...myLayout
+})
+
+const kio2 = new Kioboard({ inputs: ".kio2", layoutName: "hr" });
 
 
-kio.load("de", (layout) => {
-    console.log(`Loaded: layouts/${kio.layoutName}.js layout`, layout);
-    kio.show(); // Optionally, show it!
-    kio.sequence("shift H default e l l o space emoji default shift W default o r l d shift ! default", 300);
-});
+// kio.load("de", (layout) => {
+//     console.log(`Loaded: layouts/${kio.layoutName}.js layout`, layout);
+//     kio.show(); // Optionally, show it!
+//     kio.sequence("shift H default e l l o space emoji default shift W default o r l d shift ! default", 300);
+// });
 
 // const kio = new Kioboard().load("de", (data) => {
 //     console.log(`loaded`, kio, data);

@@ -19,23 +19,6 @@ ___
 <dd></dd>
 </dl>
 
-## Functions
-
-<dl>
-<dt><a href="#el">el(sel, [par])</a> ⇒ <code>HTMLElement</code></dt>
-<dd><p>DOM helper - Get one DOM element</p>
-</dd>
-<dt><a href="#els">els(sel, [par])</a> ⇒ <code>NodeList</code></dt>
-<dd><p>DOM helper - Get multiple DOM elements</p>
-</dd>
-<dt><a href="#elNew">elNew(tag, [prop])</a> ⇒ <code>HTMLElement</code></dt>
-<dd><p>DOM helper - Create new DOM element</p>
-</dd>
-<dt><a href="#keysArray">keysArray(keys)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
-<dd><p>Convert a string or array of strings - to array</p>
-</dd>
-</dl>
-
 ## Typedefs
 
 <dl>
@@ -112,7 +95,7 @@ Kioboard
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | options | <code>Object</code> |  |  |
-| options.parent | <code>string</code> \| <code>NodeList</code> \| <code>undefined</code> | <code>&quot;body&quot;</code> | Element to insert kioboard into |
+| options.parent | <code>string</code> \| <code>Element</code> \| <code>undefined</code> | <code>&quot;body&quot;</code> | Element to insert kioboard into |
 | options.inputs | <code>string</code> \| <code>NodeList</code> \| <code>HTMLElement</code> \| <code>undefined</code> | <code>&quot;[data-kioboard]&quot;</code> | Selector string, Element or elements. The input(s) to bind to |
 | options.input | <code>HTMLInputElement</code> \| <code>HTMLTextAreaElement</code> | <code>options.inputs[0]</code> | The currently active input |
 | [options.layoutName] | <code>string</code> \| <code>undefined</code> |  | The /layouts/<name>.js to use |
@@ -588,7 +571,7 @@ Respects also the input's maxlength.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| val | <code>string</code> | <code>&quot;\&quot;\&quot;&quot;</code> | Text to insert at caret position or highlighted section |
+| val | <code>string</code> |  | Text to insert at caret position or highlighted section |
 | from | <code>number</code> | <code>this.input.selectionStart</code> |  |
 | to | <code>number</code> | <code>this.input.selectionEnd</code> |  |
 
@@ -635,53 +618,6 @@ kio.init();
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>string</code> | The last pressed key |
-
-<a name="el"></a>
-
-## el(sel, [par]) ⇒ <code>HTMLElement</code>
-DOM helper - Get one DOM element
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| sel | <code>string</code> | Selector |
-| [par] | <code>HTMLElement</code> | Optional parent defaults to window.document |
-
-<a name="els"></a>
-
-## els(sel, [par]) ⇒ <code>NodeList</code>
-DOM helper - Get multiple DOM elements
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| sel | <code>string</code> | Selector |
-| [par] | <code>HTMLElement</code> | Optional parent defaults to window.document |
-
-<a name="elNew"></a>
-
-## elNew(tag, [prop]) ⇒ <code>HTMLElement</code>
-DOM helper - Create new DOM element
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| tag | <code>string</code> | Tag name |
-| [prop] | <code>Object</code> | Optional element properties |
-
-<a name="keysArray"></a>
-
-## keysArray(keys) ⇒ <code>Array.&lt;string&gt;</code>
-Convert a string or array of strings - to array
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| keys | <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
 
 <a name="ActionFunction"></a>
 
