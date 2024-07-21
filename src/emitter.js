@@ -5,7 +5,6 @@
 class Emitter {
 
     constructor() {
-        /** @type {Map<Set<function>>} Map event-names having a unique Set of callbacks */
         this.events = new Map();
     }
 

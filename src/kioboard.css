@@ -50,7 +50,7 @@
     }
 
     &[data-kioboard-theme^="flat"] {
-        --gap: 0.1em;
+        --gap: min(0.15em, 1px);
         --radius: 0px;
         --shadow: none;
     }
@@ -81,7 +81,7 @@
     & button {
         display: inline-flex;
         padding: 0;
-        flex: 1;
+        flex: 1 0 auto;
         touch-action: none;
         align-items: center;
         justify-content: center;

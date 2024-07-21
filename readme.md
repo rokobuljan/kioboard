@@ -44,17 +44,17 @@ Customization options example:
 
 ```js
 const kio = new Kioboard({
-    layoutName: "en", // "en|de|es|fr|hr" // Contribute for more!
+    parent: "body", // selector|Element
     inputs: "[data-kioboard]", // selector|Element|Element[]|NodeList
     input: null, // The curently active input Element
-    parent: "body", // selector|Element
     theme: "default", // "default|flat|glass"-"light|dark"
+    layoutName: "en", // "en|de|es|fr|hr" // Contribute for more!
     layerName: "default",
     layers: {}, // custom layers
     icons: {}, // custom icons
-    isEnterSubmit: true, // should Enter submit closest Form
-    isVisible: false, // On init
-    isAlwaysVisible: false, // Always
+    isEnterSubmit: true, // submit form (<input> only)
+    isVisible: false, // Initial visibility
+    isPermanent: false, // Always visible
     shiftState: 0, // 0=off 1=on 2=capsLock
     onInit() { /*initialized*/ },
     onLoad() { /*layout loaded*/ },
