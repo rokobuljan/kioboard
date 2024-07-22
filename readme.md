@@ -13,7 +13,7 @@ your  **virtual keyboard** for digital signage kiosk touchscreens
 - [x] Language presets (contribute to the project!)
 - [x] Shift + Caps-Lock
 - [x] Close Kioboard button
-- [x] Togle or set initial visibility
+- [x] Toggle or set initial visibility
 - [x] Drag/move Kioboard handler
 - [x] Different layouts per input groups
 - [x] Long key press - repeat input

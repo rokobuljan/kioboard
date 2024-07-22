@@ -3,7 +3,6 @@
 import "./kioboard.css";
 import Emitter from "./emitter.js";
 
-
 /**
  * DOM helper - Get one DOM element
  * @ignore
@@ -12,7 +11,6 @@ import Emitter from "./emitter.js";
  * @returns {Element|null}
  */
 const el = (sel, par = document) => par.querySelector(sel);
-
 
 /**
  * DOM helper - Get multiple DOM elements
@@ -61,7 +59,7 @@ class Kioboard {
     /** @typedef {Object<string, LayerRows>} Layers Object with layer names (as keys) and rows as Array */
     /** @typedef {Object<string, string>} Icons */
     /**
-     * @typedef {Object.<string, any>} Layout
+     * @typedef {Object} Layout
      * @property {string} name
      * @property {Layers} layers
      * @property {Actions} actions
@@ -169,22 +167,28 @@ class Kioboard {
      * @param {HTMLElement} options.element - Kioboard Element
      * @param {string|NodeList|HTMLElement|HTMLCollection|undefined} options.inputs=[data-kioboard]] Selector string, Element or elements. The input(s) to bind to
      * @param {HTMLElement} options.input=options.inputs[0]] The currently active input
-     * @param {string} options.layerName=default Current layout name
      * @param {string} options.layerNameInitial=default Initial layer name
+     * @param {string} options.layerName=default Current layer name
      * @param {string} options.layerNameDefault=default Name definition for "default" layout
      * @param {string} options.layerNameShift=shift Name definition for "shift" layout
      * @param {string|undefined} options.layoutName The /layouts/<name>.js to use
      * @param {Layout|undefined} options.layout Current layout
      * @param {string} options.theme=default The theme to use. "default|flat|glass" or other
      * @param {boolean} options.isEnterSubmit=true Whether to submit on enter (only for HTMLInputElements)
+     * @param {string} options.classVisible=is-visible Kioboard visible className
+     * @param {string} options.classShift=is-shift Kioboard shift className
+     * @param {string} options.classCaps=is-caps Kioboard caps className
      * @param {boolean} options.isVisible=false Whether kioboard is visible
      * @param {boolean} options.isPermanent=false Never hide kioboard
      * @param {boolean} options.isScroll=true Scroll input into view when focused
+     * @param {Object} options.scrollOptions https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
      * @param {number} options.shiftState Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used
      * @param {string} options.key The last pressed key 
      * @param {number} options.pointerId The pointer ID(-1 when no pointer) 
      * @param {function} options.onInit Callback after kioboard instance is initialized
+     * @param {function} options.onBeforeShow Callback before kioboard is shown
      * @param {function} options.onShow Callback after kioboard is shown
+     * @param {function} options.onBeforeHide Callback before kioboard is hidden
      * @param {function} options.onHide Callback after kioboard is hidden
      * @param {function} options.onLoad Callback after Layout file is loaded
      * @param {KeyDownCallback} options.onKeyDown Callback when a key is pressed
@@ -218,23 +222,29 @@ class Kioboard {
         this.parent = "body";
         this.element = elNew("div", { className: "kioboard" });
         this.inputs = "[data-kioboard]";
-        this.layerName = "default";
-        this.layerNameInitial = this.layerName;
+        this.layerNameInitial = "default";
+        this.layerName = this.layerNameInitial;
         this.layerNameDefault = "default";
         this.layerNameShift = "shift";
         this.layoutName = "";
         this.layout;
         this.theme = "default";
         this.isEnterSubmit = true;
+        this.classVisible = "is-visible";
+        this.classShift = "is-shift";
+        this.classCaps = "is-caps";
         this.isVisible = false;
         this.isPermanent = false;
         this.isScroll = true;
+        this.scrollOptions = { behavior: "smooth", block: "start", inline: "nearest" };
         this.shiftState = 0;
         this.key = "";
         this.pointerId = -1;
         this.onInit = () => { };
         this.onLoad = () => { };
+        this.onBeforeShow = () => { };
         this.onShow = () => { };
+        this.onBeforeHide = () => { };
         this.onHide = () => { };
         this.onKeyDown = (key = "") => { };
         this.onKeyUp = (key = "") => { };
@@ -249,12 +259,8 @@ class Kioboard {
             this.inputs = els(this.inputs);
         }
 
-        // @ts-ignore
         this.inputs = !("length" in this.inputs) ? [this.inputs] : [...this.inputs];
         this.input = this.inputs[0]; // The focused input or textarea element
-
-        this.emitter = new Emitter();
-
 
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
@@ -266,35 +272,43 @@ class Kioboard {
 
     /**
      * Loads a layout .js file from the layouts/ folder
-     * @param {string=} layoutName Optional, defaults to the current layoutName
+     * @param {(Layout|string)} layout Layout Object, or path to layout file
      * @param {function=} callback Passes as argument an object with the loaded layout data
      * @returns {Kioboard}
      * @example
      * ```js
-     * kio.load("de", (layout) => {
-     *     console.log(`Loaded: layouts/${kio.layoutName}.js layout`, layout);
-     *     kio.show(); // Optionally, show it!
+     * kio.load(myCustomLayout).show();
+     * ```
+     * ```js
+     * kio.load("./layouts/en.js", (layout) => {
+     *     console.log(`Loaded: en.js layout`, layout);
+     *     kio.show();
      * });
      * ```
      */
-    load(layoutName = this.layoutName, callback) {
-        try {
-            import(`./layouts/${layoutName}.js`).then(({ default: layout }) => {
-                this.set({ name: layoutName, ...layout });
-                this.changeLayer();
-                callback?.call(this, { name: layoutName, ...layout });
-                this.onLoad();
-            });
-        } catch (error) {
-            console.error(error);
+    load(layout, callback) {
+        if (typeof layout === "string") {
+            try {
+                import(`./layouts/${layout}.js`).then(({ default: layout }) => {
+                    this.setLayout(layout);
+                    callback?.call(this, layout);
+                    this.onLoad();
+                });
+            } catch (error) {
+                console.error("Kioboard", error);
+            }
+        } else {
+            this.setLayout(layout);
+            callback?.call(this, layout);
+            this.onLoad();
         }
 
         return this;
     }
 
     /**
-     * Set the layout
-     * @param {Layout|undefined} layout
+     * Change the layout, set layers, actions, draw buttons
+     * @param {Layout} layout
      * @returns {Kioboard}
      * @example
      * ```js
@@ -316,18 +330,28 @@ class Kioboard {
      * const kio = new Kioboard({
      *   theme: "flat-dark"
      * });
-     * kio.set(customLayout).show(); // Optionally, show it!
+     * kio.setLayout(customLayout).show();
+     * ```
+     * ```js
+     * import myLayout from './layouts/myKioLayout.js';
+     * import en from '@rbuljan/kioboard/dist/layouts/en.js';
+     * 
+     * const kio = new Kioboard({
+     *   theme: "flat-dark"
+     * });
+     * kio.setLayout(myLayout).show();
+     * // kio.setLayout(en).show();
      * ```
      */
-    set(layout) {
+    setLayout(layout) {
         if (!layout) {
-            console.warn("Kioboard.set: no layout provided");
+            console.warn("Kioboard: no layout provided");
             return this;
         }
         this.layout = layout;
         this.layout.icons = { ...Kioboard.commonIcons, ...this.layout.icons };
         this.setActions(layout.actions);
-        this.layoutName = layout.name ?? "";
+        this.layoutName = layout.name ?? "unnamed";
         this.changeLayer();
         return this;
     }
@@ -349,6 +373,7 @@ class Kioboard {
      * ```
      */
     setActions(actions = {}) {
+        this.emitter = new Emitter();
         Object.entries({ ...Kioboard.commonActions, ...actions }).forEach(([name, callback]) => {
             this.on(name, callback);
         });
@@ -377,11 +402,12 @@ class Kioboard {
      * ```
      */
     on(keys, callback) {
-        if (typeof callback === "function") {
-            keysArray(keys).forEach((key) => {
-                this.emitter.on(key, callback);
-            });
+        if (typeof callback !== "function") {
+            return this;
         }
+        keysArray(keys).forEach((key) => {
+            this.emitter?.on(key, callback);
+        });
         return this;
     }
 
@@ -402,7 +428,7 @@ class Kioboard {
      */
     off(keys, callback) {
         keysArray(keys).forEach((key) => {
-            this.emitter.off(key, callback);
+            this.emitter?.off(key, callback);
         });
         return this;
     }
@@ -429,7 +455,7 @@ class Kioboard {
 
             this.key = key;
 
-            if (this.emitter.events.has(this.key)) {
+            if (this.emitter?.events.has(this.key)) {
                 // Run a custom action
                 this.emitter.events.get(this.key).forEach((callback) => {
                     // If the action value is (as expected) a callback
@@ -514,24 +540,28 @@ class Kioboard {
     }
 
     /**
-     * drawButtons the keyboard buttons
-     * Creates the kioboard buttons given the current layer
+     * Draw the keyboard buttons
+     * Creates the kioboard buttons given the current layout's layer
      * @returns {Kioboard}
      * @example
      * ```js
-     * kio.drawButtons()
+     * kio.draw()
      * ```
      */
-    drawButtons() {
+    draw() {
         // Remove contents
         this.clearKioboard();
         // Create buttons
-        this.layout?.layers?.[this.layerName]?.forEach((/** @type {string | string[]} */ row, /** @type {number} */ rowIndex) => {
+        this.layout?.layers?.[this.layerName]?.forEach((
+            /** @type {string | string[]} */ row,
+            /** @type {number} */ rowIndex
+        ) => {
             const elRow = elNew("div");
             elRow.dataset.kioboardRow = String(rowIndex);
             keysArray(row).forEach((key) => {
+                const icon = this.layout?.icons?.hasOwnProperty(key) ? this.layout.icons[key] : key;
                 const elButton = elNew("button", {
-                    innerHTML: `<span class="kioboard-icon">${this.layout?.icons?.hasOwnProperty(key) ? this.layout.icons?.[key] : key}</span>`
+                    innerHTML: `<span class="kioboard-icon">${icon}</span>`
                 });
                 elButton.dataset.kioboardKey = key;
                 elRow.append(elButton);
@@ -558,8 +588,9 @@ class Kioboard {
     }
 
     /**
-     * Change layer  
-     * Set layer and draw buttons  
+     * Set layer
+     * Prepare a layer, draw buttons and set kioboard styles.
+     * (Does not show the kioboard)  
      * @param {string} layerName Default: this.layerNameInitial
      * @returns {Kioboard}
      * @example
@@ -570,13 +601,19 @@ class Kioboard {
      */
     changeLayer(layerName = this.layerNameInitial) {
 
-        // Check if layerName exists in layout
-        if (!this.layout?.layers?.hasOwnProperty(layerName)) {
-            console.warn(`Layer "${layerName}" not found in layout "${this.layoutName}"`);
+        if (!this.layout) {
+            console.error(`Kioboard: Layout not found. Load one first.`);
             return this;
         }
 
-        if (layerName !== "shift") {
+        // Check if layerName exists in layout
+        if (!this.layout?.layers?.hasOwnProperty(layerName)) {
+            console.error(`Kioboard: Layer "${layerName}" not found in layout "${this.layout?.name}"`);
+            return this;
+        }
+
+        // If layerName is not "shift" reset the shift state
+        if (layerName !== this.layerNameShift) {
             this.shift(0); // Reset shift to "off"
         }
 
@@ -591,20 +628,17 @@ class Kioboard {
             layerName = this.shiftState > 0 ? this.layerNameShift : this.layerNameDefault;
         }
 
-
         // Update current layer name
         this.layerName = layerName;
 
         // Update attributes
-        this.element.dataset.kioboardLayout = this.layoutName;
+        this.element.dataset.kioboardLayout = this.layout.name;
         this.element.dataset.kioboardLayer = this.layerName;
         this.element.dataset.kioboardTheme = this.theme;
-        this.element.classList.toggle("is-shift", this.shiftState === 1);
-        this.element.classList.toggle("is-caps", this.shiftState === 2);
+        this.element.classList.toggle(this.classShift, this.shiftState === 1);
+        this.element.classList.toggle(this.classCaps, this.shiftState === 2);
 
-        console.log(this.layout);
-
-        this.drawButtons();
+        this.draw();
         return this;
     }
 
@@ -645,14 +679,12 @@ class Kioboard {
         if (layerName) {
             this.changeLayer(layerName);
         }
-        this.element.classList.add("is-visible");
+        this.onBeforeShow();
         this.input.focus();
-
+        this.element.classList.add(this.classVisible);
         if (this.isScroll) {
-            this.input.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
-            // PS: use CSS to adjust the top spacing using i.e: scroll-margin-top: "2em";
+            this.input.scrollIntoView(this.scrollOptions);
         }
-
         addEventListener("pointerdown", this.handleHide, { capture: true });
         this.isVisible = true;
         this.onShow();
@@ -671,7 +703,8 @@ class Kioboard {
         if (this.isPermanent) {
             return this;
         }
-        this.element.classList.remove("is-visible");
+        this.onBeforeHide();
+        this.element.classList.remove(this.classVisible);
         removeEventListener("pointerdown", this.handleHide, { capture: true });
         this.isVisible = false;
         this.onHide();
@@ -855,7 +888,7 @@ class Kioboard {
 
     drag() {
         this.element.classList.add("kioboard-moving");
-        const onDrag = (/* @ts-ignore */evt) => {
+        const onDrag = (evt) => {
             evt.preventDefault();
             this._dragOffset.x += evt.movementX;
             this._dragOffset.y += evt.movementY;
@@ -891,14 +924,8 @@ class Kioboard {
         // Fixup shift state % 3
         this.shift(this.shiftState);
 
-        // If initialized with a layoutName, load it!
-        if (this.layoutName) {
-            console.log("init load");
-            this.load(); // Load and change layout
-        }
-        // Change to custom layout (if provided in initialization params)
-        else if (this.layout) {
-            this.set(this.layout);
+        if (this.layout) {
+            this.load(this.layout);
         }
 
         if (this.isVisible || this.isPermanent) {
