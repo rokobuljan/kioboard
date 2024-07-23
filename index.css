@@ -2,12 +2,15 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* outline: 1px solid #f00;
-    outline-offset: -1px; */
 }
 
 :root {
     --accent: hsl(194, 100%, 49%);
+    --secondary: hsl(65, 91%, 50%);
+
+    scrollbar-color: var(--accent) transparent;
+    scrollbar-width: thin;
+    accent-color: var(--accent);
 }
 
 body {
@@ -15,13 +18,14 @@ body {
     color: #000;
     overflow: auto;
     /* background: linear-gradient(0deg, hsl(198, 87%, 50%) 0%, hsl(192, 100%, 53%) 100%); */
-    background: url("./kioboard-logo.svg") no-repeat 50% 50% / 90%;
+    background: url("./kioboard-logo.svg") no-repeat 50% 50% / 96%;
     background-attachment: fixed;
     min-height: 100dvh;
 }
+
 h1 {
     padding: 0.4em 0;
-    font-size: 4em;
+    font-size: clamp(2.2em, 5vw, 5em);
 }
 
 h2 {
@@ -51,12 +55,32 @@ p {
     justify-content: center;
     pointer-events: none;
     transition: 0s;
-    opacity: 0;    
+    opacity: 0;
     font-weight: 600;
 
     &.is-visible {
         transition: 1s;
-        opacity: 0.1;
+        opacity: 0.17;
+    }
+
+    & .ch {
+        position: absolute;
+        /* Animate translate to left once and disappear*/
+        animation: char 1s linear forwards;
+    }
+}
+
+@keyframes char {
+    0% {
+        translate: 0.6em 0;
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        translate: -0.6em 0;
+        opacity: 0;
     }
 }
 
@@ -91,12 +115,19 @@ p {
     }
 }
 
+@media screen and (width < 1200px) {
+    #head-theme {
+        display: none !important;
+    }
+}
+
 main {
     position: relative;
     padding: 2rem;
     scroll-margin-top: 2em;
     max-width: 1400px;
     margin: 0 auto;
+    padding-bottom: 40dvh;
 
     & .row {
         padding: 2rem 0;
@@ -110,8 +141,7 @@ main {
 }
 
 .card {
-    margin: 0em 0 6em;
-    max-width: 510px;
+    max-width: 520px;
     padding: 2em;
     border: 2px solid #000;
     background: hsl(0 100% 100% / 0.6);
@@ -120,10 +150,21 @@ main {
     &:nth-child(odd) {
         margin-left: auto;
     }
+
+    &~.card {
+        margin-top: -4rem;
+    }
+
+    @media screen and (width < 1200px) {
+        &~.card {
+            margin-top: 6rem;
+        }
+    }
 }
 
 .btn-group {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.6rem;
 }
 
@@ -145,20 +186,28 @@ input[type="color"] {
     padding: 0;
     outline: 0;
     border: 0;
-    background-color: #0000;
+    background-color: transparent;
 }
 
 label {
     display: flex;
+    padding: 0.5em;
+    & span {
+        min-width: 7rem;
+    }
+    & input {
+        flex: 1;
+    }
 }
 
 button {
-    background: #000;
-    color: #fff;
+    padding: 1em 1.5em;
     border: 0;
     border-radius: 0.3em;
-    padding: 1em 1.5em;
+    font-weight: 700;
     font: inherit;
+    background: #000;
+    color: #fff;
     cursor: pointer;
 
     &.is-active {
@@ -167,10 +216,26 @@ button {
     }
 }
 
-details {
-    margin: 2em 0;
+.btn {
+    padding: 1em 1.5em;
     border: 2px solid #000;
-    border-radius: 1em;
+    border-radius: 0.3em;
+    font-weight: 700;
+
+    &a {
+        color: var(--accent);
+    }
+
+    &.secondary {
+        background-color: var(--secondary);
+        color:  #000;
+        border: none;
+    }
+}
+
+details {
+    margin: 1.5em 0 0;
+    border: 2px solid #000;
     overflow: hidden;
     max-width: 500px;
     background: hsl(0 100% 100% / 0.2);
@@ -190,10 +255,10 @@ pre {
     display: block;
     overflow: auto;
     border-radius: 0.3em;
+    font-size: 1em;
 }
 
 #kioboard .kioboard {
-
     position: fixed;
     bottom: 2em;
 

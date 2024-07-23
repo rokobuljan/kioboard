@@ -14,13 +14,13 @@
 
 <body>
 
-    <div id="char" class="is-visible">K</div>
+    <div id="char" class="is-visible"></div>
 
     <header id="head">
         <div>
             <img id="logo" src="kioboard-logo.svg" alt="">
         </div>
-        <div>
+        <div id="head-theme">
             <b>theme</b>
             <select data-kio-theme>
                 <option value="default">Default</option>
@@ -62,23 +62,25 @@
     </header>
     <main>
         <div class="col">
-            <p><b>Your</b></p>
             <h1>Virtual touch keyboard</h1>
             <p>
-                for the web, digital signage, kiosk apps, IOT, you name it!<br>
-                For gurus &amp; enthusiasts — made by professionals in the digital signage field
+                for the web, digital signage, kiosk apps, IOT, you name it!
             </p>
             <p></p>
         </div>
 
         <div class="col card">
             <h2>Usage</h2>
+            <pre><code class="language-javascript">npm i @rbuljan/kioboard</code></pre>
             <p>Include this couple of lines in your entry file and you're good to go!</p>
             <pre><code class="language-javascript" data-kio-code>import "@rbuljan/kioboard/dist/kioboard.css";
-import Kioboard from "@rbuljan/kioboard";
 import en from "@rbuljan/kioboard/dist/layouts/en.js";
+import Kioboard from "@rbuljan/kioboard";
 
-const kio = new Kioboard().load(en);</code></pre>
+const kio = new Kioboard({
+  layout: en,
+  theme: "flat-dark",
+});</code></pre>
             <p>Try it here:</p>
             <textarea data-kioboard>Type here!</textarea>
         </div>
@@ -99,20 +101,8 @@ const kio = new Kioboard().load(en);</code></pre>
 Click to show Kioboard</textarea>
             <details>
                 <summary>Show code</summary>
-                <pre><code class="language-javascript" data-kio-code>const kio = new Kioboard({  
-    theme: "default",
-    // or:
-    // theme: "default-dark",
-    // theme: "flat",
-    // theme: "flat-dark",
-    // theme: "glass",
-    // theme: "glass-dark",
-    layout: en,
-});</code></pre>
+                <pre><code class="language-javascript" data-kio-code="theme"></code></pre>
             </details>
-            <p>
-                Need a custom one? Keep scrolling
-            </p>
         </div>
 
         <div class="col card">
@@ -124,44 +114,60 @@ Click to show Kioboard</textarea>
                 <button type="button" data-kio-layout="fr">FR</button>
                 <button type="button" data-kio-layout="hr">HR</button>
                 <button type="button" data-kio-layout="es">ES</button>
+                <button type="button" data-kio-layout="it">IT</button>
+                <a class="btn secondary" href="https://github.com/rokobuljan/kioboard/fork">Contribute!</a>
             </div>
             <br>
             <textarea data-kioboard>Example textarea
 Click to show Kioboard</textarea>
             <details>
                 <summary>Show code</summary>
-                <pre><code class="language-javascript" data-kio-code>import Kioboard from "@rbuljan/kioboard";
-import en from "./src/layouts/en.js";
+                <pre><code class="language-javascript" data-kio-code>import en from "./src/layouts/en.js";
+// or "de", "fr", "hr", "es", "it"
+// Contribute to the project for more!
 
-const kio = new Kioboard({
-    // or "de", "fr", "hr", "es",
-    // contribute for more!
-    layoutName: "en",   
-    theme: "glass-dark",
-    layout: en,
-});</code></pre>
+kio.load(en);
+</code></pre>
             </details>
         </div>
 
         <div class="col card">
             <h2>Custom Layouts</h2>
-            <p>Let's be real: no layout is perfect.<br>Create your own!</p>
+            <p>Create your own!</p>
             <br>
-            <textarea data-kioboard>Example textarea
-Click to show a custom layout example</textarea>
-            <details open>
+            <textarea id="kio-layout-custom" data-kioboard>Click here to view a custom layout example</textarea>
+            <details>
                 <summary>Show code</summary>
-                <pre><code class="language-javascript" data-kio-code>import Kioboard from "@rbuljan/kioboard";
-import en from "./src/layouts/en.js";
+                <pre><code class="language-javascript" data-kio-code>const myLayout = {
+  name: "custom",
+  layers: {
+    default: [
+        "1 2 3 4",
+        "shift a b enter",
+        "smile space",
+    ],
+    shift: [
+        "! ? . ,",
+        "shift A B enter",
+        "smile space",
+    ],
+    emoji: [
+        "😀 🤓 🤭 😁",
+        "🥰 🙂 😎 enter",
+        "default space"
+    ],
+  },
+  icons: {
+    smile: "😀",
+  },
+  actions: {
+    smile() { this.show("emoji"); },
+  },
+};
 
-const kio = new Kioboard({
-    // or "de", "fr", "hr", "es",
-    // contribute for more!
-    layoutName: "en",   
-    theme: "glass-dark",
-    layout: en,
-});</code></pre>
+kio.load(myLayout).show();</code></pre>
             </details>
+            <p>Want to know more? Read the <a href="https://github.com/rokobuljan/kioboard/blob/master/tutorial.md">quick tutorial</a></p>
         </div>
 
         <div class="col card">
@@ -171,27 +177,17 @@ const kio = new Kioboard({
                 Kioboard provides you with a <code>.style()</code> method to do just that.
             </p>
             <p>
-                <label><span>Hue</span><input data-kio-style="--hue" type="range" value="194" min="0" max="360"></label>
-                <label><span>Alpha</span><input data-kio-style="--alpha" type="range" min="0.65" max="1" step="0.05"></label>
-                <label><span>Radius</span><input data-kio-style="--radius" type="range" min="0" max="1" step="0.01"></label>
-                <label><span>Gap</span><input data-kio-style="--gap" type="range" min="0" max="0.7" step="0.05"></label>
-                <label><span>Size</span><input data-kio-style="--size" type="range" min="1.8" max="2.6" step="0.05"></label>
+                <label><span>Hue</span><input data-kio-style="hue" type="range" value="194" min="0" max="360"></label>
+                <label><span>Alpha</span><input data-kio-style="alpha" type="range" value="1" min="0.4" max="1" step="0.01" ></label>
+                <label><span>Radius</span><input data-kio-style="radius" type="range" value="1" min="0" max="1" step="0.01"></label>
+                <label><span>Gap</span><input data-kio-style="gap" type="range" value="0.01" min="0" max="0.7" step="0.01"></label>
+                <label><span>Size</span><input data-kio-style="size" type="range" value="2" min="1.8" max="2.6" step="0.01"></label>
             </p>
             <br>
-            <textarea data-kioboard>Example textarea
-Click to show a custom layout example</textarea>
-            <details open>
+            <textarea data-kioboard>Example textarea</textarea>
+            <details>
                 <summary>Show code</summary>
-                <pre><code class="language-javascript" data-kio-code>import Kioboard from "@rbuljan/kioboard";
-import en from "./src/layouts/en.js";
-
-const kio = new Kioboard({
-    // or "de", "fr", "hr", "es",
-    // contribute for more!
-    layoutName: "en",   
-    theme: "glass-dark",
-    layout: en,
-});</code></pre>
+                <pre><code class="language-javascript" data-kio-code="styles"></code></pre>
             </details>
         </div>
 
@@ -204,7 +200,7 @@ const kio = new Kioboard({
         import hljs from 'https://unpkg.com/@highlightjs/cdn-assets@11.9.0/es/highlight.min.js';
         import javascript from 'https://unpkg.com/@highlightjs/cdn-assets@11.9.0/es/languages/javascript.min.js';
         hljs.registerLanguage('javascript', javascript);
-
+        window.hljs = hljs;
         document.addEventListener('DOMContentLoaded', (event) => {
             document.querySelectorAll('pre code').forEach((el) => {
                 hljs.highlightElement(el);

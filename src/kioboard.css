@@ -1,18 +1,23 @@
 .kioboard {
     --hue: 194;
-    --saturation: 100;
+    --saturation: 94;
     --lightness: 49;
     --alpha: 1;
     --radius: 0.3;
-    --gap: 0.3em;
+    --gap: 0.3;
     --size: 2;
-
-    --accent: hsl(var(--hue) calc(var(--saturation) * 1%) calc(var(--lightness) * 1%) / 1);
+    --accent: hsl(
+        var(--hue) calc(var(--saturation) * 1%) calc(var(--lightness) * 1%) / 1
+    );
 
     --color: currentColor;
     --background: hsl(0 0% 90% / var(--alpha));
     --background-btn: hsl(0 0% 100% / var(--alpha));
-    --keySize: clamp(0.2em, calc(var(--size) * 1vw), calc(var(--size) * 0.55em));
+    --keySize: clamp(
+        0.2em,
+        calc(var(--size) * 1vw),
+        calc(var(--size) * 0.55em)
+    );
     --shadow: inset 0 -1px 0 hsl(0 0% 0% / 0.3);
 
     position: absolute;
@@ -24,7 +29,7 @@
     max-width: min-content;
     display: flex;
     flex-flow: column nowrap;
-    gap: calc(var(--gap) * 1em);
+    gap: max(calc(var(--gap) * 1em), 0px);
     padding: calc(var(--gap) * 2em);
     backdrop-filter: blur(7px);
 
@@ -45,19 +50,14 @@
         pointer-events: auto;
     }
 
-    /* Layout */
-
-    /* &[data-kioboard-layout="hr"] {
-    } */
-
     /* Themes */
 
     &[data-kioboard-theme^="default"] {
-        --gap: 0.3em;
+        --gap: 0.3;
     }
 
     &[data-kioboard-theme^="flat"] {
-        --gap: min(0.15em, 1px);
+        --gap: 0.1;
         --radius: 0px;
         --shadow: none;
     }
@@ -66,7 +66,7 @@
         border-radius: 0.2em;
         --alpha: 0.7;
         --shadow: none;
-        --gap: 1px;
+        --gap: 0.1;
         --radius: 0px;
     }
 
@@ -81,7 +81,7 @@
     & [data-kioboard-row] {
         display: flex;
         justify-content: center;
-        gap: calc(var(--gap) * 1em);
+        gap: max(calc(var(--gap) * 1em), 0px);
     }
 
     & button {
@@ -92,7 +92,7 @@
         align-items: center;
         justify-content: center;
         height: calc(var(--keySize) * 2.8);
-        min-width: 3em;
+        min-width: calc(var(--size) * 1.5em);
         font: inherit;
         border: 0;
         color: var(--color);
@@ -137,7 +137,8 @@
         }
 
         .is-shift & {
-            &[data-kioboard-key="shift"] {
+            &[data-kioboard-key="shift"],
+            &[data-kioboard-key="shift"].is-active {
                 box-shadow: inset 0 0 0 0.2em var(--accent);
             }
         }
@@ -164,6 +165,6 @@
         box-shadow: inset 0 0 0 0.2em var(--accent);
     }
     100% {
-        box-shadow: inset 0 0 0 0.2em transparent;
+        box-shadow: initial;
     }
 }

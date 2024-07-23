@@ -418,14 +418,15 @@ class Kioboard {
      * @example
      * ```js
      * kio.style({
-     *   "--kioboard-bg": "#fff",
-     *   "--kioboard-color": "#000",
+     *   "--hue": 194,
+     *   "--radius": 0.3,
+     *   "--alpha": 0.8,
+     * 
      * });
      */
     setStyle(styles) {
-        console.log(styles);
         Object.entries(styles).forEach(([CSSVar, value]) => {
-            this.element.style.setProperty(CSSVar, value);
+            this.element.style.setProperty(`--${CSSVar}`, value);
         });
         return this;
     }
@@ -699,11 +700,11 @@ class Kioboard {
             this.changeLayer(layerName);
         }
         this.onBeforeShow();
-        this.input.focus();
         this.element.classList.add(this.classVisible);
         if (this.isScroll) {
             this.input.scrollIntoView(this.scrollOptions);
         }
+        // this.input.focus();
         addEventListener("pointerdown", this.handleHide, { capture: true });
         this.isVisible = true;
         this.onShow();
