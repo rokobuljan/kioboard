@@ -27,7 +27,7 @@ ___
 </dd>
 <dt><a href="#Icons">Icons</a> : <code>Object.&lt;string, string&gt;</code></dt>
 <dd></dd>
-<dt><a href="#Layout">Layout</a> : <code>Object.&lt;string, any&gt;</code></dt>
+<dt><a href="#Layout">Layout</a> : <code>Object</code></dt>
 <dd></dd>
 <dt><a href="#KeyDownCallback">KeyDownCallback</a> : <code>function</code></dt>
 <dd><p>Callback triggered on key press</p>
@@ -48,15 +48,16 @@ Kioboard
     * [new Kioboard(options)](#new_Kioboard_new)
     * [.commonActions](#Kioboard+commonActions) : [<code>Actions</code>](#Actions)
     * [.commonIcons](#Kioboard+commonIcons) : [<code>Icons</code>](#Icons)
-    * [.load([layoutName], [callback])](#Kioboard+load) ⇒ [<code>Kioboard</code>](#Kioboard)
+    * [.load(layout, [callback])](#Kioboard+load) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.setLayout(layout)](#Kioboard+setLayout) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.setActions(actions)](#Kioboard+setActions) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.on(keys, callback)](#Kioboard+on) ⇒ [<code>Kioboard</code>](#Kioboard)
+    * [.setStyle(styles)](#Kioboard+setStyle) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.off(keys, callback)](#Kioboard+off) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.emit(keys)](#Kioboard+emit) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.sequence(keys, speed, callback)](#Kioboard+sequence) ⇒ <code>function</code>
     * [.clearKioboard()](#Kioboard+clearKioboard) ⇒ [<code>Kioboard</code>](#Kioboard)
-    * [.drawButtons()](#Kioboard+drawButtons) ⇒ [<code>Kioboard</code>](#Kioboard)
+    * [.draw()](#Kioboard+draw) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.shift([state])](#Kioboard+shift) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.changeLayer(layerName)](#Kioboard+changeLayer) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.setTheme(theme)](#Kioboard+setTheme) ⇒ [<code>Kioboard</code>](#Kioboard)
@@ -83,21 +84,28 @@ Kioboard
 | options.element | <code>HTMLElement</code> |  | Kioboard Element |
 | options.inputs | <code>string</code> \| <code>NodeList</code> \| <code>HTMLElement</code> \| <code>HTMLCollection</code> \| <code>undefined</code> | <code>&quot;[data-kioboard]&quot;</code> | Selector string, Element or elements. The input(s) to bind to |
 | options.input | <code>HTMLElement</code> | <code>options.inputs[0]</code> | The currently active input |
-| options.layerName | <code>string</code> | <code>&quot;default&quot;</code> | Current layout name |
 | options.layerNameInitial | <code>string</code> | <code>&quot;default&quot;</code> | Initial layer name |
+| options.layerName | <code>string</code> | <code>&quot;default&quot;</code> | Current layer name |
 | options.layerNameDefault | <code>string</code> | <code>&quot;default&quot;</code> | Name definition for "default" layout |
 | options.layerNameShift | <code>string</code> | <code>&quot;shift&quot;</code> | Name definition for "shift" layout |
 | options.layoutName | <code>string</code> \| <code>undefined</code> |  | The /layouts/<name>.js to use |
-| options.layout | [<code>Layout</code>](#Layout) |  | Current layout. Use load() to load a current layout |
+| options.layout | [<code>Layout</code>](#Layout) \| <code>undefined</code> |  | Current layout |
 | options.theme | <code>string</code> | <code>&quot;default&quot;</code> | The theme to use. "default|flat|glass" or other |
 | options.isEnterSubmit | <code>boolean</code> | <code>true</code> | Whether to submit on enter (only for HTMLInputElements) |
+| options.classVisible | <code>string</code> | <code>&quot;is-visible&quot;</code> | Kioboard visible className |
+| options.classShift | <code>string</code> | <code>&quot;is-shift&quot;</code> | Kioboard shift className |
+| options.classCaps | <code>string</code> | <code>&quot;is-caps&quot;</code> | Kioboard caps className |
 | options.isVisible | <code>boolean</code> | <code>false</code> | Whether kioboard is visible |
 | options.isPermanent | <code>boolean</code> | <code>false</code> | Never hide kioboard |
+| options.isScroll | <code>boolean</code> | <code>true</code> | Scroll input into view when focused |
+| options.scrollOptions | <code>Object</code> |  | https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView |
 | options.shiftState | <code>number</code> |  | Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used |
 | options.key | <code>string</code> |  | The last pressed key |
 | options.pointerId | <code>number</code> |  | The pointer ID(-1 when no pointer) |
 | options.onInit | <code>function</code> |  | Callback after kioboard instance is initialized |
+| options.onBeforeShow | <code>function</code> |  | Callback before kioboard is shown |
 | options.onShow | <code>function</code> |  | Callback after kioboard is shown |
+| options.onBeforeHide | <code>function</code> |  | Callback before kioboard is hidden |
 | options.onHide | <code>function</code> |  | Callback after kioboard is hidden |
 | options.onLoad | <code>function</code> |  | Callback after Layout file is loaded |
 | options.onKeyDown | [<code>KeyDownCallback</code>](#KeyDownCallback) |  | Callback when a key is pressed |
@@ -161,27 +169,30 @@ The user can override any of those from their own layouts.
 **Kind**: instance property of [<code>Kioboard</code>](#Kioboard)  
 <a name="Kioboard+load"></a>
 
-### kioboard.load([layoutName], [callback]) ⇒ [<code>Kioboard</code>](#Kioboard)
+### kioboard.load(layout, [callback]) ⇒ [<code>Kioboard</code>](#Kioboard)
 Loads a layout .js file from the layouts/ folder
 
 **Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [layoutName] | <code>string</code> | Optional, defaults to the current layoutName |
+| layout | [<code>Layout</code>](#Layout) \| <code>string</code> | Layout Object, or path to layout file |
 | [callback] | <code>function</code> | Passes as argument an object with the loaded layout data |
 
 **Example**  
 ```js
-kio.load("de", (layout) => {
-    console.log(`Loaded: layouts/${kio.layoutName}.js layout`, layout);
-    kio.show(); // Optionally, show it!
+kio.load(myCustomLayout).show();
+```
+```js
+kio.load("./layouts/en.js", (layout) => {
+    console.log(`Loaded: en.js layout`, layout);
+    kio.show();
 });
 ```
 <a name="Kioboard+setLayout"></a>
 
 ### kioboard.setLayout(layout) ⇒ [<code>Kioboard</code>](#Kioboard)
-Set the layout
+Change the layout, set layers, actions, draw buttons
 
 **Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
 
@@ -191,19 +202,35 @@ Set the layout
 
 **Example**  
 ```js
-kio.setLayout({
+const customLayout = {
   name: "custom",
   layers: {
-    default: ["1 2 3 smile", "a b c enter"],
-    shift: ["! # ?", "A B C"],
+    default: ["1 2 3 4", "shift a b enter", "smile space"],
+    shift: ["! ? . ,", "shift A B enter", "smile space"],
+    smile: ["😀 🤓 🤭 😁", "🥰 🙂 😎 enter", "default space"],
   },
   icons: {
     smile: "😀",
   },
   actions: {
-    smile: () => console.log("😀"),
+    smile() { this.show("smile"); },
   },
+};
+
+const kio = new Kioboard({
+  theme: "flat-dark"
 });
+kio.setLayout(customLayout).show();
+```
+```js
+import myLayout from './layouts/myKioLayout.js';
+import en from '@rbuljan/kioboard/dist/layouts/en.js';
+
+const kio = new Kioboard({
+  theme: "flat-dark"
+});
+kio.setLayout(myLayout).show();
+// kio.setLayout(en).show();
 ```
 <a name="Kioboard+setActions"></a>
 
@@ -242,8 +269,8 @@ Add a custom action callback
 **Example**  
 ```js
 kio.on("enter", function (key) {
-    // Does what enter key does (default action for "enter") but also:
-    console.log(key, this);
+  // Does what enter key does (default action for "enter") but also:
+  console.log(key, this);
 });
 ```
 // PS: anonymous functions (callbacks) cannot be off-ed. Use a function expression instead:
@@ -252,8 +279,27 @@ const logKey = function(key) {
   console.log(key, this); // Logs i.e: "A", Kioboard
 };
 kio.on(["a", "A"], logKey);
-// kio.off(["a", "A"], logKey); // Can be off-ed when necessary
+kio.off(["a", "A"], logKey); // Can be off-ed when necessary
 ```
+<a name="Kioboard+setStyle"></a>
+
+### kioboard.setStyle(styles) ⇒ [<code>Kioboard</code>](#Kioboard)
+Set CSS styles
+
+**Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
+
+| Param | Type |
+| --- | --- |
+| styles | <code>Object</code> | 
+
+**Example**  
+```js
+kio.style({
+  "--hue": 194,
+  "--radius": 0.3,
+  "--alpha": 0.8,
+
+});
 <a name="Kioboard+off"></a>
 
 ### kioboard.off(keys, callback) ⇒ [<code>Kioboard</code>](#Kioboard)
@@ -326,16 +372,16 @@ Remove children elements
 ```js
 kio.clearKioboard();
 ```
-<a name="Kioboard+drawButtons"></a>
+<a name="Kioboard+draw"></a>
 
-### kioboard.drawButtons() ⇒ [<code>Kioboard</code>](#Kioboard)
-drawButtons the keyboard buttons
-Creates the kioboard buttons given the current layer
+### kioboard.draw() ⇒ [<code>Kioboard</code>](#Kioboard)
+Draw the keyboard buttons
+Creates the kioboard buttons given the current layout's layer
 
 **Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
 **Example**  
 ```js
-kio.drawButtons()
+kio.draw()
 ```
 <a name="Kioboard+shift"></a>
 
@@ -351,8 +397,9 @@ Increment-loop or set shiftState
 <a name="Kioboard+changeLayer"></a>
 
 ### kioboard.changeLayer(layerName) ⇒ [<code>Kioboard</code>](#Kioboard)
-Change layer  
-Set layer and draw buttons
+Set layer
+Prepare a layer, draw buttons and set kioboard styles.
+(Does not show the kioboard)
 
 **Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
 
@@ -384,7 +431,8 @@ kio.setTheme("dark");
 
 ### kioboard.show([layerName]) ⇒ [<code>Kioboard</code>](#Kioboard)
 Show the keyboard.
-Also acts as a shorthand for kio.changeLayer("someLayerName").show()
+If layerName argument is provided, acts as a shorthand
+for kio.changeLayer("someLayerName").show()
 
 **Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
 
@@ -417,6 +465,7 @@ kio.hide();
 
 ### kioboard.handleShow(evt)
 Event handler for showing the keyboard
+Does not show the keyboard if the input is disabled
 
 **Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
 
@@ -557,7 +606,7 @@ Object with layer names (as keys) and rows as Array
 **Kind**: global typedef  
 <a name="Layout"></a>
 
-## Layout : <code>Object.&lt;string, any&gt;</code>
+## Layout : <code>Object</code>
 **Kind**: global typedef  
 **Properties**
 
