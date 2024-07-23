@@ -51,8 +51,8 @@ Kioboard
     * [.load(layout, [callback])](#Kioboard+load) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.setLayout(layout)](#Kioboard+setLayout) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.setActions(actions)](#Kioboard+setActions) ⇒ [<code>Kioboard</code>](#Kioboard)
-    * [.on(keys, callback)](#Kioboard+on) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.setStyle(styles)](#Kioboard+setStyle) ⇒ [<code>Kioboard</code>](#Kioboard)
+    * [.on(keys, callback)](#Kioboard+on) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.off(keys, callback)](#Kioboard+off) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.emit(keys)](#Kioboard+emit) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.sequence(keys, speed, callback)](#Kioboard+sequence) ⇒ <code>function</code>
@@ -254,6 +254,33 @@ After defining an action you can then use it in your Layout like:
 ```js
 default: ["a b c", "d e f", "Smile Sad backspace enter"]
 ```
+<a name="Kioboard+setStyle"></a>
+
+### kioboard.setStyle(styles) ⇒ [<code>Kioboard</code>](#Kioboard)
+Set CSS styles
+
+**Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
+
+| Param | Type |
+| --- | --- |
+| styles | <code>Object</code> | 
+
+**Example**  
+```js
+kio.style({
+  hue: 194,
+  saturation: 94,
+  lightness: 49,
+  alpha: 1,
+  radius: 0.3,
+  gap: 0.3,
+  size: 2,
+  color: "currentColor",
+  background: "hsl(0 0% 90% / 1)",
+  backgroundBtn: "hsl(0 0% 100% / 1)",
+  shadow: "inset 0 -1px 0 hsl(0 0% 0% / 0.3)",
+});
+```
 <a name="Kioboard+on"></a>
 
 ### kioboard.on(keys, callback) ⇒ [<code>Kioboard</code>](#Kioboard)
@@ -281,25 +308,6 @@ const logKey = function(key) {
 kio.on(["a", "A"], logKey);
 kio.off(["a", "A"], logKey); // Can be off-ed when necessary
 ```
-<a name="Kioboard+setStyle"></a>
-
-### kioboard.setStyle(styles) ⇒ [<code>Kioboard</code>](#Kioboard)
-Set CSS styles
-
-**Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
-
-| Param | Type |
-| --- | --- |
-| styles | <code>Object</code> | 
-
-**Example**  
-```js
-kio.style({
-  "--hue": 194,
-  "--radius": 0.3,
-  "--alpha": 0.8,
-
-});
 <a name="Kioboard+off"></a>
 
 ### kioboard.off(keys, callback) ⇒ [<code>Kioboard</code>](#Kioboard)

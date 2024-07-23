@@ -20,23 +20,38 @@ your  **virtual keyboard** for digital signage kiosk touchscreens
 
 ## Usage
 
+Install package
+
 ```bash
 npm i @rbuljan/kioboard
 ```
 
+Import and instantiate
+
 ```js
-import Kioboard from '@rbuljan/kioboard';
-import '@rbuljan/kioboard/dist/kioboard.css';
+import "@rbuljan/kioboard/dist/kioboard.css";
+import en from "@rbuljan/kioboard/dist/layouts/en.js";
+import Kioboard from "@rbuljan/kioboard";
 
 const kio = new Kioboard({
-    layoutName: "en",
-    theme: "glass-dark",
+    layout: en,
+    theme: "default-dark",
 });
 ```
+
+HTML
 
 ```html
 <input data-kioboard name="example">
 ```
+
+## API documentation
+
+**[Open the full Kioboard API docs &rarr;](docs.md)**
+
+## Tutorial
+
+**[Open the quick Tutorial &rarr;](tutorial.md)**
 
 ## Options
 
@@ -48,32 +63,58 @@ const kio = new Kioboard({
     inputs: "[data-kioboard]", // selector|Element|Element[]|NodeList
     input: null, // The curently active input Element
     theme: "default", // "default|flat|glass"-"light|dark"
-    layoutName: "en", // "en|de|es|fr|hr" // Contribute for more!
-    layerName: "default",
-    layers: {}, // custom layers
-    icons: {}, // custom icons
+    layout: {}, // Layout Object, or import en|de|es|fr|hr|it // Contribute for more!
+    layerName: "default", // Initial layer
+    shiftState: 0, // 0=off 1=on 2=capsLock // Necessary if showing the "shift" layer
     isEnterSubmit: true, // submit form (<input> only)
     isVisible: false, // Initial visibility
     isPermanent: false, // Always visible
-    shiftState: 0, // 0=off 1=on 2=capsLock
+    isScroll: true, // should input scrolIntoView()
+    scrollOptions: { behavior: "smooth", block: "start", inline: "nearest" },
     onInit() { /*initialized*/ },
     onLoad() { /*layout loaded*/ },
+    onBeforeShow() { /*before show*/ },
     onShow() { /*after show*/ },
+    onBeforeHide() { /*before hide*/ },
     onHide() { /*after hide*/ },
-    onKeyDown() { /*after key press*/ },
-    onKeyUp() { /*after key release*/ },
+    onKeyDown(keyName) { /*after key press*/ },
+    onKeyUp(keyName) { /*after key release*/ },
 });
 ```
 
-## API documentation
+## Methods
 
-**[Open the full Kioboard API docs &rarr;](docs.md)**
+Having a Kioboard instance (like i.e: `kio`), you can then use its [methods](docs.md)
 
-## Tutorial
+```js
+kio.load(layout, callback) // Load Layout object or .js layout file
+kio.setLayout(layout) // Read layout data, attach keys actions, set default layer
+kio.shift(state) // 0=off 1=on 2=caps-lock. Needed when using .show("shift") or .changeLayer("shift")
+kio.show() // Show Kioboard
+kio.show(layerName) // .changeLayer(layerName) and show Kioboard 
+kio.hide() // Kide Kioboard
+kio.setActions(actions) // Set key actions for current layout. See: .on()
+kio.setStyle(CSSVars) // Sets CSS Vars from object
+kio.on(keys, callback) // Attach action callbacks to keys
+kio.off(keys, callback) // Detach action callbacks from keys
+kio.emit(keys) // Emit programmatically registered keys actions
+kio.sequence(keys, speed, callback) // => fn() to stop sequencer
+kio.clearKioboard() // Clear children elements (rows and buttons)
+kio.draw() // Draw rows and buttons
+kio.changeLayer(layerName) // Draw a specific layout's layer
+kio.setTheme(themeName) // Change theme
+kio.hasSelection() // true if input has selection
+kio.insert(value, from, to) // insert a value at caret position of from-to index
+kio.drag() // Attaches drag listeners to Kioboard element until pointerup
+kio.init() // Initialize element and event listeners
+kio.destroy() // Destroy element and listeners
+```
 
-**[Open the quick Tutorial &rarr;](tutorial.md)**
+Find out more about each method (with examples!) in the [API Docs](docs.md)
 
 ## Feature requests / issues
+
+Missing a feature? Have a suggestion? Found a bug?
 
 [GitHub: rokobuljan/kioboard/issues &rarr;](https://github.com/rokobuljan/kioboard/issues)
 

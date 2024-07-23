@@ -289,7 +289,7 @@ class Kioboard {
     load(layout, callback) {
         if (typeof layout === "string") {
             try {
-                import(`./layouts/${layout}.js`).then(({ default: layout }) => {
+                import(layout).then(({ default: layout }) => {
                     this.setLayout(layout);
                     callback?.call(this, layout);
                     this.onLoad();
@@ -381,6 +381,34 @@ class Kioboard {
     }
 
     /**
+     * Set CSS styles
+     * @param {Object} styles
+     * @returns {Kioboard}
+     * @example
+     * ```js
+     * kio.style({
+     *   hue: 194,
+     *   saturation: 94,
+     *   lightness: 49,
+     *   alpha: 1,
+     *   radius: 0.3,
+     *   gap: 0.3,
+     *   size: 2,
+     *   color: "currentColor",
+     *   background: "hsl(0 0% 90% / 1)",
+     *   backgroundBtn: "hsl(0 0% 100% / 1)",
+     *   shadow: "inset 0 -1px 0 hsl(0 0% 0% / 0.3)",
+     * });
+     * ```
+     */
+    setStyle(styles) {
+        Object.entries(styles).forEach(([CSSVar, value]) => {
+            this.element.style.setProperty(`--${CSSVar}`, value);
+        });
+        return this;
+    }
+
+    /**
      * Add a custom action callback
      * @param {string|Array<string>} keys Space-delimited Key-action names i.e: "X x enter" or ["X", "x", "enter"]
      * @param {Action} callback Callback triggered on key down
@@ -407,26 +435,6 @@ class Kioboard {
         }
         keysArray(keys).forEach((key) => {
             this.emitter?.on(key, callback);
-        });
-        return this;
-    }
-
-    /**
-     * Set CSS styles
-     * @param {Object} styles
-     * @returns {Kioboard}
-     * @example
-     * ```js
-     * kio.style({
-     *   "--hue": 194,
-     *   "--radius": 0.3,
-     *   "--alpha": 0.8,
-     * 
-     * });
-     */
-    setStyle(styles) {
-        Object.entries(styles).forEach(([CSSVar, value]) => {
-            this.element.style.setProperty(`--${CSSVar}`, value);
         });
         return this;
     }

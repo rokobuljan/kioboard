@@ -6,19 +6,19 @@
     --radius: 0.3;
     --gap: 0.3;
     --size: 2;
-    --accent: hsl(
-        var(--hue) calc(var(--saturation) * 1%) calc(var(--lightness) * 1%) / 1
-    );
-
     --color: currentColor;
     --background: hsl(0 0% 90% / var(--alpha));
-    --background-btn: hsl(0 0% 100% / var(--alpha));
+    --backgroundBtn: hsl(0 0% 100% / var(--alpha));
+    --shadow: inset 0 -1px 0 hsl(0 0% 0% / 0.3);
+
     --keySize: clamp(
         0.2em,
         calc(var(--size) * 1vw),
         calc(var(--size) * 0.55em)
     );
-    --shadow: inset 0 -1px 0 hsl(0 0% 0% / 0.3);
+    --accent: hsl(
+        var(--hue) calc(var(--saturation) * 1%) calc(var(--lightness) * 1%) / 1
+    );
 
     position: absolute;
     margin: auto;
@@ -73,7 +73,7 @@
     &[data-kioboard-theme$="-dark"] {
         --color: hsl(0 0% 85% / 1);
         --background: hsl(0 0% 15% / var(--alpha));
-        --background-btn: hsl(0 0% 0% / var(--alpha));
+        --backgroundBtn: hsl(0 0% 0% / var(--alpha));
     }
 
     /* Rows and buttons */
@@ -98,7 +98,7 @@
         color: var(--color);
         border-radius: calc(var(--radius) * 1em);
         box-shadow: var(--shadow);
-        background: var(--background-btn);
+        background: var(--backgroundBtn);
         transition: box-shadow 1s;
         user-select: none;
         -webkit-tap-highlight-color: hsl(0 0% 0% / 0);
