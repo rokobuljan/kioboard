@@ -3,152 +3,214 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>Kioboard - Virtual touch keyboard for mobile, kiosk, digital signage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="#!" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-    <title>Kioboard - Virtual touch keyboard for mobile, kiosk, digital signage</title>
-    <style>
-        * {
-            margin: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font: 1em/1.4 Poppins, sans-serif;
-            color: #333;
-            overflow: auto;
-            /* background: linear-gradient(0deg, hsl(198, 87%, 50%) 0%, hsl(192, 100%, 53%) 100%); */
-        }
-
-        h2 {
-            padding: 1em;
-        }
-
-
-        #logo {
-            height: 5em;
-        }
-
-        #app {
-            height: 100dvh;
-            overflow: scroll;
-            position: relative;
-            margin: 2rem;
-            background: red;
-        }
-
-        #head {
-            align-items: center;
-            position: sticky;
-            width: 100%;
-            top: 0;
-            backdrop-filter: blur(8px);
-            background: hsl(0 100% 100% / 0.2);
-
-            & div {
-                padding: 2rem;
-                flex: 1;
-
-                &+div {
-                    border-left: 2px solid #000;
-                    flex: 1;
-                }
-            }
-        }
-
-        main {
-            padding: 2rem;
-            scroll-margin-top: 2em;
-            max-width: 480px;
-
-            & .row {
-                padding: 2rem;
-            }
-        }
-
-        .col {
-            display: flex;
-            flex-direction: column;
-            padding: 2rem 0;
-            scroll-margin-top: 2rem;
-        }
-
-        .row {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        select,
-        input,
-        textarea {
-            padding: 2em;
-            vertical-align: top;
-            border-radius: 0em;
-            border: 2px solid #000;
-            border-radius: 0px;
-        }
-
-        #kioboard {
-            position: fixed;
-            display: flex;
-            right: 0;
-            top: 0;
-            height: 100dvh;
-            width: calc(100dvw - 480px);
-            pointer-events: none;
-        }
-
-        #kioboard .kioboard {
-            position: relative;
-            bottom: auto;
-            margin: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/dark.min.css">
 </head>
 
 <body>
 
-    <header id="head" class="row">
+    <div id="char" class="is-visible">K</div>
+
+    <header id="head">
         <div>
             <img id="logo" src="kioboard-logo.svg" alt="">
         </div>
-        <div class="row">
-            <h2 style="margin-right: 2rem;">Theme</h2>
-            <select id="theme">
-                <option value="default">Default light</option>
+        <div>
+            <b>theme</b>
+            <select data-kio-theme>
+                <option value="default">Default</option>
                 <option value="default-dark">Default dark</option>
-                <option value="flat">Flat light</option>
-                <option value="flat-dark">Flat dark</option>
-                <option value="glass">Glass light</option>
+                <option value="flat">Flat</option>
+                <option value="flat-dark" selected>Flat dark</option>
+                <option value="glass">Glass</option>
                 <option value="glass-dark">Glass dark</option>
             </select>
+        </div>
+        <div>
+            <a href="https://github.com/rokobuljan/kioboard">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 98 98">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"
+                        fill="#24292f" />
+                </svg>
+            </a>
+            <a href="https://www.npmjs.com/package/@rbuljan/kioboard">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 7">
+                    <path fill="#CB3837"
+                        d="M0,0h18v6H9v1H5V6H0V0z M1,5h2V2h1v3h1V1H1V5z M6,1v5h2V5h2V1H6z M8,2h1v2H8V2z M11,1v4h2V2h1v3h1V2h1v3h1V1H11z" />
+                    <polygon fill="#FFFFFF" points="1,5 3,5 3,2 4,2 4,5 5,5 5,1 1,1 " />
+                    <path fill="#FFFFFF" d="M6,1v5h2V5h2V1H6z M9,4H8V2h1V4z" />
+                    <polygon fill="#FFFFFF" points="11,1 11,5 13,5 13,2 14,2 14,5 15,5 15,2 16,2 16,5 17,5 17,1 " />
+                </svg>
+            </a>
+            <a href="https://jsr.io/@rox/kioboard/">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 7">
+                    <path d="M0,2h2v-2h7v1h4v4h-2v2h-7v-1h-4" fill="#083344"></path>
+                    <g fill="#f7df1e">
+                        <path d="M1,3h1v1h1v-3h1v4h-3"></path>
+                        <path d="M5,1h3v1h-2v1h2v3h-3v-1h2v-1h-2"></path>
+                        <path d="M9,2h3v2h-1v-1h-1v3h-1"></path>
+                    </g>
+                </svg>
+            </a>
         </div>
     </header>
     <main>
         <div class="col">
-            <p>Virtual touch keyboard</p>
+            <p><b>Your</b></p>
+            <h1>Virtual touch keyboard</h1>
+            <p>
+                for the web, digital signage, kiosk apps, IOT, you name it!<br>
+                For gurus &amp; enthusiasts — made by professionals in the digital signage field
+            </p>
+            <p></p>
         </div>
-        <div class="col">
-            <h2>Layout</h2>
-            <select id="layout">
-                <option value="en">English</option>
-                <option value="hr">Hrvatski</option>
-                <option value="fr">Français</option>
-                <option value="de">Deutsch</option>
-                <option value="es">Español</option>
+
+        <div class="col card">
+            <h2>Usage</h2>
+            <p>Include this couple of lines in your entry file and you're good to go!</p>
+            <pre><code class="language-javascript" data-kio-code>import "@rbuljan/kioboard/dist/kioboard.css";
+import Kioboard from "@rbuljan/kioboard";
+import en from "@rbuljan/kioboard/dist/layouts/en.js";
+
+const kio = new Kioboard().load(en);</code></pre>
+            <p>Try it here:</p>
+            <textarea data-kioboard>Type here!</textarea>
+        </div>
+
+        <div class="col card">
+            <h2>Themes</h2>
+            <p>We made some nifty responsive ones, crafted for visual feedback and legibility (A11Y)</p>
+            <select data-kio-theme>
+                <option value="default">Default</option>
+                <option value="default-dark">Default dark</option>
+                <option value="flat">Flat</option>
+                <option value="flat-dark" selected>Flat dark</option>
+                <option value="glass">Glass</option>
+                <option value="glass-dark">Glass dark</option>
             </select>
             <br>
-            <textarea class="kio2" data-kioboard>Example textarea</textarea>
-            <!-- <input class="kio2" id="input" type="text" data-kioboard value="" maxlength="3" autocomplete="off"> -->
+            <textarea data-kioboard>Example textarea
+Click to show Kioboard</textarea>
+            <details>
+                <summary>Show code</summary>
+                <pre><code class="language-javascript" data-kio-code>const kio = new Kioboard({  
+    theme: "default",
+    // or:
+    // theme: "default-dark",
+    // theme: "flat",
+    // theme: "flat-dark",
+    // theme: "glass",
+    // theme: "glass-dark",
+    layout: en,
+});</code></pre>
+            </details>
+            <p>
+                Need a custom one? Keep scrolling
+            </p>
         </div>
+
+        <div class="col card">
+            <h2>Layouts</h2>
+            <p>We provide several language layouts you can use right away, or mockup as a starting point for you own!</p>
+            <div class="btn-group">
+                <button type="button" data-kio-layout="en" class="is-active">EN</button>
+                <button type="button" data-kio-layout="de">DE</button>
+                <button type="button" data-kio-layout="fr">FR</button>
+                <button type="button" data-kio-layout="hr">HR</button>
+                <button type="button" data-kio-layout="es">ES</button>
+            </div>
+            <br>
+            <textarea data-kioboard>Example textarea
+Click to show Kioboard</textarea>
+            <details>
+                <summary>Show code</summary>
+                <pre><code class="language-javascript" data-kio-code>import Kioboard from "@rbuljan/kioboard";
+import en from "./src/layouts/en.js";
+
+const kio = new Kioboard({
+    // or "de", "fr", "hr", "es",
+    // contribute for more!
+    layoutName: "en",   
+    theme: "glass-dark",
+    layout: en,
+});</code></pre>
+            </details>
+        </div>
+
+        <div class="col card">
+            <h2>Custom Layouts</h2>
+            <p>Let's be real: no layout is perfect.<br>Create your own!</p>
+            <br>
+            <textarea data-kioboard>Example textarea
+Click to show a custom layout example</textarea>
+            <details open>
+                <summary>Show code</summary>
+                <pre><code class="language-javascript" data-kio-code>import Kioboard from "@rbuljan/kioboard";
+import en from "./src/layouts/en.js";
+
+const kio = new Kioboard({
+    // or "de", "fr", "hr", "es",
+    // contribute for more!
+    layoutName: "en",   
+    theme: "glass-dark",
+    layout: en,
+});</code></pre>
+            </details>
+        </div>
+
+        <div class="col card">
+            <h2>Styling</h2>
+            <p>
+                Crucial to expose your brand, or your app's look and feel.
+                Kioboard provides you with a <code>.style()</code> method to do just that.
+            </p>
+            <p>
+                <label><span>Hue</span><input data-kio-style="--hue" type="range" value="194" min="0" max="360"></label>
+                <label><span>Alpha</span><input data-kio-style="--alpha" type="range" min="0.65" max="1" step="0.05"></label>
+                <label><span>Radius</span><input data-kio-style="--radius" type="range" min="0" max="1" step="0.01"></label>
+                <label><span>Gap</span><input data-kio-style="--gap" type="range" min="0" max="0.7" step="0.05"></label>
+                <label><span>Size</span><input data-kio-style="--size" type="range" min="1.8" max="2.6" step="0.05"></label>
+            </p>
+            <br>
+            <textarea data-kioboard>Example textarea
+Click to show a custom layout example</textarea>
+            <details open>
+                <summary>Show code</summary>
+                <pre><code class="language-javascript" data-kio-code>import Kioboard from "@rbuljan/kioboard";
+import en from "./src/layouts/en.js";
+
+const kio = new Kioboard({
+    // or "de", "fr", "hr", "es",
+    // contribute for more!
+    layoutName: "en",   
+    theme: "glass-dark",
+    layout: en,
+});</code></pre>
+            </details>
+        </div>
+
     </main>
+
     <div id="kioboard"></div>
 
+    <link rel="stylesheet" href="./hljs.css">
+    <script type="module">
+        import hljs from 'https://unpkg.com/@highlightjs/cdn-assets@11.9.0/es/highlight.min.js';
+        import javascript from 'https://unpkg.com/@highlightjs/cdn-assets@11.9.0/es/languages/javascript.min.js';
+        hljs.registerLanguage('javascript', javascript);
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((el) => {
+                hljs.highlightElement(el);
+            });
+        });
+    </script>
     <script type="module" src="./index.js"></script>
 </body>
 

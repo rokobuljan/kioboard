@@ -1,13 +1,19 @@
 .kioboard {
+    --hue: 194;
+    --saturation: 100;
+    --lightness: 49;
     --alpha: 1;
-    --accent: hsl(203, 80%, 53%);
+    --radius: 0.3;
+    --gap: 0.3em;
+    --size: 2;
+
+    --accent: hsl(var(--hue) calc(var(--saturation) * 1%) calc(var(--lightness) * 1%) / 1);
+
     --color: currentColor;
     --background: hsl(0 0% 90% / var(--alpha));
     --background-btn: hsl(0 0% 100% / var(--alpha));
-    --keySize: clamp(0.2em, 2vw, 1.1em);
-    --radius: 0.3em;
+    --keySize: clamp(0.2em, calc(var(--size) * 1vw), calc(var(--size) * 0.55em));
     --shadow: inset 0 -1px 0 hsl(0 0% 0% / 0.3);
-    --gap: 0.3em;
 
     position: absolute;
     margin: auto;
@@ -18,14 +24,15 @@
     max-width: min-content;
     display: flex;
     flex-flow: column nowrap;
-    gap: var(--gap);
-    padding: calc(var(--gap) * 2);
+    gap: calc(var(--gap) * 1em);
+    padding: calc(var(--gap) * 2em);
+    backdrop-filter: blur(7px);
 
     transition: opacity 0.3s;
     font-size: var(--keySize);
     font-weight: 600;
     touch-action: none;
-    border-radius: calc(var(--radius) * 2);
+    border-radius: calc(var(--radius) * 2em);
     background: var(--background);
 
     opacity: 0;
@@ -57,17 +64,16 @@
 
     &[data-kioboard-theme^="glass"] {
         border-radius: 0.2em;
-        --alpha: 0.6;
+        --alpha: 0.7;
         --shadow: none;
         --gap: 1px;
         --radius: 0px;
-        backdrop-filter: blur(10px);
     }
 
     &[data-kioboard-theme$="-dark"] {
         --color: hsl(0 0% 85% / 1);
-        --background: hsl(0 0% 8% / var(--alpha));
-        --background-btn: hsl(0 0% 17% / var(--alpha));
+        --background: hsl(0 0% 15% / var(--alpha));
+        --background-btn: hsl(0 0% 0% / var(--alpha));
     }
 
     /* Rows and buttons */
@@ -75,7 +81,7 @@
     & [data-kioboard-row] {
         display: flex;
         justify-content: center;
-        gap: var(--gap);
+        gap: calc(var(--gap) * 1em);
     }
 
     & button {
@@ -90,7 +96,7 @@
         font: inherit;
         border: 0;
         color: var(--color);
-        border-radius: var(--radius);
+        border-radius: calc(var(--radius) * 1em);
         box-shadow: var(--shadow);
         background: var(--background-btn);
         transition: box-shadow 1s;
@@ -114,7 +120,6 @@
         &[data-kioboard-key="enter"] {
             flex-grow: 2.5;
             background-color: var(--accent);
-            color: #fff;
         }
 
         &[data-kioboard-key="space"] {
@@ -127,9 +132,8 @@
             box-shadow: none;
         }
 
-        /* Active has to go last */
         &.is-active {
-            animation: kioboardButtonActive 0.3s forwards; 
+            animation: kioboardButtonActive 1s forwards;
         }
 
         .is-shift & {
@@ -149,7 +153,6 @@
     /* Layer styles */
 
     &[data-kioboard-layer="numpad"] {
-
         & [data-kioboard-key="enter"] {
             flex-grow: 1;
         }
@@ -157,7 +160,7 @@
 }
 
 @keyframes kioboardButtonActive {
-    50% {
+    0% {
         box-shadow: inset 0 0 0 0.2em var(--accent);
     }
     100% {

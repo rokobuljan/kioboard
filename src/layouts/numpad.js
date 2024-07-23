@@ -3,6 +3,7 @@
  * @author Kioboard
  */
 export default {
+    name: "numpad",
     layers: {
         numpad: [
             "1 2 3",

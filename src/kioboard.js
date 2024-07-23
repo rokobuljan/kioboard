@@ -148,17 +148,17 @@ class Kioboard {
      * @type {Icons}
      */
     static commonIcons = {
-        space: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M8,28H40V20H37v5H11V20H8v8Z"/></svg>`,
-        tab: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path style="fill-rule: evenodd;" d="M4,18H24V8L43,24,24,40V30H4V18Zm3,3H27V15l11,9L27,33V27H7V21ZM45,38H42V10h3V38Z"/></svg>`,
-        arrowLeft: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path style="fill-rule:evenodd;" d="M32,8L12,24,32,40V8ZM17,24l12,9V15Z"/></svg>`,
-        arrowRight: `<svg xmlns="http://www.w3.org/2000/svg" transform="scale(-1,1)" width="48" height="48" viewBox="0 0 48 48"><path style="fill-rule:evenodd;" d="M32,8L12,24,32,40V8ZM17,24l12,9V15Z"/></svg>`,
-        delete: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M12.9,15.616H7.269V32.043H12.9a9.471,9.471,0,0,0,4.467-1.012,7.193,7.193,0,0,0,2.978-2.86,8.59,8.59,0,0,0,1.05-4.319,8.722,8.722,0,0,0-1.05-4.342,7.155,7.155,0,0,0-2.978-2.883A9.476,9.476,0,0,0,12.9,15.616h0ZM12.786,29.243H10.5V18.393h2.285a5.176,5.176,0,0,1,3.924,1.447A5.567,5.567,0,0,1,18.1,23.853a5.44,5.44,0,0,1-1.385,3.977,5.248,5.248,0,0,1-3.924,1.412h0Zm22.923-4a6.98,6.98,0,0,0-.8-3.377,5.582,5.582,0,0,0-2.239-2.271,7.14,7.14,0,0,0-6.614.023A5.7,5.7,0,0,0,23.8,21.97a7.5,7.5,0,0,0-.808,3.554,7.36,7.36,0,0,0,.82,3.53,5.822,5.822,0,0,0,2.285,2.365,6.568,6.568,0,0,0,3.313.836,6.118,6.118,0,0,0,3.855-1.212,5.94,5.94,0,0,0,2.124-3.095H31.9a2.634,2.634,0,0,1-2.562,1.577,2.956,2.956,0,0,1-2.1-.8,3.268,3.268,0,0,1-.97-2.212h9.349a7.954,7.954,0,0,0,.092-1.271h0ZM26.291,24.3a3.282,3.282,0,0,1,1-2.059,2.9,2.9,0,0,1,2.02-.741,3.154,3.154,0,0,1,2.147.765,2.636,2.636,0,0,1,.9,2.036H26.291Zm11.773-9.673V32.043H41.3V14.627H38.064Z"/></svg>`,
-        default: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path style="fill-rule: evenodd;" d="M8,10V35H19l5,5,5-5H40V10H8Zm3,3V32H21l3,3,3-3H37V13H11Zm4,3h3v3H15V16Zm5,0h3v3H20V16Zm5,0h3v3H25V16Zm5,0h3v3H30V16ZM15,21h3v3H15V21Zm5,0h3v3H20V21Zm5,0h3v3H25V21ZM15,26H33v3H15V26Zm15-5h3v3H30V21Z"/></svg>`, // "⌨",
-        backspace: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path style="fill-rule:evenodd;" d="M6,24L16,8H40V40H16Zm4,0,8-13H37V37H18Zm10-6h2l4,4,4-4h2v2l-4,4,4,4v2H30l-4-4-4,4H20V28l4-4-4-4V18Z"/></svg>`,
-        shift: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M30,28v9H18V28H8L24,8,40,28H30ZM14,25h7v9h6V25h7L24,13Z"/></svg>`,
-        enter: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path style="fill-rule:evenodd;" d="M21,8V18H32V11H44V30H21V40L2,24Zm14,6h6V27H18v6L7,24l11-9v6H35V14Z"/></svg>`,
-        close: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M38.849,36.021l-2.828,2.828L24,26.828,11.979,38.849,9.151,36.021,21.172,24,9.151,11.979l2.828-2.828L24,21.172,36.021,9.151l2.828,2.828L26.828,24Z"/></svg>`,
-        drag: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M24,18.443A5.557,5.557,0,1,1,18.443,24,5.557,5.557,0,0,1,24,18.443ZM16,12H32L24,4ZM32,36H16l8,8Zm4-20V32l8-8ZM12,32V16L4,24Z"/></svg>`
+        space: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8,28H40V20H37v5H11V20H8v8Z"/></svg>`,
+        tab: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path style="fill-rule: evenodd;" d="M4,18H24V8L43,24,24,40V30H4V18Zm3,3H27V15l11,9L27,33V27H7V21ZM45,38H42V10h3V38Z"/></svg>`,
+        arrowLeft: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path style="fill-rule:evenodd;" d="M32,8L12,24,32,40V8ZM17,24l12,9V15Z"/></svg>`,
+        arrowRight: `<svg xmlns="http://www.w3.org/2000/svg" transform="scale(-1,1)" viewBox="0 0 48 48"><path style="fill-rule:evenodd;" d="M32,8L12,24,32,40V8ZM17,24l12,9V15Z"/></svg>`,
+        delete: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M12.9,15.616H7.269V32.043H12.9a9.471,9.471,0,0,0,4.467-1.012,7.193,7.193,0,0,0,2.978-2.86,8.59,8.59,0,0,0,1.05-4.319,8.722,8.722,0,0,0-1.05-4.342,7.155,7.155,0,0,0-2.978-2.883A9.476,9.476,0,0,0,12.9,15.616h0ZM12.786,29.243H10.5V18.393h2.285a5.176,5.176,0,0,1,3.924,1.447A5.567,5.567,0,0,1,18.1,23.853a5.44,5.44,0,0,1-1.385,3.977,5.248,5.248,0,0,1-3.924,1.412h0Zm22.923-4a6.98,6.98,0,0,0-.8-3.377,5.582,5.582,0,0,0-2.239-2.271,7.14,7.14,0,0,0-6.614.023A5.7,5.7,0,0,0,23.8,21.97a7.5,7.5,0,0,0-.808,3.554,7.36,7.36,0,0,0,.82,3.53,5.822,5.822,0,0,0,2.285,2.365,6.568,6.568,0,0,0,3.313.836,6.118,6.118,0,0,0,3.855-1.212,5.94,5.94,0,0,0,2.124-3.095H31.9a2.634,2.634,0,0,1-2.562,1.577,2.956,2.956,0,0,1-2.1-.8,3.268,3.268,0,0,1-.97-2.212h9.349a7.954,7.954,0,0,0,.092-1.271h0ZM26.291,24.3a3.282,3.282,0,0,1,1-2.059,2.9,2.9,0,0,1,2.02-.741,3.154,3.154,0,0,1,2.147.765,2.636,2.636,0,0,1,.9,2.036H26.291Zm11.773-9.673V32.043H41.3V14.627H38.064Z"/></svg>`,
+        default: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path style="fill-rule: evenodd;" d="M8,10V35H19l5,5,5-5H40V10H8Zm3,3V32H21l3,3,3-3H37V13H11Zm4,3h3v3H15V16Zm5,0h3v3H20V16Zm5,0h3v3H25V16Zm5,0h3v3H30V16ZM15,21h3v3H15V21Zm5,0h3v3H20V21Zm5,0h3v3H25V21ZM15,26H33v3H15V26Zm15-5h3v3H30V21Z"/></svg>`, // "⌨",
+        backspace: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path style="fill-rule:evenodd;" d="M6,24L16,8H40V40H16Zm4,0,8-13H37V37H18Zm10-6h2l4,4,4-4h2v2l-4,4,4,4v2H30l-4-4-4,4H20V28l4-4-4-4V18Z"/></svg>`,
+        shift: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M30,28v9H18V28H8L24,8,40,28H30ZM14,25h7v9h6V25h7L24,13Z"/></svg>`,
+        enter: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path style="fill-rule:evenodd;" d="M21,8V18H32V11H44V30H21V40L2,24Zm14,6h6V27H18v6L7,24l11-9v6H35V14Z"/></svg>`,
+        close: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M38.849,36.021l-2.828,2.828L24,26.828,11.979,38.849,9.151,36.021,21.172,24,9.151,11.979l2.828-2.828L24,21.172,36.021,9.151l2.828,2.828L26.828,24Z"/></svg>`,
+        drag: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24,18.443A5.557,5.557,0,1,1,18.443,24,5.557,5.557,0,0,1,24,18.443ZM16,12H32L24,4ZM32,36H16l8,8Zm4-20V32l8-8ZM12,32V16L4,24Z"/></svg>`
     };
 
     /**
@@ -388,8 +388,8 @@ class Kioboard {
      * @example
      * ```js
      * kio.on("enter", function (key) {
-     *     // Does what enter key does (default action for "enter") but also:
-     *     console.log(key, this);
+     *   // Does what enter key does (default action for "enter") but also:
+     *   console.log(key, this);
      * });
      * ```
      * // PS: anonymous functions (callbacks) cannot be off-ed. Use a function expression instead:
@@ -398,7 +398,7 @@ class Kioboard {
      *   console.log(key, this); // Logs i.e: "A", Kioboard
      * };
      * kio.on(["a", "A"], logKey);
-     * // kio.off(["a", "A"], logKey); // Can be off-ed when necessary
+     * kio.off(["a", "A"], logKey); // Can be off-ed when necessary
      * ```
      */
     on(keys, callback) {
@@ -407,6 +407,25 @@ class Kioboard {
         }
         keysArray(keys).forEach((key) => {
             this.emitter?.on(key, callback);
+        });
+        return this;
+    }
+
+    /**
+     * Set CSS styles
+     * @param {Object} styles
+     * @returns {Kioboard}
+     * @example
+     * ```js
+     * kio.style({
+     *   "--kioboard-bg": "#fff",
+     *   "--kioboard-color": "#000",
+     * });
+     */
+    setStyle(styles) {
+        console.log(styles);
+        Object.entries(styles).forEach(([CSSVar, value]) => {
+            this.element.style.setProperty(CSSVar, value);
         });
         return this;
     }
@@ -477,11 +496,10 @@ class Kioboard {
             const elKeys = els(`[data-kioboard-key="${this.key}"]`, this.element);
             elKeys.forEach((elKey) => {
                 // @ts-ignore
-                elKey.classList.add("is-active");
-                elKey.addEventListener("animationend", () => {
-                    // @ts-ignore
-                    elKey.classList.remove("is-active");
-                }, { once: true });
+                elKey.classList.remove("is-active");
+                requestAnimationFrame(() => {
+                    elKey.classList.add("is-active");
+                });
             });
 
             this.input?.dispatchEvent(new Event("input", {
@@ -516,6 +534,7 @@ class Kioboard {
             }
             const key = keys.shift();
             this.emit(`${key}`);
+            this.onKeyDown(key);
             tOut = setTimeout(() => {
                 loop();
             }, speed);
@@ -713,10 +732,14 @@ class Kioboard {
 
     /**
      * Event handler for showing the keyboard
+     * Does not show the keyboard if the input is disabled
      * @param {Event} evt
      */
     handleShow(evt) {
         this.input = evt.target;
+        if (this.input.disabled) {
+            return;
+        }
         if (!this.isVisible && !this.isPermanent) {
             this.changeLayer(this.layerNameInitial);
         }
@@ -732,7 +755,6 @@ class Kioboard {
         // @ts-ignore
         const elButton = evt.target.closest("[data-kioboard-key]");
         const isOwnButton = this.element.contains(elButton);
-
         // @ts-ignore
         const element = evt.target.closest(".kioboard");
         if (element === this.element || isOwnButton) {
@@ -743,7 +765,6 @@ class Kioboard {
         if (isTargetOwnInput) {
             return;
         }
-
         this.hide();
     }
 

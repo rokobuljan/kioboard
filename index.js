@@ -2,41 +2,33 @@ import "./src/kioboard.css";
 import Kioboard from "./src/kioboard.js";
 import en from "./src/layouts/en.js";
 
-const customLayout = {
-    name: "custom",
-    layers: {
-        default: ["1 2 3 L2", "shift a b enter", "smile space"],
-        shift: ["! ? . ,", "shift A B enter", "smile space"],
-        emoji: ["😀 🤓 🤭 😁", "🥰 🙂 😎 enter", "default space"],
-    },
+const el = (sel, par = document) => par.querySelector(sel);
+const els = (sel, par = document) => par.querySelectorAll(sel);
 
-    icons: {
-        smile: "😀",
-    },
-    actions: {
-        smile() { this.show("emoji"); },
-        L2() { this.load(customLayout2).show(); },
-        a() { console.log(1);}
-    },
+const elChar = el("#char");
+const char = (ch) => {
+    if (ch.codePointAt(1)) {
+        return;
+    }
+    elChar.textContent = ch;
+    elChar.classList.add("is-visible");
 };
 
-const customLayout2 = {
-    name: "custom",
-    layers: {
-        default: ["1 2 3 L1", "shift a b enter", "smile space"],
-        shift: ["! ? . ,", "shift A B enter", "smile space"],
-        emoji: ["😀 🤓 🤭 😁", "🥰 🙂 😎 enter", "default space"],
-    },
-    icons: {
-        smile: "😀",
-    },
-    actions: {
-        smile() { this.show("emoji"); },
-        L1() { this.load(customLayout).show(); },
-        a() { console.log(22222);}
-    },
-};
-
+// const customLayout = {
+//     name: "custom",
+//     layers: {
+//         default: ["1 2 3 L2", "shift a b enter", "smile space"],
+//         shift: ["! ? . ,", "shift A B enter", "smile space"],
+//         emoji: ["😀 🤓 🤭 😁", "🥰 🙂 😎 enter", "default space"],
+//     },
+//     icons: {
+//         smile: "😀",
+//     },
+//     actions: {
+//         smile() { this.show("emoji"); },
+//         a() { console.log(1); }
+//     },
+// };
 // const kio = new Kioboard({
 //  theme: "flat-dark",
 //  layout: customLayout
@@ -46,23 +38,55 @@ const kio = new Kioboard({
     parent: "#kioboard",
     theme: "flat-dark",
     isScroll: false,
-    isPermanent: true
+    isVisible: true,
+    onKeyDown(key) {
+        char(key);
+    }
 });
-kio.load(customLayout);
-console.log(kio);
+kio.load(en);
 
+let sequencerStop = null;
+const autoType = () => {
+    kio.input.value = "";
+    sequencerStop = kio.sequence("shift K shift shift i o b o a r d", 500, () => {
+        autoType();
+        char(kio.key);
+    });
+};
+autoType();
+
+addEventListener("pointerdown", () => {
+    sequencerStop();
+    char("K");
+});
+
+const elsStyle = els("[data-kio-style]");
+elsStyle.forEach(el => {
+    el.addEventListener("input", (evt) => {
+        const prop = evt.currentTarget.dataset.kioStyle;
+        const val = evt.currentTarget.value;
+        kio.setStyle({[prop]: val});
+        kio.show();
+    });
+});
 
 // *************************
 
-const elLang = document.querySelector("#layout");
-elLang.addEventListener("change", (evt) => {
-    kio.load(evt.currentTarget.value).show();
+const elsTheme = els("[data-kio-theme]");
+elsTheme.forEach(el => {
+    el.addEventListener("input", (evt) => {
+        const theme = evt.currentTarget.value;
+        kio.setTheme(evt.currentTarget.value).show();
+        elsTheme.forEach(el => el.value = theme);
+    });
 });
 
-document.querySelector("#theme").addEventListener("change", (evt) => {
-    kio.setTheme(evt.currentTarget.value).show();
+const elsLayouts = els("[data-kio-layout]");
+elsLayouts.forEach(el => {
+    el.addEventListener("click", () => {
+        console.log(123);
+        elsLayouts.forEach(el => el.classList.remove("is-active"));
+        el.classList.add("is-active");
+        kio.load(el.dataset.kioLayout).show();
+    });
 });
-
-// document.querySelector("#input").addEventListener("input", (evt) => {
-//     console.log(kio.key);
-// });

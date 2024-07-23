@@ -3,6 +3,7 @@
  * @author Kioboard
  */
 export default {
+    name: "emoji",
     layers: {
         emoji: [
             "🙂 😀 😁 😂 😄 😉 😊 😋 😎 🤓",
