@@ -1,4 +1,3 @@
-import "./src/kioboard.css";
 import Kioboard from "./src/kioboard.js";
 import en from "./src/layouts/en.js";
 

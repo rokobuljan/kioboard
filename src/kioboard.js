@@ -289,7 +289,7 @@ class Kioboard {
     load(layout, callback) {
         if (typeof layout === "string") {
             try {
-                import(layout).then(({ default: layout }) => {
+                import(/* @vite-ignore */layout).then(({ default: layout }) => {
                     this.setLayout(layout);
                     callback?.call(this, layout);
                     this.onLoad();
