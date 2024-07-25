@@ -18,7 +18,7 @@ body {
     color: #000;
     overflow: auto;
     /* background: linear-gradient(0deg, hsl(198, 87%, 50%) 0%, hsl(192, 100%, 53%) 100%); */
-    background: url("./kioboard-logo.svg") no-repeat 50% 50% / 96%;
+    background: url("./kioboard-logo.svg") no-repeat 50% 50% / 94%;
     background-attachment: fixed;
     min-height: 100dvh;
 }
@@ -261,8 +261,4 @@ pre {
 #kioboard .kioboard {
     position: fixed;
     bottom: 2em;
-
-    /* &[data-kioboard-theme^="glass"] {
-        outline: 2px solid #000;
-    } */
 }
