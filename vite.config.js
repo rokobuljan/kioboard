@@ -10,12 +10,13 @@ const __dirname = path.dirname(__filename);
 const LIBRARYNAME = "kioboard";
 
 export default defineConfig({
+    root: "./src",
     base: "./",
     plugins: [
         viteStaticCopy({
             targets: [
                 {
-                    src: "src/layouts/*",
+                    src: "layouts/*",
                     dest: "layouts"
                 }
             ]
@@ -24,18 +25,22 @@ export default defineConfig({
     build: {
         minify: "terser",
         lib: {
-            entry: path.resolve(__dirname, `src/${LIBRARYNAME}.js`),
+            entry: `${LIBRARYNAME}.js`,
             name: "kioboard",
             fileName: "kioboard",
             minify: true,
         },
         rollupOptions: {
+            // input: {
+            //     page: fileURLToPath(new URL('./page/index.html', import.meta.url)),
+            // },
             output: {
                 chunkFileNames: "layouts/[name].js",
                 assetFileNames: `${LIBRARYNAME}.[ext]`, // Prevent renaming kioboard.css to style.css
             }
         },
-        sourcemap: false,
+        // sourcemap: false,
+        outDir: '../dist', // Output to a sibling directory
         emptyOutDir: true,
     },
     css: {
