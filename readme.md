@@ -1,8 +1,8 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="kioboard-logo-dark.svg"><img alt="Kioboard" src="kioboard-logo.svg"></picture>
+# <picture><source media="(prefers-color-scheme: dark)" srcset="src/page/kioboard-logo-dark.svg"><img alt="Kioboard" src="src/page/kioboard-logo.svg"></picture>
 
 your  **virtual keyboard** for digital signage kiosk touchscreens
 
-![Kioboard](wallpaper.png)
+![Kioboard](src/page/wallpaper.png)
 
 ## Features
 
@@ -47,7 +47,7 @@ HTML
 
 ## API documentation
 
-**[Open the full Kioboard API docs &rarr;](docs.md)**
+**[Open the full Kioboard API docs &rarr;](api.md)**
 
 ## Tutorial
 
@@ -84,7 +84,7 @@ const kio = new Kioboard({
 
 ## Methods
 
-Having a Kioboard instance (like i.e: `kio`), you can then use its [methods](docs.md)
+Having a Kioboard instance (like i.e: `kio`), you can then use its [methods](api.md)
 
 ```js
 kio.load(layout, callback) // Load Layout object or .js layout file
@@ -110,7 +110,7 @@ kio.init() // Initialize element and event listeners
 kio.destroy() // Destroy element and listeners
 ```
 
-Find out more about each method (with examples!) in the [API Docs](docs.md)
+Find out more about each method (with examples!) in the [API Docs](api.md)
 
 ## Feature requests / issues
 
