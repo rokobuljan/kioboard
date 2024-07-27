@@ -56,7 +56,7 @@ const myLayout = {
 };
 
 const kio = new Kioboard({
-    parent: "#kioboard",
+    parent: "#kioboard-container",
     theme: "flat-dark",
     isScroll: false,
     isVisible: true,

@@ -7,6 +7,7 @@
 :root {
     --accent: hsl(194, 100%, 49%);
     --secondary: hsl(65, 91%, 50%);
+    --padd: 2rem;
 
     scrollbar-color: var(--accent) transparent;
     scrollbar-width: thin;
@@ -14,7 +15,7 @@
 }
 
 body {
-    font: min(3.5vmin, 1em)/1.5 Poppins, sans-serif;
+    font: min(3.5vmin, 1em) / 1.5 Poppins, sans-serif;
     color: #000;
     overflow: auto;
     /* background: linear-gradient(0deg, hsl(198, 87%, 50%) 0%, hsl(192, 100%, 53%) 100%); */
@@ -102,7 +103,7 @@ a {
 
     & > div {
         gap: 1.4em;
-        padding: 1.2em 2em;
+        padding: 1.2em var(--padd);
         display: flex;
         align-items: center;
 
@@ -121,22 +122,22 @@ a {
     }
 }
 
-@media screen and (width < 1200px) {
-    #head-theme {
+#head-theme {
+    @media screen and (width < 800px) {
         display: none !important;
     }
 }
 
 main {
     position: relative;
-    padding: 2rem;
+    padding: var(--padd);
     scroll-margin-top: 2em;
     max-width: 1400px;
     margin: 0 auto;
     padding-bottom: 40dvh;
 
     & .row {
-        padding: 2rem 0;
+        padding: var(--padd) 0;
     }
 }
 
@@ -148,15 +149,13 @@ main {
 
 .card {
     max-width: 520px;
-    padding: 2rem;
-
+    padding: var(--padd);
 
     &:nth-child(even) {
         margin-left: auto;
-
     }
 
-    &~.card {
+    & ~ .card {
         margin-top: -6rem;
         border: 2px solid #000;
         background: hsl(0 100% 100% / 0.6);
@@ -164,7 +163,7 @@ main {
     }
 
     @media screen and (width < 1200px) {
-        &~.card {
+        & ~ .card {
             margin-top: 6rem;
         }
     }
@@ -201,10 +200,11 @@ label {
     display: flex;
     padding: 0.5em;
     & span {
-        min-width: 7rem;
+        min-width: 4em;
     }
     & input {
         flex: 1;
+        width: 100%;
     }
 }
 
@@ -236,7 +236,7 @@ button {
 
     &.secondary {
         background-color: var(--secondary);
-        color:  #000;
+        color: #000;
         border: none;
     }
 }
@@ -266,7 +266,20 @@ pre {
     font-size: 1em;
 }
 
-#kioboard .kioboard {
+#kioboard-container {
     position: fixed;
     bottom: 2em;
+    width: 100%;
+
+    @media screen and (width < 900px), (orientation: portrait) {
+        bottom: 0;
+        width: 100%;
+    }
+
+    & .kioboard {
+        @media screen and (width < 900px), (orientation: portrait) {
+            bottom: 0;
+            width: 100%;
+        }
+    }
 }
