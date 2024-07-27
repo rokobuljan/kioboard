@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Kioboard - Virtual touch keyboard for mobile, kiosk, digital signage</title>
+    <meta name="google-site-verification" content="kCe4HDOuaaW2hWjQiggHUnoU3vKvNJ4OEEtw-vCYGa8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="#!" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -99,7 +100,7 @@ const kio = new Kioboard({
             <textarea data-kioboard>Example textarea
 Click to show Kioboard</textarea>
             <details open>
-                <summary>Show code</summary>
+                <summary>code</summary>
                 <pre><code class="language-javascript" data-kio-code="theme"></code></pre>
             </details>
         </div>
@@ -120,13 +121,12 @@ Click to show Kioboard</textarea>
             <textarea data-kioboard>Example textarea
 Click to show Kioboard</textarea>
             <details open>
-                <summary>Show code</summary>
+                <summary>code</summary>
                 <pre><code class="language-javascript" data-kio-code>import en from "./src/layouts/en.js";
 // or: "de", "fr", "hr", "es", "it"
 kio.load(en);
 </code></pre>
             </details>
-            <p>Contribute to the project for more language layouts!</p>
         </div>
 
         <div class="col card">
@@ -135,7 +135,7 @@ kio.load(en);
             <br>
             <textarea id="kio-layout-custom" data-kioboard>Click here to view a custom layout example</textarea>
             <details>
-                <summary>Show code</summary>
+                <summary>code</summary>
                 <pre><code class="language-javascript" data-kio-code>const myLayout = {
   name: "custom",
   layers: {
@@ -184,12 +184,31 @@ kio.load(myLayout).show();</code></pre>
             <br>
             <textarea data-kioboard>Example textarea</textarea>
             <details>
-                <summary>Show code</summary>
+                <summary>code</summary>
                 <pre><code class="language-javascript" data-kio-code="styles"></code></pre>
             </details>
         </div>
-
     </main>
+
+    <footer id="foot">
+        <div class="content">
+            <div class="row">
+                <div class="cell">
+                    <p>Made with a <a href="https://github.com/rokobuljan/kioboard">Kioboard</a></p>
+                    <p>Author: <a href="https://github.com/rokobuljan">Roko C. Buljan</a></p>
+                    <p>Licence: <a href="https://github.com/rokobuljan/kioboard/blob/master/licence">MIT</a></p>
+                </div>
+                <div class="cell">
+                    <p><a href="https://github.com/rokobuljan/kioboard/fork">Contribute!</a></p>
+                    <p><a href="https://github.com/rokobuljan/kioboard/issues">Feature requests</a></p>
+                    <p><a href="https://github.com/rokobuljan/kioboard/issues">Report an issue</a></p>
+                </div>
+                <div class="cell">
+                    <p><img id="logo" src="kioboard-logo-dark.svg" alt=""></p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <div id="kioboard-container"></div>
 
