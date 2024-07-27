@@ -10,12 +10,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/dark.min.css">
-  <script type="module" crossorigin src="./assets/index-Dm0FhCTC.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Csqj3hi4.css">
+  <script type="module" crossorigin src="./assets/index-Cn-aGBZr.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DiRMbHA6.css">
 </head>
 
 <body>
 
+    <div id="bg"></div>
     <div id="char" class="is-visible"></div>
 
     <header id="head">
@@ -64,20 +65,22 @@
             -->
         </div>
     </header>
+
     <main>
-        <div class="col card">
-            <h1>Virtual touch keyboard</h1>
-            <p>
-                for the web, digital signage, kiosk apps, IOT, you name it!
-            </p>
-        </div>
-        <div class="col card">
-            <b>Try it here</b><br>
-            <textarea data-kioboard>Kioboard</textarea>
-            <h2>Usage</h2>
-            <pre><code class="language-javascript">npm i @rbuljan/kioboard</code></pre>
-            <p>Include this couple of lines in your entry file and you're good to go!</p>
-            <pre><code class="language-javascript" data-kio-code>import "@rbuljan/kioboard/dist/kioboard.css";
+        <div class="content">
+            <div class="col card">
+                <h1>Virtual touch keyboard</h1>
+                <p>
+                    for the web, digital signage, kiosk apps, IOT, you name it!
+                </p>
+            </div>
+            <div class="col card">
+                <b>Try it here</b><br>
+                <textarea data-kioboard>Kioboard</textarea>
+                <h2>Usage</h2>
+                <pre><code class="language-javascript">npm i @rbuljan/kioboard</code></pre>
+                <p>Include this couple of lines in your entry file and you're good to go!</p>
+                <pre><code class="language-javascript" data-kio-code>import "@rbuljan/kioboard/dist/kioboard.css";
 import en from "@rbuljan/kioboard/dist/layouts/en.js";
 import Kioboard from "@rbuljan/kioboard";
 
@@ -85,60 +88,61 @@ const kio = new Kioboard({
   layout: en,
   theme: "flat-dark",
 });</code></pre>
-        </div>
-
-        <div class="col card">
-            <h2>Themes</h2>
-            <p>We made some nifty responsive ones, crafted for visual feedback and legibility (A11Y)</p>
-            <select data-kio-theme>
-                <option value="default">Default</option>
-                <option value="default-dark">Default dark</option>
-                <option value="flat">Flat</option>
-                <option value="flat-dark" selected>Flat dark</option>
-                <option value="glass">Glass</option>
-                <option value="glass-dark">Glass dark</option>
-            </select>
-            <br>
-            <textarea data-kioboard>Example textarea
-Click to show Kioboard</textarea>
-            <details open>
-                <summary>code</summary>
-                <pre><code class="language-javascript" data-kio-code="theme"></code></pre>
-            </details>
-        </div>
-
-        <div class="col card">
-            <h2>Layouts</h2>
-            <p>We provide several language layouts you can use right away, or mockup as a starting point for you own!</p>
-            <div class="btn-group">
-                <button type="button" data-kio-layout="en" class="is-active">EN</button>
-                <button type="button" data-kio-layout="de">DE</button>
-                <button type="button" data-kio-layout="fr">FR</button>
-                <button type="button" data-kio-layout="hr">HR</button>
-                <button type="button" data-kio-layout="es">ES</button>
-                <button type="button" data-kio-layout="it">IT</button>
-                <a class="btn secondary" href="https://github.com/rokobuljan/kioboard/fork">Contribute!</a>
             </div>
-            <br>
-            <textarea data-kioboard>Example textarea
+
+            <div class="col card">
+                <h2>Themes</h2>
+                <p>We made some nifty responsive ones, crafted for visual feedback and legibility (A11Y)</p>
+                <select data-kio-theme>
+                    <option value="default">Default</option>
+                    <option value="default-dark">Default dark</option>
+                    <option value="flat">Flat</option>
+                    <option value="flat-dark" selected>Flat dark</option>
+                    <option value="glass">Glass</option>
+                    <option value="glass-dark">Glass dark</option>
+                </select>
+                <br>
+                <textarea data-kioboard>Example textarea
 Click to show Kioboard</textarea>
-            <details open>
-                <summary>code</summary>
-                <pre><code class="language-javascript" data-kio-code>import en from "./src/layouts/en.js";
+                <details open>
+                    <summary>code</summary>
+                    <pre><code class="language-javascript" data-kio-code="theme"></code></pre>
+                </details>
+            </div>
+
+            <div class="col card">
+                <h2>Layouts</h2>
+                <p>We provide several language layouts you can use right away, or mockup as a starting point for you
+                    own!</p>
+                <div class="btn-group">
+                    <button type="button" data-kio-layout="en" class="is-active">EN</button>
+                    <button type="button" data-kio-layout="de">DE</button>
+                    <button type="button" data-kio-layout="fr">FR</button>
+                    <button type="button" data-kio-layout="hr">HR</button>
+                    <button type="button" data-kio-layout="es">ES</button>
+                    <button type="button" data-kio-layout="it">IT</button>
+                    <a class="btn secondary" href="https://github.com/rokobuljan/kioboard/fork">Contribute!</a>
+                </div>
+                <br>
+                <textarea data-kioboard>Example textarea
+Click to show Kioboard</textarea>
+                <details open>
+                    <summary>code</summary>
+                    <pre><code class="language-javascript" data-kio-code>import en from "./src/layouts/en.js";
 // or: "de", "fr", "hr", "es", "it"
 kio.load(en);
 </code></pre>
-            </details>
-        </div>
+                </details>
+            </div>
 
-        <div class="col card">
-            <h2>Custom Layouts</h2>
-            <p>Create your own!</p>
-            <br>
-            <textarea id="kio-layout-custom" data-kioboard>Click here to view a custom layout example</textarea>
-            <details>
-                <summary>code</summary>
-                <pre><code class="language-javascript" data-kio-code>const myLayout = {
+            <div class="col card">
+                <h2>Custom Layouts</h2>
+                <p>Create your own!</p>
+                <br>
+                <textarea id="kio-layout-custom" data-kioboard>Click here to view a custom layout example</textarea>
+                <details>
+                    <summary>code</summary>
+                    <pre><code class="language-javascript" data-kio-code>const myLayout = {
   name: "custom",
   layers: {
     default: [
@@ -166,29 +170,43 @@ kio.load(en);
 };
 
 kio.load(myLayout).show();</code></pre>
-            </details>
-            <p>Want to know more? Read the <a href="https://github.com/rokobuljan/kioboard/blob/master/tutorial.md">quick tutorial</a></p>
-        </div>
+                </details>
+                <p>Want to know more? Read the <a
+                        href="https://github.com/rokobuljan/kioboard/blob/master/tutorial.md">quick tutorial</a></p>
+            </div>
 
-        <div class="col card">
-            <h2>Styling</h2>
-            <p>
-                Crucial to expose your brand, or your app's look and feel.
-                Kioboard provides you with a <code>.style()</code> method to do just that.
-            </p>
-            <p>
-                <label><span>Hue</span><input data-kio-style="hue" type="range" value="194" min="0" max="360"></label>
-                <label><span>Alpha</span><input data-kio-style="alpha" type="range" value="1" min="0.4" max="1" step="0.01" ></label>
-                <label><span>Radius</span><input data-kio-style="radius" type="range" value="1" min="0" max="1" step="0.01"></label>
-                <label><span>Gap</span><input data-kio-style="gap" type="range" value="0.01" min="0" max="0.7" step="0.01"></label>
-                <label><span>Size</span><input data-kio-style="size" type="range" value="1" min="0.5" max="1.5" step="0.01"></label>
-            </p>
-            <br>
-            <textarea data-kioboard>Example textarea</textarea>
-            <details>
-                <summary>code</summary>
-                <pre><code class="language-javascript" data-kio-code="styles"></code></pre>
-            </details>
+            <div class="col card">
+                <h2>Styling</h2>
+                <p>
+                    Crucial to expose your brand, or your app's look and feel.
+                    Kioboard provides you with a <code>.style()</code> method to do just that.
+                </p>
+                <p>
+                    <label><span>Hue</span><input data-kio-style="hue" type="range" value="194" min="0"
+                            max="360"></label>
+                    <label><span>Alpha</span><input data-kio-style="alpha" type="range" value="1" min="0.4" max="1"
+                            step="0.01"></label>
+                    <label><span>Radius</span><input data-kio-style="radius" type="range" value="1" min="0" max="1"
+                            step="0.01"></label>
+                    <label><span>Gap</span><input data-kio-style="gap" type="range" value="0.01" min="0" max="0.7"
+                            step="0.01"></label>
+                    <label><span>Size</span><input data-kio-style="size" type="range" value="1" min="0.5" max="1.5"
+                            step="0.01"></label>
+                </p>
+                <br>
+                <textarea data-kioboard>Example textarea</textarea>
+                <details>
+                    <summary>code</summary>
+                    <pre><code class="language-javascript" data-kio-code="styles"></code></pre>
+                </details>
+            </div>
+
+            <div class="content">
+                <h2>Create your own layout</h2>
+                <textarea id="layout">
+
+            </textarea>
+            </div>
         </div>
     </main>
 
@@ -196,17 +214,19 @@ kio.load(myLayout).show();</code></pre>
         <div class="content">
             <div class="row">
                 <div class="cell">
-                    <p>Made with a <a href="https://github.com/rokobuljan/kioboard">Kioboard</a></p>
-                    <p>Author: <a href="https://github.com/rokobuljan">Roko C. Buljan</a></p>
-                    <p>Licence: <a href="https://github.com/rokobuljan/kioboard/blob/master/licence">MIT</a></p>
+                    <p>Made with &nbsp; <a href="https://github.com/rokobuljan/kioboard">Kioboard</a></p>
+                    <p>Author &nbsp; <a href="https://github.com/rokobuljan">Roko C. Buljan</a></p>
+                    <p>Licence &nbsp; <a href="https://github.com/rokobuljan/kioboard/blob/master/licence">MIT</a></p>
                 </div>
                 <div class="cell">
                     <p><a href="https://github.com/rokobuljan/kioboard/fork">Contribute!</a></p>
-                    <p><a href="https://github.com/rokobuljan/kioboard/issues">Feature requests</a></p>
-                    <p><a href="https://github.com/rokobuljan/kioboard/issues">Report an issue</a></p>
+                    <p><a href="https://github.com/rokobuljan/kioboard/issues">Features | Issues</a></p>
+                    <p><a href="https://github.com/rokobuljan/kioboard">GitHub</a></p>
+                    <p><a href="https://www.npmjs.com/package/@rbuljan/kioboard">NPM</a></p>
                 </div>
                 <div class="cell">
                     <p><img id="logo" src="./assets/kioboard-logo-dark-K3kSPTRl.svg" alt=""></p>
+                    <p class="u-v-auto">&copy; 2024—Present — All rights reserved</p>
                 </div>
             </div>
         </div>
