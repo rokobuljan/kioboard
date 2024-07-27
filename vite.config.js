@@ -8,7 +8,7 @@ export default defineConfig({
     build: {
         minify: "terser",
         // sourcemap: false,
-        outDir: '../../page', // Output to a sibling directory
+        outDir: '../../docs', // Output to a sibling directory
         emptyOutDir: true,
     },
     css: {
