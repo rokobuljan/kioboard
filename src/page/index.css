@@ -144,16 +144,18 @@ main {
 .card {
     max-width: 520px;
     padding: 2rem;
-    border: 2px solid #000;
-    background: hsl(0 100% 100% / 0.6);
-    backdrop-filter: blur(10px);
 
-    &:nth-child(odd) {
+
+    &:nth-child(even) {
         margin-left: auto;
+
     }
 
     &~.card {
-        margin-top: -4rem;
+        margin-top: -6rem;
+        border: 2px solid #000;
+        background: hsl(0 100% 100% / 0.6);
+        backdrop-filter: blur(10px);
     }
 
     @media screen and (width < 1200px) {
