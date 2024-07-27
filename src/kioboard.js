@@ -181,6 +181,7 @@ class Kioboard {
      * @param {boolean} options.isVisible=false Whether kioboard is visible
      * @param {boolean} options.isPermanent=false Never hide kioboard
      * @param {boolean} options.isScroll=true Scroll input into view when focused
+     * @param {boolean} options.isMobileKeyboard=false Show mobile default keyboard
      * @param {Object} options.scrollOptions https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
      * @param {number} options.shiftState Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used
      * @param {string} options.key The last pressed key 
@@ -236,6 +237,7 @@ class Kioboard {
         this.isVisible = false;
         this.isPermanent = false;
         this.isScroll = true;
+        this.isMobileKeyboard = false;
         this.scrollOptions = { behavior: "smooth", block: "start", inline: "nearest" };
         this.shiftState = 0;
         this.key = "";
@@ -945,7 +947,12 @@ class Kioboard {
         this.parent?.append(this.element);
 
         // Attach events
-        this.inputs.forEach((elem) => elem.addEventListener("pointerdown", this.handleShow));
+        this.inputs.forEach((elInput) => {
+            elInput.addEventListener("pointerdown", this.handleShow);
+            if (this.isMobileKeyboard === false) {
+                elInput.setAttribute("inputmode", "none");
+            }
+        });
         this.element.addEventListener("pointerdown", this.handleKeyDown);
         this.element.addEventListener("pointerup", this.handleKeyUp);
         this.element.addEventListener("pointercancel", this.handleKeyUp);
@@ -977,8 +984,11 @@ class Kioboard {
      */
     destroy() {
         // Detach events
-        this.inputs.forEach((elem) => {
-            elem.removeEventListener("pointerdown", this.handleShow);
+        this.inputs.forEach((elInput) => {
+            elInput.removeEventListener("pointerdown", this.handleShow);
+            if (this.isMobileKeyboard === false) {
+                elInput.setAttribute("inputmode", "text");
+            }
         });
         this.element.removeEventListener("pointerdown", this.handleKeyDown);
         this.element.removeEventListener("pointerup", this.handleKeyUp);

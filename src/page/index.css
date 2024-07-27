@@ -38,6 +38,11 @@ p {
     padding: 1em 0;
 }
 
+a {
+    color: var(--accent);
+    font-weight: 600;
+}
+
 #logo {
     height: 1.6em;
 }
