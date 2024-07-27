@@ -1,5 +1,14 @@
+import "./hljs.css";
+import "./index.css";
 import Kioboard from "../kioboard.js";
 import en from "../layouts/en.js";
+import de from "../layouts/de.js";
+import fr from "../layouts/fr.js";
+import hr from "../layouts/hr.js";
+import es from "../layouts/es.js";
+import it from "../layouts/it.js";
+
+const langs = {en, de, it, hr, fr, es};
 
 const el = (sel, par = document) => par.querySelector(sel);
 const els = (sel, par = document) => par.querySelectorAll(sel);
@@ -128,9 +137,7 @@ elsLayouts.forEach(el => {
     el.addEventListener("click", () => {
         elsLayouts.forEach(el => el.classList.remove("is-active"));
         el.classList.add("is-active");
-        import(`../layouts/${el.dataset.kioLayout}.js`).then(({default: layout}) => {
-            kio.load(layout).show();
-        });        
+        kio.load(langs[el.dataset.kioLayout]).show();      
     });
 });
 
