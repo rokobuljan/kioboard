@@ -97,6 +97,7 @@ a {
     position: sticky;
     width: 100%;
     top: 0;
+    backface-visibility: hidden;
     backdrop-filter: blur(8px);
     background: hsl(0 100% 100% / 0.9);
     border-bottom: 2px solid #000;
@@ -141,6 +142,10 @@ main {
     }
 }
 
+.row {
+    display: flex;
+}
+
 .col {
     display: flex;
     flex-direction: column;
@@ -163,6 +168,7 @@ main {
         margin-top: -6rem;
         border: 2px solid #000;
         background: hsl(0 100% 100% / 0.6);
+        backface-visibility: hidden;
         backdrop-filter: blur(10px);
     }
 
@@ -189,6 +195,7 @@ textarea {
     border: 2px solid #000;
     border-radius: 0px;
     background: hsl(0 100% 100% / 0.2);
+    backface-visibility: hidden;
     backdrop-filter: blur(10px);
     resize: none;
 }
@@ -253,6 +260,19 @@ details {
     background: hsl(0 100% 100% / 0.2);
     background: #000;
     color: #fff;
+    & summary {
+        user-select: none;
+        &::first-letter {
+            text-transform: uppercase;
+        }
+    }
+    &:not([open]) {
+        & summary {
+            &::before {
+                content: "show ";
+            }
+        }
+    }
 
     & summary {
         padding: 1em;
@@ -268,6 +288,31 @@ pre {
     overflow: auto;
     border-radius: 0.3em;
     font-size: 1em;
+}
+
+#foot {
+    padding: 6em 0;
+    background: #000;
+    color: #fff;
+
+    & .row {
+        flex-wrap: wrap; 
+    }
+
+    a {
+        color: #fff;
+        white-space: nowrap;
+    }
+}
+
+.content {
+    margin: 0 auto;
+    max-width: 1400px;
+
+    & .cell {
+        flex: 1;
+        padding: var(--padd);
+    }
 }
 
 #kioboard-container {
