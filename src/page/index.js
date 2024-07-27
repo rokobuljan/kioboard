@@ -1,5 +1,5 @@
-import Kioboard from "../src/kioboard.js";
-import en from "../src/layouts/en.js";
+import Kioboard from "../kioboard.js";
+import en from "../layouts/en.js";
 
 const el = (sel, par = document) => par.querySelector(sel);
 const els = (sel, par = document) => par.querySelectorAll(sel);

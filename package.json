@@ -12,9 +12,8 @@
     },
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "docs": "jsdoc2md --template docs.hbs --files src/kioboard.js > docs.md"
+        "build": "vite build && vite build -c vite.kioboard.config.js && jsdoc2md --template src/docs.hbs --files src/kioboard.js > docs.md",
+        "preview": "vite preview"
     },
     "keywords": [
         "virtual keyboard",
