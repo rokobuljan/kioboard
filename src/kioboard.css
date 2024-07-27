@@ -20,6 +20,7 @@
     );
 
     position: relative;
+    pointer-events: auto;
     margin: auto;
     z-index: 9000;
     width: min-content;
@@ -133,7 +134,7 @@
             box-shadow: none;
         }
 
-        &.is-active {
+        &.is-active:not([data-kioboard-key="shift"]) {
             animation: kioboardButtonActive 1s forwards;
         }
 
