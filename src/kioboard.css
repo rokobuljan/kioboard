@@ -86,6 +86,14 @@
         gap: max(calc(var(--gap) * 1em), 0px);
     }
 
+    & .kioboard-menu {
+        background: #fff;
+        position: absolute;
+        display: flex;
+        padding: calc(var(--gap) * 1em);
+        gap: max(calc(var(--gap) * 1em), 0px);
+    }
+
     & button {
         display: inline-flex;
         padding: 0;

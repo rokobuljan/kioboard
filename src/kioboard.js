@@ -597,6 +597,18 @@ class Kioboard {
             });
             this.element.append(elRow);
         });
+
+        // @TODO
+        const elMenu = elNew("div", { className: "kioboard-menu" });
+        keysArray("! # $ % & ( ) ?").forEach((key) => {
+            const elButton = elNew("button", {
+                innerHTML: `<span class="kioboard-icon">${key}</span>`,
+            });
+            elButton.dataset.kioboardKey = key;
+            elMenu.append(elButton);
+        });
+        this.element.append(elMenu);
+
         return this;
     }
 

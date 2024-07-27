@@ -33,4 +33,7 @@ export default {
         ...emoji.icons,
         ...numpad.icons,
     },
+    menu: {
+        "!": ["! . , # $ % & * ( ) + ?"]
+    }
 };
