@@ -2,6 +2,8 @@
 
 your  **virtual keyboard** for digital signage kiosk touchscreens
 
+Visit the [**Kioboard homepage &rarr;**](https://rokobuljan.github.io/kioboard/)
+
 ![Kioboard](src/page/wallpaper.png)
 
 ## Features
