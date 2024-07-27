@@ -151,6 +151,10 @@ main {
     max-width: 520px;
     padding: var(--padd);
 
+    &:nth-child(1) {
+        padding-top: 1em;
+    }
+
     &:nth-child(even) {
         margin-left: auto;
     }
@@ -267,6 +271,7 @@ pre {
 }
 
 #kioboard-container {
+    pointer-events: none;
     position: fixed;
     bottom: 2em;
     width: 100%;
