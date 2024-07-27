@@ -128,7 +128,9 @@ elsLayouts.forEach(el => {
     el.addEventListener("click", () => {
         elsLayouts.forEach(el => el.classList.remove("is-active"));
         el.classList.add("is-active");
-        kio.load(`./layouts/${el.dataset.kioLayout}.js`).show();
+        import(`../layouts/${el.dataset.kioLayout}.js`).then(({default: layout}) => {
+            kio.load(layout).show();
+        });        
     });
 });
 
