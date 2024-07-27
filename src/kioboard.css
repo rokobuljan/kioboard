@@ -26,12 +26,13 @@
     right: 0;
     bottom: 1rem;
     z-index: 9000;
-    max-width: min-content;
+    width: min-content;
     display: flex;
     flex-flow: column nowrap;
     gap: max(calc(var(--gap) * 1em), 0px);
     padding: calc(var(--gap) * 2em);
     backdrop-filter: blur(7px);
+    max-width: 100%;
 
     transition: opacity 0.3s;
     font-size: var(--keySize);
