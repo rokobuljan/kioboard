@@ -218,8 +218,8 @@ button {
     padding: 1em 1.5em;
     border: 0;
     border-radius: 0.3em;
-    font-weight: 700;
     font: inherit;
+    font-weight: 600;
     background: #000;
     color: #fff;
     cursor: pointer;
