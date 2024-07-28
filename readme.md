@@ -1,8 +1,10 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="src/page/kioboard-logo-dark.svg"><img alt="Kioboard" src="src/page/kioboard-logo.svg"></picture>
 
-your  **virtual keyboard** for digital signage kiosk touchscreens
+JavaScript **virtual on-screen keyboard** for digital signage kiosk touchscreens
 
-Visit the [**Kioboard homepage &rarr;**](https://rokobuljan.github.io/kioboard/)
+- [**Kioboard homepage &rarr;**](https://rokobuljan.github.io/kioboard/)  
+- **[Quick Tutorial &rarr;](tutorial.md)**  
+- **[API docs &rarr;](api.md)**  
 
 ![Kioboard](src/page/wallpaper.png)
 
@@ -47,14 +49,6 @@ HTML
 <input data-kioboard name="example">
 ```
 
-## API documentation
-
-**[Open the full Kioboard API docs &rarr;](api.md)**
-
-## Tutorial
-
-**[Open the quick Tutorial &rarr;](tutorial.md)**
-
 ## Options
 
 Customization options example:
@@ -72,6 +66,7 @@ const kio = new Kioboard({
     isVisible: false, // Initial visibility
     isPermanent: false, // Always visible
     isScroll: true, // should input scrolIntoView()
+    isOSKeyboard: false, // show also default OS's on-screen keyboard
     scrollOptions: { behavior: "smooth", block: "start", inline: "nearest" },
     onInit() { /*initialized*/ },
     onLoad() { /*layout loaded*/ },

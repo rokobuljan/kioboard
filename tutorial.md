@@ -4,6 +4,18 @@ ___
 
 # <picture><source media="(prefers-color-scheme: dark)" srcset="src/page/kioboard-logo-dark.svg"><img alt="Kioboard" height="24" src="src/page/kioboard-logo.svg"></picture> Tutorial
 
+- [ Tutorial](#-tutorial)
+  - [Creating Layouts](#creating-layouts)
+    - [Layers](#layers)
+    - [The *default* layer](#the-default-layer)
+    - [The *shift* layer](#the-shift-layer)
+    - [Common actions](#common-actions)
+    - [Custom layers](#custom-layers)
+  - [Actions](#actions)
+    - [Creating actions](#creating-actions)
+  - [Icons](#icons)
+  - [CSS styling](#css-styling)
+
 ## Creating Layouts
 
 A layout is made of layers, actions and icons.  
@@ -98,8 +110,8 @@ Besides the `"shift"` there are plenty of other **common action-keys** at your d
 
 | Action-key   | Action                                                  |
 | ------------ | ------------------------------------------------------- |
-| `default`    | Switch to "default" layer                              |
-| `shift`      | Toggle between "default" and "shift" layers, caps-lock |
+| `default`    | Switch to "default" layer                               |
+| `shift`      | Toggle between "default" and "shift" layers, caps-lock  |
 | `space`      | Insert a space                                          |
 | `enter`      | Submit form, or add a newline in TextArea               |
 | `backspace`  | Delete selection or character on the left of the caret  |
@@ -119,32 +131,34 @@ const myLayers = {
     default: [
         "a b c backspace", //+
         "shift d e enter", //+
-        "space",    //+
+        "space",           //+
     ],
     shift: [
         "A B C backspace", //+
         "shift D E enter", //+
-        "space",    //+
+        "space",           //+
     ],
 };
 ```
 
-Let's add a **third layer** to your set.  
-Finally, you can name any additional layer whatever you like. Let's name it for example: `myExtras`, and let's add some keys.
+### Custom layers
 
-Also, create some keys like i.e: `"extras"` and add them to the `"default"` and `"shift"` layers rows as well. Those butons will be used to open that `"myExtras"` layer
+Let's add a **third layer** to your set.  
+You can name any additional layers whatever you like. Let's name one for example: `myExtras`, and add some keys.
+
+Also, create some keys like i.e: `"extras"` and add them to the `"default"` and `"shift"` layers rows as well. Those buttons will be used to open that `"myExtras"` layer
 
 ```js
 const myLayers = {
     default: [
         "a b c backspace",
         "shift d e enter",
-        "extras space", //+
+        "extras space",    //+
     ],
     shift: [
         "A B C backspace",
         "shift D E enter",
-        "extras space", //+
+        "extras space",    //+
     ],
     myExtras: [            //+
         "! $ & backspace", //+
@@ -154,7 +168,7 @@ const myLayers = {
 };
 ```
 
-**But, how to open that `myExtras` layer?**   
+**But, how to open that `myExtras` layer?**  
 Clicking the `"extras"` buttons the string *`"extras"`* is inserted literally into the input. Besides having learned how to output a word preatty easily, this is clearly not what we want.
 We need to assign to that key-name a **custom action**.
 
@@ -163,7 +177,7 @@ We need to assign to that key-name a **custom action**.
 As we've seen, every key-name is inserted literally into the target input element as a string. To override such behavior we use **actions**.  
 Actions are callback functions which name **must be equal** (case-sensitive) to the key-name.
 
-### Creating  actions
+### Creating actions
 
 Let's create a key-action for that `"extras"` button.
 Define a `myActions` Object with a property matching exactly the key-name `"extras"`.  
@@ -179,6 +193,7 @@ const myActions = {
 ```
 
 > ***Tip:*** if you prefer Arrow functions, instead of `this` use your `kio` instance:
+>
 > ```js
 > const myActions = {
 >     extras: () => kio.show("myExtras"),
@@ -196,9 +211,9 @@ const kio = new Kioboard({
 
 Now, when you hit the `"extras"` button - your layer will show up.  
 
-> ***Tip:*** The common action `"space"` is used to insert a space into the input element, because we internally use spaces as a delimiter, separator for the layer's rows key-names strings.
+> ***Tip:*** The common action `"space"` is used to insert a space into the input element, because we internally use spaces `" "` as a delimiter, separator for the layer's rows key-names strings.
 
-### Icons
+## Icons
 
 There's just a small detail to fix: that funky *"extras"* icon-text on the button key. Let's change its *icon*.
 
@@ -219,6 +234,7 @@ const kio = new Kioboard({
 ```
 
 > ***Tip:***  
+>
 > ```js
 > // besides
 > extras: `⚙️`,
@@ -271,20 +287,25 @@ const kio = new Kioboard({
 You should now have a good understanding on how to create custom Kioboard layouts.
 
 > ***Tip:*** if you need to add actions to numeric keys or keys starting with a number, use the bracket syntax:  
+>
 > ```js
 > ["1"]() {
 >     console.log("One!"); // Do something here...
 >     // PS: "1" will not be inserted as value into the input   
 > }
 > ```
+>
 > ***Tip:*** Since assigning an **action** prevents the key's default behavior — `return` a desired string:
+>
 > ```js
 > ["1"]() {
 >     console.log("One!"); // Do something here...
 >     return "1"; // "1" value is inserted at caret position
 > }
 > ```
-> ***Tip*** if you want to call an key-action instead, use the .emit() method
+>
+> ***Tip*** if you want to call a key-action instead, use the `.emit()` method
+>
 > ```js
 > ["1"]() {
 >     console.log("One!"); // Do something here...
@@ -293,9 +314,64 @@ You should now have a good understanding on how to create custom Kioboard layout
 > }
 > ```
 
-
 ___
 
 ## CSS styling
 
-Coming soon
+There's several ways to customize the style of your Kioboard.  
+The simplest one is to use the JS's `.setStyle()` method which allows you to modify the CSS Vars directly from your JavaScript code:
+
+```js
+kio.setStyle({
+    hue: 194,
+    saturation: 94,
+    lightness: 49,
+    alpha: 1,
+    radius: 0.3,
+    gap: 0.3,
+    size: 2, 
+})
+```
+
+See more at: [Kioboard API docs `.setStyle()`](https://github.com/rokobuljan/kioboard/blob/master/api.md#Kioboard+setStyle)
+
+For a more granular customization, use the specific kioboard CSS selectors:  
+
+```css
+.kioboard {
+    /* Entire Kioboard styles */
+}
+.kioboard.is-visible {
+    /* Kioboard is visible */
+}
+.kioboard[data-kioboard-layout="en"] {
+    /* Specific layout-name styles */
+}
+.kioboard[data-kioboard-layer="default"] {
+    /* Specific layer-name styles */
+}
+.kioboard[data-kioboard-theme="flat-dark"] {
+    /* Specific theme-name styles */
+}
+.kioboard[data-kioboard-theme$="-dark"] {
+    /* All dark themes styles */
+}
+[data-kioboard-row] {
+    /* All rows styles */
+}
+[data-kioboard-row="0"] {
+    /* Row with index 0 styles */
+}
+[data-kioboard-key] {
+    /* All keys */
+}
+[data-kioboard-key="enter"] {
+    /* enter key styles */
+}
+[data-kioboard-key="a" i] {
+    /* Keys "a" and "A" styles. (i = case insensitive) */
+}
+.kioboard-icon {
+    /* Button's SPAN icon styles */
+}
+```

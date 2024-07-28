@@ -171,7 +171,7 @@ class Kioboard {
      * @param {string} options.layerName=default Current layer name
      * @param {string} options.layerNameDefault=default Name definition for "default" layout
      * @param {string} options.layerNameShift=shift Name definition for "shift" layout
-     * @param {string|undefined} options.layoutName The /layouts/<name>.js to use
+     * @param {string|undefined} options.layoutName The layout's name in use
      * @param {Layout|undefined} options.layout Current layout
      * @param {string} options.theme=default The theme to use. "default|flat|glass" or other
      * @param {boolean} options.isEnterSubmit=true Whether to submit on enter (only for HTMLInputElements)
@@ -181,7 +181,7 @@ class Kioboard {
      * @param {boolean} options.isVisible=false Whether kioboard is visible
      * @param {boolean} options.isPermanent=false Never hide kioboard
      * @param {boolean} options.isScroll=true Scroll input into view when focused
-     * @param {boolean} options.isMobileKeyboard=false Show mobile default keyboard
+     * @param {boolean} options.isOSKeyboard=false Show OS's default keyboard
      * @param {Object} options.scrollOptions https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
      * @param {number} options.shiftState Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used
      * @param {string} options.key The last pressed key 
@@ -237,7 +237,7 @@ class Kioboard {
         this.isVisible = false;
         this.isPermanent = false;
         this.isScroll = true;
-        this.isMobileKeyboard = false;
+        this.isOSKeyboard = false;
         this.scrollOptions = { behavior: "smooth", block: "start", inline: "nearest" };
         this.shiftState = 0;
         this.key = "";
@@ -353,7 +353,7 @@ class Kioboard {
         this.layout = layout;
         this.layout.icons = { ...Kioboard.commonIcons, ...this.layout.icons };
         this.setActions(layout.actions);
-        this.layoutName = layout.name ?? "unnamed";
+        this.layoutName = layout.name ?? "";
         this.changeLayer();
         return this;
     }
@@ -949,7 +949,7 @@ class Kioboard {
         // Attach events
         this.inputs.forEach((elInput) => {
             elInput.addEventListener("pointerdown", this.handleShow);
-            if (this.isMobileKeyboard === false) {
+            if (this.isOSKeyboard === false) {
                 elInput.setAttribute("inputmode", "none");
             }
         });
@@ -986,7 +986,7 @@ class Kioboard {
         // Detach events
         this.inputs.forEach((elInput) => {
             elInput.removeEventListener("pointerdown", this.handleShow);
-            if (this.isMobileKeyboard === false) {
+            if (this.isOSKeyboard === false) {
                 elInput.setAttribute("inputmode", "text");
             }
         });

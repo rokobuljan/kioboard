@@ -88,7 +88,7 @@ Kioboard
 | options.layerName | <code>string</code> | <code>&quot;default&quot;</code> | Current layer name |
 | options.layerNameDefault | <code>string</code> | <code>&quot;default&quot;</code> | Name definition for "default" layout |
 | options.layerNameShift | <code>string</code> | <code>&quot;shift&quot;</code> | Name definition for "shift" layout |
-| options.layoutName | <code>string</code> \| <code>undefined</code> |  | The /layouts/<name>.js to use |
+| options.layoutName | <code>string</code> \| <code>undefined</code> |  | The layout's name in use |
 | options.layout | [<code>Layout</code>](#Layout) \| <code>undefined</code> |  | Current layout |
 | options.theme | <code>string</code> | <code>&quot;default&quot;</code> | The theme to use. "default|flat|glass" or other |
 | options.isEnterSubmit | <code>boolean</code> | <code>true</code> | Whether to submit on enter (only for HTMLInputElements) |
@@ -98,7 +98,7 @@ Kioboard
 | options.isVisible | <code>boolean</code> | <code>false</code> | Whether kioboard is visible |
 | options.isPermanent | <code>boolean</code> | <code>false</code> | Never hide kioboard |
 | options.isScroll | <code>boolean</code> | <code>true</code> | Scroll input into view when focused |
-| options.isMobileKeyboard | <code>boolean</code> | <code>false</code> | Show mobile default keyboard |
+| options.isOSKeyboard | <code>boolean</code> | <code>false</code> | Show OS's default keyboard |
 | options.scrollOptions | <code>Object</code> |  | https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView |
 | options.shiftState | <code>number</code> |  | Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used |
 | options.key | <code>string</code> |  | The last pressed key |
