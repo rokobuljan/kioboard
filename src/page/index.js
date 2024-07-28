@@ -11,7 +11,7 @@ import hr from "../layouts/hr.js";
 import es from "../layouts/es.js";
 import it from "../layouts/it.js";
 
-const langs = {en, de, it, hr, fr, es};
+const langs = { en, de, it, hr, fr, es };
 
 const el = (sel, par = document) => par.querySelector(sel);
 const els = (sel, par = document) => par.querySelectorAll(sel);
@@ -68,7 +68,6 @@ const kio = new Kioboard({
     },
 });
 kio.load(en);
-
 
 /**
  * Auto type
@@ -140,7 +139,7 @@ elsLayouts.forEach(el => {
     el.addEventListener("click", () => {
         elsLayouts.forEach(el => el.classList.remove("is-active"));
         el.classList.add("is-active");
-        kio.load(langs[el.dataset.kioLayout]).show();      
+        kio.load(langs[el.dataset.kioLayout]).show();
     });
 });
 
@@ -161,9 +160,11 @@ els("[data-kioboard]").forEach(el => {
 /**
  * Init
  */
-els("input, textarea").forEach(input => {
-    input.setAttribute('autocomplete', 'off');
-    input.setAttribute('autocorrect', 'off');
-    input.setAttribute('autocapitalize', 'off');
-    input.setAttribute('spellcheck', false);
+
+const elsInputs = els("input, textarea");
+elsInputs.forEach((elInput) => {
+    elInput.setAttribute('autocomplete', 'off');
+    elInput.setAttribute('autocorrect', 'off');
+    elInput.setAttribute('autocapitalize', 'off');
+    elInput.setAttribute('spellcheck', false);
 });
