@@ -19,12 +19,16 @@
         "preview": "vite preview"
     },
     "keywords": [
-        "virtual keyboard",
+        "javascript",
+        "virtual-keyboard",
         "keyboard",
-        "on screen keyboard",
-        "touch keyboard",
+        "touch",
+        "touchscreen",
+        "osk",
+        "on-screen-keyboard",
+        "digital-signage",
         "kiosk",
-        "digital signage"
+        "js"
     ],
     "type": "module",
     "main": "dist/kioboard.js",
