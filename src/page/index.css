@@ -16,6 +16,7 @@
 
 body {
     font: min(3.5vmin, 1em) / 1.5 Poppins, sans-serif;
+    background: #fff url("kioboard-logo.svg") no-repeat 50% 50% / calc(100% - 4em) fixed;
     color: #000;
     overflow: auto;
 }
@@ -130,7 +131,6 @@ main {
     padding: var(--padd);
     scroll-margin-top: 2em;
     padding-bottom: 10em;
-    background: #fff url("kioboard-logo.svg") no-repeat 50% 50% / calc(100% - 4em) fixed;
 
     & .row {
         padding: var(--padd) 0;
