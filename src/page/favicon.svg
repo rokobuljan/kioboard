@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #00c3fc;
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        fill: #dff20b;
+      }
+    </style>
+  </defs>
+  <rect width="48" height="48" rx="8" ry="8"/>
+  <path id="K" class="cls-1" d="M36,40L24,25,36,10H29L18,23V10H12V40h6V27L29,40h7Z"/>
+  <circle class="cls-2" cx="38" cy="25" r="5"/>
+</svg>
