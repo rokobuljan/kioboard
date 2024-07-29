@@ -90,7 +90,7 @@ Kioboard
 | options.layerNameShift | <code>string</code> | <code>&quot;shift&quot;</code> | Name definition for "shift" layout |
 | options.layoutName | <code>string</code> \| <code>undefined</code> |  | The layout's name in use |
 | options.layout | [<code>Layout</code>](#Layout) \| <code>undefined</code> |  | Current layout |
-| options.theme | <code>string</code> | <code>&quot;default&quot;</code> | The theme to use. "default|flat|glass" or other |
+| options.theme | <code>string</code> | <code>&quot;default&quot;</code> | The theme to use. "default|flat|glass"-"light|dark" |
 | options.isEnterSubmit | <code>boolean</code> | <code>true</code> | Whether to submit on enter (only for HTMLInputElements) |
 | options.classVisible | <code>string</code> | <code>&quot;is-visible&quot;</code> | Kioboard visible className |
 | options.classShift | <code>string</code> | <code>&quot;is-shift&quot;</code> | Kioboard shift className |
@@ -98,7 +98,7 @@ Kioboard
 | options.isVisible | <code>boolean</code> | <code>false</code> | Whether kioboard is visible |
 | options.isPermanent | <code>boolean</code> | <code>false</code> | Never hide kioboard |
 | options.isScroll | <code>boolean</code> | <code>true</code> | Scroll input into view when focused |
-| options.preventDefaultOSK | <code>boolean</code> | <code>true</code> | Prevent default on-screen-keyboard |
+| options.preventDOSK | <code>boolean</code> | <code>true</code> | Prevent default on-screen-keyboard |
 | options.scrollOptions | <code>Object</code> |  | https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView |
 | options.shiftState | <code>number</code> |  | Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used |
 | options.key | <code>string</code> |  | The last pressed key |

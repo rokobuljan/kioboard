@@ -66,7 +66,7 @@ const kio = new Kioboard({
     isVisible: false, // Initial visibility
     isPermanent: false, // Always visible
     isScroll: true, // should input scrolIntoView()
-    preventDefaultOSK: false, // show also default OS's on-screen keyboard
+    preventDOSK: false, // show also default OS's on-screen keyboard
     scrollOptions: { behavior: "smooth", block: "start", inline: "nearest" },
     onInit() { /*initialized*/ },
     onLoad() { /*layout loaded*/ },

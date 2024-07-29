@@ -173,7 +173,7 @@ class Kioboard {
      * @param {string} options.layerNameShift=shift Name definition for "shift" layout
      * @param {string|undefined} options.layoutName The layout's name in use
      * @param {Layout|undefined} options.layout Current layout
-     * @param {string} options.theme=default The theme to use. "default|flat|glass" or other
+     * @param {string} options.theme=default The theme to use. "default|flat|glass"-"light|dark"
      * @param {boolean} options.isEnterSubmit=true Whether to submit on enter (only for HTMLInputElements)
      * @param {string} options.classVisible=is-visible Kioboard visible className
      * @param {string} options.classShift=is-shift Kioboard shift className
@@ -181,7 +181,7 @@ class Kioboard {
      * @param {boolean} options.isVisible=false Whether kioboard is visible
      * @param {boolean} options.isPermanent=false Never hide kioboard
      * @param {boolean} options.isScroll=true Scroll input into view when focused
-     * @param {boolean} options.preventDefaultOSK=true Prevent default on-screen-keyboard
+     * @param {boolean} options.preventDOSK=true Prevent default on-screen-keyboard
      * @param {Object} options.scrollOptions https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
      * @param {number} options.shiftState Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used
      * @param {string} options.key The last pressed key 
@@ -237,7 +237,7 @@ class Kioboard {
         this.isVisible = false;
         this.isPermanent = false;
         this.isScroll = true;
-        this.preventDefaultOSK = true;
+        this.preventDOSK = true;
         this.scrollOptions = { behavior: "smooth", block: "start", inline: "nearest" };
         this.shiftState = 0;
         this.key = "";
@@ -949,7 +949,7 @@ class Kioboard {
         // Attach events
         this.inputs.forEach((elInput) => {
             elInput.addEventListener("pointerdown", this.handleShow);
-            if (this.preventDefaultOSK === true) {
+            if (this.preventDOSK === true) {
                 elInput.setAttribute("inputmode", "none");
             }
         });
@@ -986,7 +986,7 @@ class Kioboard {
         // Detach events
         this.inputs.forEach((elInput) => {
             elInput.removeEventListener("pointerdown", this.handleShow);
-            if (this.preventDefaultOSK === true) {
+            if (this.preventDOSK === true) {
                 elInput.setAttribute("inputmode", "text");
             }
         });
