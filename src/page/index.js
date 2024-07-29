@@ -147,7 +147,7 @@ elsLayouts.forEach(el => {
  * Custom layout
  */
 els("[data-kioboard]").forEach(el => {
-    el.addEventListener("pointerdown", () => {
+    el.addEventListener("focus", () => {
         if (kio.layout !== myLayout && kio.input.id === "kio-layout-custom") {
             kio.load(myLayout);
         }
@@ -163,8 +163,8 @@ els("[data-kioboard]").forEach(el => {
 
 const elsInputs = els("input, textarea");
 elsInputs.forEach((elInput) => {
-    elInput.setAttribute('autocomplete', 'off');
-    elInput.setAttribute('autocorrect', 'off');
-    elInput.setAttribute('autocapitalize', 'off');
-    elInput.setAttribute('spellcheck', false);
+    elInput.setAttribute("autocomplete", "off");
+    elInput.setAttribute("autocorrect", "off");
+    elInput.setAttribute("autocapitalize", "off");
+    elInput.setAttribute("spellcheck", false);
 });

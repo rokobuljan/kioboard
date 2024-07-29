@@ -714,8 +714,7 @@ class Kioboard {
         if (this.isScroll) {
             this.input.scrollIntoView(this.scrollOptions);
         }
-        // this.input.focus();
-        addEventListener("pointerdown", this.handleHide, { capture: true });
+        this.input.addEventListener("blur", this.handleHide, { capture: true });
         this.isVisible = true;
         this.onShow();
         return this;
@@ -735,8 +734,9 @@ class Kioboard {
         }
         this.onBeforeHide();
         this.element.classList.remove(this.classVisible);
-        removeEventListener("pointerdown", this.handleHide, { capture: true });
+        this.input.removeEventListener("blur", this.handleHide, { capture: true });
         this.isVisible = false;
+        this.input?.blur();
         this.onHide();
         return this;
     }
@@ -759,23 +759,8 @@ class Kioboard {
 
     /**
      * Event handler for hiding the keyboard
-     * @param {Event} evt
      */
-    handleHide(evt) {
-        // Don't hide if button is pressed (eventual layer switch)
-        // @ts-ignore
-        const elButton = evt.target.closest("[data-kioboard-key]");
-        const isOwnButton = this.element.contains(elButton);
-        // @ts-ignore
-        const element = evt.target.closest(".kioboard");
-        if (element === this.element || isOwnButton) {
-            return;
-        }
-        // @ts-ignore
-        const isTargetOwnInput = this.inputs.includes(evt.target);
-        if (isTargetOwnInput) {
-            return;
-        }
+    handleHide() {
         this.hide();
     }
 
@@ -948,7 +933,7 @@ class Kioboard {
 
         // Attach events
         this.inputs.forEach((elInput) => {
-            elInput.addEventListener("pointerdown", this.handleShow);
+            elInput.addEventListener("focus", this.handleShow);
             if (this.preventDOSK === true) {
                 elInput.setAttribute("inputmode", "none");
             }
@@ -985,7 +970,7 @@ class Kioboard {
     destroy() {
         // Detach events
         this.inputs.forEach((elInput) => {
-            elInput.removeEventListener("pointerdown", this.handleShow);
+            elInput.removeEventListener("focus", this.handleShow);
             if (this.preventDOSK === true) {
                 elInput.setAttribute("inputmode", "text");
             }
