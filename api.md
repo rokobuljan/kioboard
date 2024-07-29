@@ -64,7 +64,7 @@ Kioboard
     * [.show([layerName])](#Kioboard+show) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.hide()](#Kioboard+hide) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.handleShow(evt)](#Kioboard+handleShow)
-    * [.handleHide(evt)](#Kioboard+handleHide)
+    * [.handleHide()](#Kioboard+handleHide)
     * [.handleKeyDown(evt)](#Kioboard+handleKeyDown)
     * [.handleKeyUp(evt)](#Kioboard+handleKeyUp)
     * [.hasSelection()](#Kioboard+hasSelection) ⇒ <code>boolean</code>
@@ -484,15 +484,10 @@ Does not show the keyboard if the input is disabled
 
 <a name="Kioboard+handleHide"></a>
 
-### kioboard.handleHide(evt)
+### kioboard.handleHide()
 Event handler for hiding the keyboard
 
 **Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
-
-| Param | Type |
-| --- | --- |
-| evt | <code>Event</code> | 
-
 <a name="Kioboard+handleKeyDown"></a>
 
 ### kioboard.handleKeyDown(evt)
