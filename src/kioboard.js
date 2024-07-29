@@ -181,7 +181,7 @@ class Kioboard {
      * @param {boolean} options.isVisible=false Whether kioboard is visible
      * @param {boolean} options.isPermanent=false Never hide kioboard
      * @param {boolean} options.isScroll=true Scroll input into view when focused
-     * @param {boolean} options.isOSKeyboard=false Show OS's default keyboard
+     * @param {boolean} options.preventDefaultOSK=true Prevent default on-screen-keyboard
      * @param {Object} options.scrollOptions https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
      * @param {number} options.shiftState Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used
      * @param {string} options.key The last pressed key 
@@ -237,7 +237,7 @@ class Kioboard {
         this.isVisible = false;
         this.isPermanent = false;
         this.isScroll = true;
-        this.isOSKeyboard = false;
+        this.preventDefaultOSK = true;
         this.scrollOptions = { behavior: "smooth", block: "start", inline: "nearest" };
         this.shiftState = 0;
         this.key = "";
@@ -949,7 +949,7 @@ class Kioboard {
         // Attach events
         this.inputs.forEach((elInput) => {
             elInput.addEventListener("pointerdown", this.handleShow);
-            if (this.isOSKeyboard === false) {
+            if (this.preventDefaultOSK === true) {
                 elInput.setAttribute("inputmode", "none");
             }
         });
@@ -986,7 +986,7 @@ class Kioboard {
         // Detach events
         this.inputs.forEach((elInput) => {
             elInput.removeEventListener("pointerdown", this.handleShow);
-            if (this.isOSKeyboard === false) {
+            if (this.preventDefaultOSK === true) {
                 elInput.setAttribute("inputmode", "text");
             }
         });
