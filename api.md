@@ -98,7 +98,7 @@ Kioboard
 | options.isVisible | <code>boolean</code> | <code>false</code> | Whether kioboard is visible |
 | options.isPermanent | <code>boolean</code> | <code>false</code> | Never hide kioboard |
 | options.isScroll | <code>boolean</code> | <code>true</code> | Scroll input into view when focused |
-| options.preventDOSK | <code>boolean</code> | <code>true</code> | Prevent default on-screen-keyboard |
+| options.isOSK | <code>boolean</code> | <code>false</code> | Allow OS's default on-screen-keyboard |
 | options.scrollOptions | <code>Object</code> |  | https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView |
 | options.shiftState | <code>number</code> |  | Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used |
 | options.key | <code>string</code> |  | The last pressed key |
