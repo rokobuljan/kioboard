@@ -135,11 +135,13 @@ themeOutput("default");
  * Layouts
  */
 const elsLayouts = els("[data-kio-layout]");
-elsLayouts.forEach(el => {
-    el.addEventListener("click", () => {
-        elsLayouts.forEach(el => el.classList.remove("is-active"));
-        el.classList.add("is-active");
-        kio.load(langs[el.dataset.kioLayout]).show();
+elsLayouts.forEach(elBtn => {
+    const elInput = el("textarea", elBtn.closest(".card"));
+    elBtn.addEventListener("click", () => {
+        elsLayouts.forEach(elBtn => elBtn.classList.remove("is-active"));
+        elBtn.classList.add("is-active");
+        kio.load(langs[elBtn.dataset.kioLayout]).show();
+        elInput.focus();
     });
 });
 
