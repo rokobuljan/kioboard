@@ -179,12 +179,12 @@ shift: [
 myExtras: [          //+
   "! $ & backspace", //+
   "% # * enter",     //+
-  "default space",   //+ Notice the common Default action-key
+  "default space",   //+ Notice the common default action-key
 ],                   //+
 ```
 
 **But, how to open that `myExtras` layer?**  
-Clicking the `"extras"` buttons the string *`"extras"`* is inserted literally into the input. Besides having learned how to output a word preatty easily, this is clearly not what we want.
+Clicking the `"extras"` buttons the string *`"extras"`* is inserted literally into the input. Besides having learned how to output a word pretty easily, this is clearly not what we want.
 We need to assign to that key-name a **custom action**.
 
 ## Actions
