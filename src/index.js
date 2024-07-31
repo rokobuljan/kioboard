@@ -1,2 +1,4 @@
 import "./kioboard.css";
-import "./kioboard.js";
+import Kioboard from "./kioboard.js";
+
+export default Kioboard;
