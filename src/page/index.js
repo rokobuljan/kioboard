@@ -3,6 +3,7 @@ import '@fontsource/poppins/600.css';
 import '@fontsource/poppins/800.css';
 import "./hljs.css";
 import "./index.css";
+import "../kioboard.css";
 import Kioboard from "../kioboard.js";
 import en from "../layouts/en.js";
 import de from "../layouts/de.js";

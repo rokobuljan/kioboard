@@ -1,6 +1,5 @@
 // @ts-check
 
-import "./kioboard.css";
 import Emitter from "./emitter.js";
 
 /**
