@@ -44,6 +44,7 @@ const keysArray = (keys) => {
 
 /**
  * Kioboard
+ * @class Kioboard
  */
 class Kioboard {
 

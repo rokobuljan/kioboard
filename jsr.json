@@ -1,0 +1,17 @@
+{
+    "name": "@rox/kioboard",
+    "version": "1.0.0",
+    "exports": "./src/kioboard.js",
+    "publish": {
+        "include": [
+            "src/kioboard.js",
+            "src/kioboard.css",
+            "src/layouts/*.js",
+            "src/emitter.js",
+            "src/page/*.svg",
+            "license",
+            "readme.md",
+            "api.md"
+        ]
+    }
+}
