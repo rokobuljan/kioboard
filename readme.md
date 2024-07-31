@@ -1,4 +1,4 @@
-# <picture><source media="(prefers-color-scheme: dark)" srcset="src/page/kioboard-logo-dark.svg"><img alt="Kioboard" src="src/page/kioboard-logo.svg"></picture>
+# <picture><source media="(prefers-color-scheme: dark)" srcset="src/page/kioboard-logo-dark.svg"><img alt="Kioboard - Virtual touch keyboard" src="src/page/kioboard-logo.svg"></picture>
 
 JavaScript **virtual on-screen keyboard** for digital signage kiosk touchscreens
 
