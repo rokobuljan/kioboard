@@ -43,10 +43,9 @@ const keysArray = (keys) => {
 }
 
 /**
- * Kioboard
  * @class Kioboard
  */
-export default class Kioboard {
+class Kioboard {
 
     /**
      * @typedef {function} Action Callback function which function name matches the key name
@@ -983,3 +982,5 @@ export default class Kioboard {
         return this;
     }
 }
+
+export default Kioboard;
