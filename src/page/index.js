@@ -81,9 +81,9 @@ const autoType = () => {
         char(kio.key);
     });
 };
-autoType();
+// autoType();
 addEventListener("pointerdown", () => {
-    sequencerStop();
+    sequencerStop?.();
 }, { once: true });
 
 /**

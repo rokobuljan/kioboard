@@ -87,8 +87,9 @@
     }
 
     & .kioboard-menu {
-        background: #fff;
+        background: inherit;
         position: absolute;
+        bottom: 100%;
         display: flex;
         padding: calc(var(--gap) * 1em);
         gap: max(calc(var(--gap) * 1em), 0px);

@@ -63,6 +63,7 @@ class Kioboard {
      * @property {Layers} layers
      * @property {Actions} actions
      * @property {Icons} icons
+     * @property {Object} menu
      */
     /**
      * Callback triggered on key press
@@ -775,6 +776,11 @@ class Kioboard {
         this.hide();
     }
 
+    menu(key) {
+        const menu = this?.layout?.menu[key];
+        console.log(menu);
+    }
+
     /**
      * Hold key - handler
      * Emits key-name at intervals whilst the key is held pressed
@@ -786,8 +792,12 @@ class Kioboard {
             return;
         }
         this.heldTimeout = setTimeout(() => {
-            this.emit(key);
-            this.#holdKeyHandler(key); // Loop
+            if (this.layout?.menu?.hasOwnProperty(key)) {
+                this.menu(key);
+            } else {
+                this.emit(key);
+                this.#holdKeyHandler(key); // Loop
+            }
         }, this.heldTimeout ? 100 : 1000);
     }
 
