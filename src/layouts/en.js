@@ -34,6 +34,8 @@ export default {
         ...numpad.icons,
     },
     menu: {
+        "m": "a b",
+        ",": "1 2 3 4 5 6 7 8 9 a b c d e q w e r t",
         ".": "! . \u0022 \\ ' , # $ % & * ( ) + ?"
     }
 };

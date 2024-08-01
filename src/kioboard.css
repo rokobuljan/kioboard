@@ -11,10 +11,7 @@
     --backgroundBtn: hsl(0 0% 100% / var(--alpha));
     --shadow: inset 0 -1px 0 hsl(0 0% 0% / 0.3);
 
-    --keySize: min(
-        calc(var(--size) * 2vw),
-        calc(var(--size) * 1.1em)
-    );
+    --keySize: min(calc(var(--size) * 2vw), calc(var(--size) * 1.1em));
     --accent: hsl(
         var(--hue) calc(var(--saturation) * 1%) calc(var(--lightness) * 1%) / 1
     );
@@ -88,24 +85,19 @@
     }
 
     & .kioboard-menu {
-        outline: 2px solid red;
+        position: absolute;
         display: flex;
         flex-flow: row wrap;
-        justify-content: center;
-        align-items: flex-start;
-        position: absolute;
-        padding: calc(var(--gap) * 1em);
         gap: max(calc(var(--gap) * 1em), 0px);
-        background: #fff;
+        background: inherit;
         z-index: 1;
+        color: inherit;
+        box-shadow: 0 0 0 0.4em var(--background);
         bottom: calc(100% + 5px);
         translate: -50% -100%;
         height: fit-content;
-        width: 50%;
 
-        & [data-kioboard-key] {
-            flex: 0 0 auto;
-
+        & [data-kioboard-menu-key] {
             &.is-hovered {
                 background-color: var(--accent);
             }

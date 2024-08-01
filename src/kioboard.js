@@ -794,13 +794,12 @@ class Kioboard {
         const key = elButton.dataset.kioboardKey;
         const menuChars = this?.layout?.menu[key];
 
-        // @TODO
         const elMenu = elNew("div", { className: "kioboard-menu" });
         keysArray(menuChars).forEach((key) => {
             const elMenuBtn = elNew("button", {
                 innerHTML: `<span class="kioboard-icon">${key}</span>`,
             });
-            elMenuBtn.dataset.kioboardKey = key;
+            elMenuBtn.dataset.kioboardMenuKey = key;
             elMenu.append(elMenuBtn);
         });
         this.element.append(elMenu);
@@ -815,7 +814,7 @@ class Kioboard {
         this.element.addEventListener("pointermove", (evt) => {
             evt.preventDefault();
             const {clientX: x, clientY: y} = evt;
-            const elPoint = document.elementFromPoint(x, y)?.closest(".kioboard-menu [data-kioboard-key]");
+            const elPoint = document.elementFromPoint(x, y)?.closest(".kioboard-menu [data-kioboard-menu-key]");
 
             if (!elPoint) return;
             if (elMenuBtnActive !== elPoint) {
@@ -828,9 +827,11 @@ class Kioboard {
         this.element.addEventListener("pointerup", (evt) => {
             evt.preventDefault();
             if (elMenuBtnActive) {
-                this.emit(elMenuBtnActive.dataset.kioboardKey);
+                this.emit(elMenuBtnActive.dataset.kioboardMenuKey);
+            } else {
+                this.emit(elButton.dataset.kioboardKey);
             }
-            // elMenu.remove();
+            elMenu.remove();
         }, {once: true});
     }
 
