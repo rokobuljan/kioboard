@@ -503,7 +503,7 @@ class Kioboard {
             }
 
             // Highlight active keys
-            const elKeys = els(`[data-kioboard-key="${this.key}"]`, this.element);
+            const elKeys = els(`[data-kioboard-key="\\${this.key}"]`, this.element);
             elKeys.forEach((elKey) => {
                 // @ts-ignore
                 elKey.classList.remove("is-active");
