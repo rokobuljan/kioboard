@@ -504,7 +504,7 @@ class Kioboard {
             }
 
             // Highlight active keys
-            const elKeys = els(`[data-kioboard-key="${this.key}"]`, this.element);
+            const elKeys = els(`[data-kioboard-key="\\${this.key}"]`, this.element);
             elKeys.forEach((elKey) => {
                 // @ts-ignore
                 elKey.classList.remove("is-active");
@@ -598,17 +598,6 @@ class Kioboard {
             });
             this.element.append(elRow);
         });
-
-        // @TODO
-        const elMenu = elNew("div", { className: "kioboard-menu" });
-        keysArray("! # $ % & ( ) ?").forEach((key) => {
-            const elButton = elNew("button", {
-                innerHTML: `<span class="kioboard-icon">${key}</span>`,
-            });
-            elButton.dataset.kioboardKey = key;
-            elMenu.append(elButton);
-        });
-        this.element.append(elMenu);
 
         return this;
     }
@@ -776,11 +765,6 @@ class Kioboard {
         this.hide();
     }
 
-    menu(key) {
-        const menu = this?.layout?.menu[key];
-        console.log(menu);
-    }
-
     /**
      * Hold key - handler
      * Emits key-name at intervals whilst the key is held pressed
@@ -792,12 +776,8 @@ class Kioboard {
             return;
         }
         this.heldTimeout = setTimeout(() => {
-            if (this.layout?.menu?.hasOwnProperty(key)) {
-                this.menu(key);
-            } else {
-                this.emit(key);
-                this.#holdKeyHandler(key); // Loop
-            }
+            this.emit(key);
+            this.#holdKeyHandler(key); // Loop
         }, this.heldTimeout ? 100 : 1000);
     }
 
@@ -808,6 +788,50 @@ class Kioboard {
     #holdKeyEnd() {
         clearTimeout(this.heldTimeout);
         this.heldTimeout = null;
+    }
+
+    menu(elButton) {
+        const key = elButton.dataset.kioboardKey;
+        const menuChars = this?.layout?.menu[key];
+
+        // @TODO
+        const elMenu = elNew("div", { className: "kioboard-menu" });
+        keysArray(menuChars).forEach((key) => {
+            const elMenuBtn = elNew("button", {
+                innerHTML: `<span class="kioboard-icon">${key}</span>`,
+            });
+            elMenuBtn.dataset.kioboardKey = key;
+            elMenu.append(elMenuBtn);
+        });
+        this.element.append(elMenu);
+
+        const y = elButton.offsetParent.offsetTop;
+        const x = elButton.offsetLeft;
+        const w = elButton.offsetWidth;
+        elMenu.style.top = `${y}px`;
+        elMenu.style.left = `${x + w / 2}px`;
+
+        let elMenuBtnActive = null;
+        this.element.addEventListener("pointermove", (evt) => {
+            evt.preventDefault();
+            const {clientX: x, clientY: y} = evt;
+            const elPoint = document.elementFromPoint(x, y)?.closest(".kioboard-menu [data-kioboard-key]");
+
+            if (!elPoint) return;
+            if (elMenuBtnActive !== elPoint) {
+                elMenuBtnActive?.classList.remove("is-hovered");
+                elMenuBtnActive = elPoint;
+                elMenuBtnActive.classList.add("is-hovered");
+            }
+        });
+
+        this.element.addEventListener("pointerup", (evt) => {
+            evt.preventDefault();
+            if (elMenuBtnActive) {
+                this.emit(elMenuBtnActive.dataset.kioboardKey);
+            }
+            // elMenu.remove();
+        }, {once: true});
     }
 
     /**
@@ -834,8 +858,13 @@ class Kioboard {
         const key = elButton.dataset.kioboardKey;
 
         // Insert key or run its assigned action callback
-        this.emit(key);
-        this.#holdKeyHandler(key);
+
+        if (this.layout?.menu?.hasOwnProperty(key)) {
+            this.menu(elButton);
+        } else {
+            this.emit(key);
+            this.#holdKeyHandler(key); // Loop
+        }
 
         // Reset to default keyboard if shift is at state 1
         if (this.shiftState === 1 && !["shift", "close"].includes(key)) {

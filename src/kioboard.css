@@ -81,18 +81,35 @@
     /* Rows and buttons */
 
     & [data-kioboard-row] {
+        position: relative;
         display: flex;
         justify-content: center;
         gap: max(calc(var(--gap) * 1em), 0px);
     }
 
     & .kioboard-menu {
-        background: inherit;
-        position: absolute;
-        bottom: 100%;
+        outline: 2px solid red;
         display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: flex-start;
+        position: absolute;
         padding: calc(var(--gap) * 1em);
         gap: max(calc(var(--gap) * 1em), 0px);
+        background: #fff;
+        z-index: 1;
+        bottom: calc(100% + 5px);
+        translate: -50% -100%;
+        height: fit-content;
+        width: 50%;
+
+        & [data-kioboard-key] {
+            flex: 0 0 auto;
+
+            &.is-hovered {
+                background-color: var(--accent);
+            }
+        }
     }
 
     & button {
