@@ -766,31 +766,6 @@ class Kioboard {
         this.hide();
     }
 
-    /**
-     * Hold key - handler
-     * Emits key-name at intervals whilst the key is held pressed
-     * @param {string} key Key-name
-     * @returns {void}
-     */
-    #holdKeyHandler(key) {
-        if (["shift", "drag"].includes(key)) {
-            return;
-        }
-        this.heldTimeout = setTimeout(() => {
-            this.emit(key);
-            this.#holdKeyHandler(key); // Loop
-        }, this.heldTimeout ? 100 : 1000);
-    }
-
-    /**
-     * Hold key - end
-     * @returns {void}
-     */
-    #holdKeyEnd() {
-        clearTimeout(this.heldTimeout);
-        this.heldTimeout = null;
-    }
-
     menu(elButton) {
         const key = elButton.dataset.kioboardKey;
         const menuChars = this?.layout?.menu[key];
@@ -841,75 +816,6 @@ class Kioboard {
      * for Kioboard buttons
      * @param {PointerEvent} evt
      */
-    _handleKeyDown(evt) {
-        if (this.pointerId > -1) return;  // We already have a pointer down
-        this.pointerId = evt.pointerId;
-
-        // @ts-ignore
-        const elButton = evt.target.closest("[data-kioboard-key]");
-        const isOwnButton = this.element.contains(elButton);
-
-        if (!isOwnButton) {
-            return;
-        }
-
-        evt.preventDefault();
-        this.element.setPointerCapture(evt.pointerId);
-
-        // INPUT!
-        const key = elButton.dataset.kioboardKey;
-
-        // Insert key or run its assigned action callback
-
-        if (this.layout?.menu?.hasOwnProperty(key)) {
-            clearTimeout(this._menuTimeout);
-            this._menuTimeout = setTimeout(() => {
-                this.menu(elButton);
-            }, 300);
-        } else {
-            this.emit(key);
-            this.#holdKeyHandler(key); // Loop
-        }
-
-        // Reset to default keyboard if shift is at state 1
-        if (this.shiftState === 1 && !["shift", "close"].includes(key)) {
-            this.shift(0).show(this.layerNameDefault);
-        }
-
-        // Dispatch keyboard event to input
-        this.input.dispatchEvent(new KeyboardEvent("keydown", { "key": key }));
-        this.onKeyDown(key);
-    }
-
-    /**
-     * Event handler for keyboard keyup events
-     * @param {PointerEvent} evt
-     */
-    _handleKeyUp(evt) {
-        // Not the pointer we're interested in (Probable mistouch or 2nd pointer is down)
-        if (evt.pointerId !== this.pointerId) return;
-        this.element.releasePointerCapture(evt.pointerId);
-
-
-        this.#holdKeyEnd();
-
-        // @ts-ignore
-        const elButton = evt.target.closest("[data-kioboard-key]");
-        if (!elButton) return;
-        const key = elButton.dataset.kioboardKey;
-
-        // Dispatch keyboard event to input
-        this.input.dispatchEvent(new KeyboardEvent("keyup", { "key": key }));
-        this.onKeyUp(key);
-
-        this.pointerId = -1;
-    }
-
-    /**
-     * Event handler for keyboard keydown events
-     * for Kioboard buttons
-     * @param {PointerEvent} evt
-     */
     handleKeyDown(evt) {
         // @ts-ignore
         const elButton = evt.target.closest("[data-kioboard-key]");
@@ -919,17 +825,16 @@ class Kioboard {
         const key = elButton.dataset.kioboardKey;
         const isMenuKey = this.layout?.menu?.hasOwnProperty(key);
 
-        if (!["shift", "drag"].includes(key)) {
+        if (!["shift", "drag", "close"].includes(key)) {
             if (isMenuKey) {
                 this.keyTimer = setTimeout(() => {
-                    console.log("Show key menu", key);
+                    this.isKeyTimed = true;
                     this.menu(elButton);
                 }, 300);
             } else {
                 this.keyTimer = setTimeout(() => {
-                    console.log("Start key repeat", key);
+                    this.isKeyTimed = true;
                     this.keyTimer = setInterval(() => {
-                        console.log("Key repeat", key);
                         this.emit(key);
                     }, 100);
                 }, 1000);
@@ -954,7 +859,13 @@ class Kioboard {
 
         clearTimeout(this.keyTimer);
         const key = elButton.dataset.kioboardKey;
-        this.emit(key);
+
+        if (!this.isKeyTimed) {
+            this.emit(key);
+        }
+        
+        this.keyTimer = null;
+        this.isKeyTimed = undefined;
 
         // Reset to default keyboard if shift is at state 1
         if (this.shiftState === 1 && !["shift", "close"].includes(key)) {
