@@ -9,7 +9,7 @@ export default {
     name: "en",
     layers: {
         default: [
-            "drag \u0027 \u0022 < > ~ ` a 1 2 3 4 5 6 7 8 9 0 backspace delete close",
+            "drag 1 2 3 4 5 6 7 8 9 0 backspace delete close",
             "q w e r t y u i o p -",
             "tab a s d f g h j k l enter",
             "shift z x c v b n m , . @ .com",

@@ -506,7 +506,6 @@ class Kioboard {
             // Highlight active keys
             const keyEscapeQuotes = this.key === `"` ? `\\${this.key}` : this.key;
             const elKeys = els(`[data-kioboard-key="${keyEscapeQuotes}"]`, this.element);
-            
             elKeys.forEach((elKey) => {
                 // @ts-ignore
                 elKey.classList.remove("is-active");
