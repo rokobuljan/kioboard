@@ -504,7 +504,9 @@ class Kioboard {
             }
 
             // Highlight active keys
-            const elKeys = els(`[data-kioboard-key="\\${this.key}"]`, this.element);
+            const keyEscapeQuotes = this.key === `"` ? `\\${this.key}` : this.key;
+            const elKeys = els(`[data-kioboard-key="${keyEscapeQuotes}"]`, this.element);
+            
             elKeys.forEach((elKey) => {
                 // @ts-ignore
                 elKey.classList.remove("is-active");
@@ -715,7 +717,7 @@ class Kioboard {
         if (this.isScroll) {
             this.input.scrollIntoView(this.scrollOptions);
         }
-        this.input.addEventListener("blur", this.handleHide, { capture: true });
+        this.input.addEventListener("blur", this.handleHide);
         this.isVisible = true;
         this.onShow();
         return this;
@@ -735,7 +737,7 @@ class Kioboard {
         }
         this.onBeforeHide();
         this.element.classList.remove(this.classVisible);
-        this.input.removeEventListener("blur", this.handleHide, { capture: true });
+        this.input.removeEventListener("blur", this.handleHide);
         this.isVisible = false;
         this.input?.blur();
         this.onHide();
@@ -813,7 +815,7 @@ class Kioboard {
         let elMenuBtnActive = null;
         this.element.addEventListener("pointermove", (evt) => {
             evt.preventDefault();
-            const {clientX: x, clientY: y} = evt;
+            const { clientX: x, clientY: y } = evt;
             const elPoint = document.elementFromPoint(x, y)?.closest(".kioboard-menu [data-kioboard-menu-key]");
 
             if (!elPoint) return;
@@ -832,7 +834,7 @@ class Kioboard {
                 this.emit(elButton.dataset.kioboardKey);
             }
             elMenu.remove();
-        }, {once: true});
+        }, { once: true });
     }
 
     /**
@@ -840,7 +842,7 @@ class Kioboard {
      * for Kioboard buttons
      * @param {PointerEvent} evt
      */
-    handleKeyDown(evt) {
+    _handleKeyDown(evt) {
         if (this.pointerId > -1) return;  // We already have a pointer down
         this.pointerId = evt.pointerId;
 
@@ -861,7 +863,10 @@ class Kioboard {
         // Insert key or run its assigned action callback
 
         if (this.layout?.menu?.hasOwnProperty(key)) {
-            this.menu(elButton);
+            clearTimeout(this._menuTimeout);
+            this._menuTimeout = setTimeout(() => {
+                this.menu(elButton);
+            }, 300);
         } else {
             this.emit(key);
             this.#holdKeyHandler(key); // Loop
@@ -881,12 +886,11 @@ class Kioboard {
      * Event handler for keyboard keyup events
      * @param {PointerEvent} evt
      */
-    handleKeyUp(evt) {
+    _handleKeyUp(evt) {
         // Not the pointer we're interested in (Probable mistouch or 2nd pointer is down)
         if (evt.pointerId !== this.pointerId) return;
         this.element.releasePointerCapture(evt.pointerId);
 
-        this.pointerId = -1;
 
         this.#holdKeyEnd();
 
@@ -894,6 +898,69 @@ class Kioboard {
         const elButton = evt.target.closest("[data-kioboard-key]");
         if (!elButton) return;
         const key = elButton.dataset.kioboardKey;
+
+        // Dispatch keyboard event to input
+        this.input.dispatchEvent(new KeyboardEvent("keyup", { "key": key }));
+        this.onKeyUp(key);
+
+        this.pointerId = -1;
+    }
+
+    /**
+     * Event handler for keyboard keydown events
+     * for Kioboard buttons
+     * @param {PointerEvent} evt
+     */
+    handleKeyDown(evt) {
+        // @ts-ignore
+        const elButton = evt.target.closest("[data-kioboard-key]");
+        if (!elButton) return;
+        evt.preventDefault();
+
+        const key = elButton.dataset.kioboardKey;
+        const isMenuKey = this.layout?.menu?.hasOwnProperty(key);
+
+        if (!["shift", "drag"].includes(key)) {
+            if (isMenuKey) {
+                this.keyTimer = setTimeout(() => {
+                    console.log("Show key menu", key);
+                    this.menu(elButton);
+                }, 300);
+            } else {
+                this.keyTimer = setTimeout(() => {
+                    console.log("Start key repeat", key);
+                    this.keyTimer = setInterval(() => {
+                        console.log("Key repeat", key);
+                        this.emit(key);
+                    }, 100);
+                }, 1000);
+            }
+        }
+
+        // Dispatch keyboard event to input
+        this.input.dispatchEvent(new KeyboardEvent("keydown", { "key": key }));
+        // Trigger user callback
+        this.onKeyDown(key);
+    }
+
+    /**
+     * Event handler for keyboard keyup events
+     * @param {PointerEvent} evt
+     */
+    handleKeyUp(evt) {
+        // @ts-ignore
+        const elButton = evt.target.closest("[data-kioboard-key]");
+        if (!elButton) return;
+        evt.preventDefault();
+
+        clearTimeout(this.keyTimer);
+        const key = elButton.dataset.kioboardKey;
+        this.emit(key);
+
+        // Reset to default keyboard if shift is at state 1
+        if (this.shiftState === 1 && !["shift", "close"].includes(key)) {
+            this.shift(0).show(this.layerNameDefault);
+        }
 
         // Dispatch keyboard event to input
         this.input.dispatchEvent(new KeyboardEvent("keyup", { "key": key }));

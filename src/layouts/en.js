@@ -9,14 +9,14 @@ export default {
     name: "en",
     layers: {
         default: [
-            "drag 1 2 3 4 5 6 7 8 9 0 backspace delete close",
+            "drag \u0027 \u0022 < > ~ ` a 1 2 3 4 5 6 7 8 9 0 backspace delete close",
             "q w e r t y u i o p -",
             "tab a s d f g h j k l enter",
             "shift z x c v b n m , . @ .com",
             "emoji numpad space arrowLeft arrowRight",
         ],
         shift: [
-            "drag ! # $ % & * ( ) + ? backspace delete close",
+            "drag \u0022 ! # $ % & * ( ) + ? backspace delete close",
             "Q W E R T Y U I O P _",
             "tab A S D F G H J K L enter",
             "shift Z X C V B N M ; : @ .com",
@@ -34,8 +34,8 @@ export default {
         ...numpad.icons,
     },
     menu: {
-        "m": "a b",
-        ",": "1 2 3 4 5 6 7 8 9 a b c d e q w e r t",
-        ".": "! . \u0022 \\ ' , # $ % & * ( ) + ?"
+        "m": "a b \u0022",
+        // ",": "1 2 3 4 5 6 7 8 9 a b c d e q w e r t",
+        // ".": "! . \u0022 \\ ' , # $ % & * ( ) + ?"
     }
 };
