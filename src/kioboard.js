@@ -511,6 +511,9 @@ class Kioboard {
                 elKey.classList.remove("is-active");
                 requestAnimationFrame(() => {
                     elKey.classList.add("is-active");
+                    elKey.addEventListener("animationend", () => {
+                        elKey.classList.remove("is-active");
+                    });
                 });
             });
 
@@ -592,6 +595,7 @@ class Kioboard {
             keysArray(row).forEach((key) => {
                 const icon = this.layout?.icons?.hasOwnProperty(key) ? this.layout.icons[key] : key;
                 const elButton = elNew("button", {
+                    className: this.isMenuKey(key) ? "is-menu" : "",
                     innerHTML: `<span class="kioboard-icon">${icon}</span>`
                 });
                 elButton.dataset.kioboardKey = key;
@@ -790,7 +794,7 @@ class Kioboard {
         this.element.addEventListener("pointermove", (evt) => {
             evt.preventDefault();
             const { clientX: x, clientY: y } = evt;
-            const elPoint = document.elementFromPoint(x, y)?.closest(".kioboard-menu [data-kioboard-menu-key]");
+            const elPoint = document.elementFromPoint(x, y)?.closest("[data-kioboard-menu-key]");
 
             if (!elPoint) return;
             if (elMenuBtnActive !== elPoint) {
@@ -811,6 +815,10 @@ class Kioboard {
         }, { once: true });
     }
 
+    isMenuKey(key) {
+        return this.layout?.menu?.hasOwnProperty(key);
+    }
+
     /**
      * Event handler for keyboard keydown events
      * for Kioboard buttons
@@ -821,24 +829,30 @@ class Kioboard {
         const elButton = evt.target.closest("[data-kioboard-key]");
         if (!elButton) return;
         evt.preventDefault();
+        elButton.setPointerCapture(evt.pointerId);
 
         const key = elButton.dataset.kioboardKey;
-        const isMenuKey = this.layout?.menu?.hasOwnProperty(key);
 
+        // Habdle timed operations like: menu, key-repeat
         if (!["shift", "drag", "close"].includes(key)) {
-            if (isMenuKey) {
+            if (this.isMenuKey(key)) {
                 this.keyTimer = setTimeout(() => {
-                    this.isKeyTimed = true;
+                    this._isKeyTimed = true;
                     this.menu(elButton);
                 }, 300);
             } else {
                 this.keyTimer = setTimeout(() => {
-                    this.isKeyTimed = true;
+                    this._isKeyTimed = true;
                     this.keyTimer = setInterval(() => {
                         this.emit(key);
                     }, 100);
                 }, 1000);
             }
+        }
+
+        // Handle dragging - on keydown
+        if (["drag"].includes(key)) {
+            this.emit(key);
         }
 
         // Dispatch keyboard event to input
@@ -856,16 +870,17 @@ class Kioboard {
         const elButton = evt.target.closest("[data-kioboard-key]");
         if (!elButton) return;
         evt.preventDefault();
+        elButton.releasePointerCapture(evt.pointerId);
 
-        clearTimeout(this.keyTimer);
         const key = elButton.dataset.kioboardKey;
+        clearTimeout(this.keyTimer);
 
-        if (!this.isKeyTimed) {
+        if (!this._isKeyTimed && !["drag"].includes(key)) {
             this.emit(key);
         }
-        
+    
+        this._isKeyTimed = false;
         this.keyTimer = null;
-        this.isKeyTimed = undefined;
 
         // Reset to default keyboard if shift is at state 1
         if (this.shiftState === 1 && !["shift", "close"].includes(key)) {
@@ -932,7 +947,7 @@ class Kioboard {
     _dragOffset = { x: 0, y: 0 }
 
     drag() {
-        this.element.classList.add("kioboard-moving");
+        this.element.classList.add("is-drag");
         const onDrag = (evt) => {
             evt.preventDefault();
             this._dragOffset.x += evt.movementX;
@@ -942,8 +957,8 @@ class Kioboard {
         addEventListener("pointermove", onDrag);
         addEventListener("pointerup", () => {
             removeEventListener("pointermove", onDrag);
-            this.element.classList.remove("kioboard-dragging");
-        });
+            this.element.classList.remove("is-drag");
+        }, {once: true});
         return this;
     }
 

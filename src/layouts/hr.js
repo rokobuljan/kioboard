@@ -33,4 +33,14 @@ export default {
         ...emoji.icons,
         ...numpad.icons,
     },
+    menu: {
+        s: "s š ß",
+        S: "S Š",
+        z: "z ž",
+        Z: "Z Ž",
+        c: "c ć č",
+        C: "C Ć Č",
+        d: "d đ",
+        D: "D Đ",
+    }
 };

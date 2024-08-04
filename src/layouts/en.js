@@ -34,7 +34,7 @@ export default {
         ...numpad.icons,
     },
     menu: {
-        "m": "a b \u0022",
+        "m": "a b \u0022 g h j",
         ",": "1 2 3 4 5 6 7 8 9 a b c d e q w e r t",
         ".": "! . \u0022 \\ ' , # $ % & * ( ) + ?"
     }

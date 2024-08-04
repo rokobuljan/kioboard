@@ -49,6 +49,10 @@
         pointer-events: auto;
     }
 
+    &.is-drag {
+        opacity: 0.85;
+    }
+
     /* Themes */
 
     &[data-kioboard-theme^="default"] {
@@ -105,6 +109,7 @@
     }
 
     & button {
+        position: relative;
         display: inline-flex;
         padding: 0;
         flex: 1 0 auto;
@@ -156,6 +161,15 @@
             animation: kioboardButtonActive 1s forwards;
         }
 
+        &.is-menu::after {
+            content: "…";
+            position: absolute;
+            right: 0.3em;
+            bottom: 0.1em;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
         .is-shift & {
             &[data-kioboard-key="shift"],
             &[data-kioboard-key="shift"].is-active {
@@ -166,7 +180,6 @@
         .is-caps & {
             &[data-kioboard-key="shift"] {
                 background: var(--accent);
-                color: #fff;
             }
         }
     }
@@ -183,8 +196,9 @@
 @keyframes kioboardButtonActive {
     0% {
         box-shadow: inset 0 0 0 0.2em var(--accent);
+        transition-duration: 0s;
     }
     100% {
-        box-shadow: initial;
+        box-shadow: var(--shadow);
     }
 }
