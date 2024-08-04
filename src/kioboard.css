@@ -117,8 +117,9 @@
         align-items: center;
         justify-content: center;
         padding: 1em 1em;
+        min-height: 3.5em;
         font: inherit;
-        border: 0;
+        border: 0; 
         color: var(--color);
         border-radius: calc(var(--radius) * 1em);
         box-shadow: var(--shadow);

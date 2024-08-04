@@ -16,7 +16,7 @@ export default {
             "emoji numpad space arrowLeft arrowRight",
         ],
         shift: [
-            "drag \u0022 ! # $ % & * ( ) + ? backspace delete close",
+            "drag ! # $ % & * ( ) + ? backspace delete close",
             "Q W E R T Y U I O P _",
             "tab A S D F G H J K L enter",
             "shift Z X C V B N M ; : @ .com",
@@ -35,7 +35,7 @@ export default {
     },
     menu: {
         "m": "a b \u0022 g h j",
-        ",": "1 2 3 4 5 6 7 8 9 a b c d e q w e r t",
+        ",": "1 2 3 4 5 6 7 8 9 a b c d e q w e r t 1 2 3 4 5 6 7 8 9 a b c d e q w e r t 1 2 3 4 5 6 7 8 9 a b c d e q w e r",
         ".": "! . \u0022 \\ ' , # $ % & * ( ) + ?"
     }
 };

@@ -770,8 +770,14 @@ class Kioboard {
         this.hide();
     }
 
+    /**
+     * Show the menu on button long-press
+     * @param {HTMLButtonElement} elButton
+     * @returns {void}
+     */
     menu(elButton) {
         const key = elButton.dataset.kioboardKey;
+        if (!key) return;
         const menuChars = this?.layout?.menu[key];
 
         const elMenu = elNew("div", { className: "kioboard-menu" });
@@ -784,7 +790,8 @@ class Kioboard {
         });
         this.element.append(elMenu);
 
-        const y = elButton.offsetParent.offsetTop;
+        // @ts-ignore
+        const y = elButton.offsetParent?.offsetTop;
         const x = elButton.offsetLeft;
         const w = elButton.offsetWidth;
         elMenu.style.top = `${y}px`;
@@ -809,13 +816,19 @@ class Kioboard {
             if (elMenuBtnActive) {
                 this.emit(elMenuBtnActive.dataset.kioboardMenuKey);
             } else {
-                this.emit(elButton.dataset.kioboardKey);
+                const key = elButton.dataset.kioboardKey ?? "";
+                this.emit(key);
             }
             elMenu.remove();
         }, { once: true });
     }
 
-    isMenuKey(key) {
+    /**
+     * Check whether the key is a menu key
+     * @param {string} key Key-name
+     * @returns {boolean}
+     */
+    isMenuKey(key = "") {
         return this.layout?.menu?.hasOwnProperty(key);
     }
 
@@ -868,6 +881,8 @@ class Kioboard {
     handleKeyUp(evt) {
         // @ts-ignore
         const elButton = evt.target.closest("[data-kioboard-key]");
+        console.log(elButton);
+        
         if (!elButton) return;
         evt.preventDefault();
         elButton.releasePointerCapture(evt.pointerId);
