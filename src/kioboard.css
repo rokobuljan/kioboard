@@ -167,6 +167,6 @@
         box-shadow: inset 0 0 0 0.2em var(--accent);
     }
     100% {
-        box-shadow: initial;
+        box-shadow: var(--shadow);
     }
 }
