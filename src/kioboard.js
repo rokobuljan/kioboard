@@ -565,10 +565,10 @@ class Kioboard {
      * @returns {Kioboard}
      * @example
      * ```js
-     * kio.clearKioboard();
+     * kio.clear();
      * ```
      */
-    clearKioboard() {
+    clear() {
         this.element.innerHTML = "";
         return this;
     }
@@ -584,7 +584,7 @@ class Kioboard {
      */
     draw() {
         // Remove contents
-        this.clearKioboard();
+        this.clear();
         // Create buttons
         this.layout?.layers?.[this.layerName]?.forEach((
             /** @type {string | string[]} */ row,
@@ -853,7 +853,7 @@ class Kioboard {
                     this._isKeyTimed = true;
                     this.menu(elButton);
                 }, 300);
-            } else {
+            } else if (!this.layout?.actions?.hasOwnProperty(key)) {
                 this.keyTimer = setTimeout(() => {
                     this._isKeyTimed = true;
                     this.keyTimer = setInterval(() => {

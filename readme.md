@@ -96,7 +96,7 @@ kio.on(keys, callback) // Attach action callbacks to keys
 kio.off(keys, callback) // Detach action callbacks from keys
 kio.emit(keys) // Emit programmatically registered keys actions
 kio.sequence(keys, speed, callback) // => fn() to stop sequencer
-kio.clearKioboard() // Clear children elements (rows and buttons)
+kio.clear() // Clear children elements (rows and buttons)
 kio.draw() // Draw rows and buttons
 kio.changeLayer(layerName) // Draw a specific layout's layer
 kio.setTheme(themeName) // Change theme

@@ -34,8 +34,8 @@ export default {
         ...numpad.icons,
     },
     menu: {
-        s: "s š ß",
-        S: "S Š",
+        s: "s š ß $",
+        S: "S Š ß $",
         z: "z ž",
         Z: "Z Ž",
         c: "c ć č",
