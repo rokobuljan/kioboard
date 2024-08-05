@@ -846,7 +846,7 @@ class Kioboard {
 
         const key = elButton.dataset.kioboardKey;
 
-        // Habdle timed operations like: menu, key-repeat
+        // Handle timed operations like: menu, long key-repeat
         if (!["shift", "drag", "close"].includes(key)) {
             if (this.isMenuKey(key)) {
                 this.keyTimer = setTimeout(() => {

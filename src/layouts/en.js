@@ -35,7 +35,7 @@ export default {
     },
     menu: {
         "m": "a b \u0022 g h j",
-        ",": "1 2 3 4 5 6 7 8 9 a b c d e q w e r t 1 2 3 4 5 6 7 8 9 a b c d e q w e r t 1 2 3 4 5 6 7 8 9 a b c d e q w e r",
+        ",": "1 2 3 4 5 6 7 8 9 a b c d e q w e r t 1 2 3 4 5 6 7 8 9 a b c",
         ".": "! . \u0022 \\ ' , # $ % & * ( ) + ?"
     }
 };
