@@ -10,16 +10,16 @@ export default {
     layers: {
         default: [
             "drag 1 2 3 4 5 6 7 8 9 0 backspace delete close",
-            "tab q w e r t z u i o p š đ ž -",
+            "tab q w e r t z u i o p",
             "a s d f g h j k l č ć enter",
-            "shift y x c v b n m , . @ .com",
+            "shift < y x c v b n m , .",
             "emoji numpad space arrowLeft arrowRight"
         ],
         shift: [
-            "drag ! # $ % & * ( ) + ? backspace delete close",
-            "tab Q W E R T Z U I O P Š Đ Ž _",
+            "drag ! ? # $ % & ( ) - + backspace delete close",
+            "tab Q W E R T Z U I O P",
             "A S D F G H J K L Č Ć enter",
-            "shift Y X C V B N M ; : @ .com",
+            "shift > Y X C V B N M ; :",
             "emoji numpad space arrowLeft arrowRight"
         ],
         ...emoji.layers,
@@ -34,13 +34,19 @@ export default {
         ...numpad.icons,
     },
     menu: {
-        s: "s š ß $",
-        S: "S Š ß $",
-        z: "z ž",
-        Z: "Z Ž",
-        c: "c ć č",
-        C: "C Ć Č",
-        d: "d đ",
-        D: "D Đ",
+        e: "€ &",
+        E: "€ &",
+        s: "š ß $",
+        S: "Š ß $",
+        z: "ž",
+        Z: "Ž",
+        c: "ć č",
+        C: "Ć Č",
+        d: "đ",
+        D: "Đ",
+        "<": "> < [ ] { } ( ) | \\ / \" ' # $ % & = + - _ ! ? ; : . ° @ *",	
+        ">": "< > [ ] { } ( ) | \\ / \" ' # $ % & = + - _ ! ? ; : . ° @ *",	
+        ".": "; : ! ?",	
+        ":": ". : ! ?",	
     }
 };

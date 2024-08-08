@@ -9,7 +9,7 @@
     --color: currentColor;
     --background: hsl(0 0% 90% / var(--alpha));
     --backgroundBtn: hsl(0 0% 100% / var(--alpha));
-    --shadow: inset 0 -1px 0 hsl(0 0% 0% / 0.3);
+    --shadow: inset 0 -0.1em 0 hsl(0 0% 0% / 0.3);
 
     --keySize: min(calc(var(--size) * 2vw), calc(var(--size) * 1.1em));
     --accent: hsl(
@@ -89,21 +89,22 @@
     }
 
     & .kioboard-menu {
+        --maxCols: 6;
         position: absolute;
         display: flex;
         flex-flow: row wrap;
-        gap: max(calc(var(--gap) * 1em), 0px);
+        max-width: min(calc((var(--keySize) + 2em) * var(--maxCols)), 100%);
         background: inherit;
         z-index: 1;
         color: inherit;
         box-shadow: 0 0 0 0.4em var(--background);
-        bottom: calc(100% + 5px);
-        translate: -50% -100%;
-        height: fit-content;
+        border-radius: calc(var(--radius) * 2em);
+        padding: calc(var(--gap) * 1em);
 
         & [data-kioboard-menu-key] {
+            transition: box-shadow 0s;
             &.is-hovered {
-                background-color: var(--accent);
+                box-shadow: inset 0 0 0 0.2em var(--accent);
             }
         }
     }
@@ -111,12 +112,11 @@
     & button {
         position: relative;
         display: inline-flex;
-        padding: 0;
         flex: 1 0 auto;
         touch-action: none;
         align-items: center;
         justify-content: center;
-        padding: 1em 1em;
+        padding: 1em;
         min-height: 3.5em;
         font: inherit;
         border: 0; 
@@ -124,7 +124,7 @@
         border-radius: calc(var(--radius) * 1em);
         box-shadow: var(--shadow);
         background: var(--backgroundBtn);
-        transition: box-shadow 1s;
+        transition: box-shadow 0.5s;
         user-select: none;
         -webkit-tap-highlight-color: hsl(0 0% 0% / 0);
         cursor: pointer;
@@ -163,11 +163,13 @@
         }
 
         &.is-menu::after {
-            content: "…";
+            content: attr(data-kioboard-menu-key);
+            font-weight: 400;
+            font-size: 0.9em;
             position: absolute;
-            right: 0.3em;
-            bottom: 0.1em;
-            opacity: 0.5;
+            right: 0.4em;
+            top: 0.1em;
+            opacity: 0.7;
             pointer-events: none;
         }
 
@@ -182,6 +184,10 @@
             &[data-kioboard-key="shift"] {
                 background: var(--accent);
             }
+        }
+
+        &:focus:not(:focus-visible) {
+            outline: none;
         }
     }
 
@@ -201,5 +207,6 @@
     }
     100% {
         box-shadow: var(--shadow);
+        transition-duration: 0s;
     }
 }

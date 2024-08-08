@@ -27,7 +27,7 @@ export default {
     },
     actions: {
         ...emoji.actions,
-        ...numpad.actions,
+        ...numpad.actions
     },
     icons: {
         ...emoji.icons,

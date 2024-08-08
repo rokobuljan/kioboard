@@ -88,7 +88,7 @@ const kio = new Kioboard({
 });
 ```
 
-Tap a `<input data-kioboard>` or `<textarea data-kioboard></textarea>` in order to open your Kioboard!  
+Focus on an `<input data-kioboard>` or `<textarea data-kioboard></textarea>` in order to open your Kioboard!  
 
 ### The *shift* layer
 
