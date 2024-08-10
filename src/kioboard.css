@@ -124,7 +124,7 @@
         border-radius: calc(var(--radius) * 1em);
         box-shadow: var(--shadow);
         background: var(--backgroundBtn);
-        transition: box-shadow 0.5s;
+        transition: box-shadow 1s;
         user-select: none;
         -webkit-tap-highlight-color: hsl(0 0% 0% / 0);
         cursor: pointer;

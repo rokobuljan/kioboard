@@ -856,7 +856,6 @@ class Kioboard {
         this.pointerId = evt.pointerId;
         this.key = elButton.dataset.kioboardKey;
 
-
         if (!["shift", "drag", "close"].includes(this.key)) {
             // Menu keys
             if (this.isMenuKey(this.key)) {
@@ -872,13 +871,13 @@ class Kioboard {
                     this._isKeyTimed = true;
                     this.keyTimer = setInterval(() => {
                         this.emit(this.key);
-                    }, 100);
+                    }, 150);
                 }, 1000);
             }
         }
 
         // Handle dragging - on keydown
-        if (["drag"].includes(this.key)) {
+        if (["drag", "delete", "backspace"].includes(this.key)) {            
             this.emit(this.key);
         }
 
@@ -904,7 +903,7 @@ class Kioboard {
         const key = elButton.dataset.kioboardKey;
         clearTimeout(this.keyTimer);
 
-        if (!this._isKeyTimed && !["drag"].includes(key)) {
+        if (!this._isKeyTimed && !["drag", "delete", "backspace"].includes(key)) {
             this.emit(key);
         }
     
@@ -913,7 +912,7 @@ class Kioboard {
         this.pointerId = -1;
 
         // Reset to default keyboard if shift is at state 1
-        if (this.shiftState === 1 && !["shift", "close"].includes(key)) {
+        if (this.shiftState === 1 && !["shift", "drag", "close"].includes(key)) {
             this.shift(0).show(this.layerNameDefault);
         }
 
