@@ -91,15 +91,15 @@
     & .kioboard-menu {
         --maxCols: 6;
         position: absolute;
+        z-index: 1;
         display: flex;
         flex-flow: row wrap;
         max-width: min(calc((var(--keySize) + 2em) * var(--maxCols)), 100%);
+        padding: calc(var(--gap) * 1em);
+        border-radius: calc(var(--radius) * 2em);
         background: inherit;
-        z-index: 1;
         color: inherit;
         box-shadow: 0 0 0 0.4em var(--background);
-        border-radius: calc(var(--radius) * 2em);
-        padding: calc(var(--gap) * 1em);
 
         & [data-kioboard-menu-key] {
             transition: box-shadow 0s;

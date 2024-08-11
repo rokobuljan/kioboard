@@ -184,6 +184,7 @@ class Kioboard {
      * @param {boolean} options.isOSK=false Allow OS's default on-screen-keyboard
      * @param {Object} options.scrollOptions https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
      * @param {number} options.shiftState Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used
+     * @param {HTMLButtonElement|null} options.button The pressed button
      * @param {string} options.key The last pressed key 
      * @param {number} options.pointerId The pointer ID(-1 when no pointer) 
      * @param {function} options.onInit Callback after kioboard instance is initialized
@@ -241,6 +242,7 @@ class Kioboard {
         this.scrollOptions = { behavior: "smooth", block: "start", inline: "nearest" };
         this.shiftState = 0;
         this.key = "";
+        this.button = null;
         this.pointerId = -1;
         this.onInit = () => { };
         this.onLoad = () => { };
@@ -595,15 +597,15 @@ class Kioboard {
             keysArray(row).forEach((key) => {
                 const icon = this.layout?.icons?.hasOwnProperty(key) ? this.layout.icons[key] : key;
                 const isMenu = this.isMenuKey(key);
-                const elButton = elNew("button", {
+                const elBtn = elNew("button", {
                     className: isMenu ? "is-menu" : "",
                     innerHTML: `<span class="kioboard-icon">${icon}</span>`
                 });
                 if (isMenu) {
-                    elButton.dataset.kioboardMenuKey = keysArray(this.layout?.menu[key])[0] || "…";
+                    elBtn.dataset.kioboardMenuKey = keysArray(this.layout?.menu[key])[0] || "…";
                 }
-                elButton.dataset.kioboardKey = key;
-                elRow.append(elButton);
+                elBtn.dataset.kioboardKey = key;
+                elRow.append(elBtn);
             });
             this.element.append(elRow);
         });
@@ -776,51 +778,52 @@ class Kioboard {
 
     /**
      * Show the menu on button long-press
-     * @param {HTMLButtonElement} elButton
      * @returns {void}
      */
-    menu(elButton) {
-        const key = elButton.dataset.kioboardKey;
+    menu() {
+        if (!this.button) return;
+        const key = this.button.dataset.kioboardKey;
         if (!key) return;
         const menuChars = this?.layout?.menu[key];
 
         const elMenu = elNew("div", { className: "kioboard-menu" });
         keysArray(menuChars).forEach((key) => {
-            const elMenuBtn = elNew("button", {
-                innerHTML: `<span class="kioboard-icon">${key}</span>`,
+            const elIcon = elNew("span", {
+                className: "kioboard-icon",
+                textContent: key,
             });
+            const elMenuBtn = elNew("button");
+            elMenuBtn.append(elIcon);
             elMenuBtn.dataset.kioboardMenuKey = key;
             elMenu.append(elMenuBtn);
         });
         this.element.append(elMenu);
 
         // @ts-ignore
-        const y = elButton.offsetParent?.offsetTop;
-        const x = elButton.offsetLeft;
-        const w = elButton.offsetWidth;
+        const y = this.button.offsetParent?.offsetTop;
+        // constrain x position to parent right edge
+        const x = this.button.offsetLeft - Math.max(0, this.button.offsetLeft + elMenu.offsetWidth - this.element.offsetWidth);
         elMenu.style.top = `${y}px`;
-        elMenu.style.translate = `calc(${x + w / 2}px - 50%) -100%`;
+        elMenu.style.translate = `${x}px -100%`;
 
         let elMenuBtnActive = null;
         this.element.addEventListener("pointermove", (evt) => {
             evt.preventDefault();
             const { clientX: x, clientY: y } = evt;
-            const elPoint = document.elementFromPoint(x, y)?.closest("[data-kioboard-menu-key]");
-
-            if (!elPoint) return;
-            if (elMenuBtnActive !== elPoint) {
+            const elMenuBtn = document.elementFromPoint(x, y)?.closest("[data-kioboard-menu-key]");
+            if (!elMenuBtn) return;
+            if (elMenuBtnActive !== elMenuBtn) {
                 elMenuBtnActive?.classList.remove("is-hovered");
-                elMenuBtnActive = elPoint;
+                elMenuBtnActive = elMenuBtn;
                 elMenuBtnActive.classList.add("is-hovered");
             }
         });
 
         this.element.addEventListener("pointerup", (evt) => {
-            // evt.preventDefault();
             if (elMenuBtnActive) {
                 this.emit(elMenuBtnActive.dataset.kioboardMenuKey);
             } else {
-                const key = elButton.dataset.kioboardKey ?? "";
+                const key = this.button.dataset.kioboardKey ?? "";
                 this.emit(key);
             }
             elMenu.remove();
@@ -847,21 +850,21 @@ class Kioboard {
             return;
         }
         // @ts-ignore
-        const elButton = evt.target.closest("[data-kioboard-key]");
-        if (!elButton) return;
+        this.button = evt.target.closest("[data-kioboard-key]");
+        if (!this.button) return;
         evt.preventDefault();
 
-        elButton.setPointerCapture(evt.pointerId);
-        elButton.classList.add("is-active");
+        this.button.setPointerCapture(evt.pointerId);
+        this.button.classList.add("is-active");
         this.pointerId = evt.pointerId;
-        this.key = elButton.dataset.kioboardKey;
+        this.key = this.button.dataset.kioboardKey;
 
         if (!["shift", "drag", "close"].includes(this.key)) {
             // Menu keys
             if (this.isMenuKey(this.key)) {
                 this.keyTimer = setTimeout(() => {
                     this._isKeyTimed = true;
-                    this.menu(elButton);
+                    this.menu();
                 }, 300);
             } else if (!this.layout?.actions?.hasOwnProperty(this.key)) {
                 // Long-press-repeat
@@ -876,8 +879,7 @@ class Kioboard {
             }
         }
 
-        // Handle dragging - on keydown
-        if (["drag", "delete", "backspace"].includes(this.key)) {            
+        if (["shift", "drag", "delete", "backspace"].includes(this.key)) {
             this.emit(this.key);
         }
 
@@ -893,20 +895,19 @@ class Kioboard {
      */
     handleKeyUp(evt) {
         // @ts-ignore
-        const elButton = evt.target.closest("[data-kioboard-key]");
-        
-        if (!elButton) return;
+        this.button = evt.target.closest("[data-kioboard-key]");
+        if (!this.button) return;
         evt.preventDefault();
-        elButton.releasePointerCapture(evt.pointerId);
-        elButton.blur();
+        this.button.releasePointerCapture(evt.pointerId);
+        this.button.blur();
 
-        const key = elButton.dataset.kioboardKey;
+        const key = this.button.dataset.kioboardKey;
         clearTimeout(this.keyTimer);
 
-        if (!this._isKeyTimed && !["drag", "delete", "backspace"].includes(key)) {
+        if (!this._isKeyTimed && !["shift", "drag", "delete", "backspace"].includes(key)) {
             this.emit(key);
         }
-    
+
         this._isKeyTimed = false;
         this.keyTimer = null;
         this.pointerId = -1;
@@ -987,7 +988,7 @@ class Kioboard {
         addEventListener("pointerup", () => {
             removeEventListener("pointermove", onDrag);
             this.element.classList.remove("is-drag");
-        }, {once: true});
+        }, { once: true });
         return this;
     }
 
