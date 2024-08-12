@@ -32,7 +32,7 @@
     ],
     "type": "module",
     "main": "dist/kioboard.js",
-    "module": "src/kioboard.js",
+    "module": "dist/kioboard.js",
     "files": [
         "dist/*"
     ],

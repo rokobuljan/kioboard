@@ -43,7 +43,8 @@ const keysArray = (keys) => {
 }
 
 /**
- * @class Kioboard
+ * Kioboard
+ * @class
  */
 class Kioboard {
 
