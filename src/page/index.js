@@ -69,6 +69,9 @@ const kio = new Kioboard({
     },
 });
 kio.load(en);
+kio.setStyle({
+    gap: 1
+})
 
 /**
  * Auto type

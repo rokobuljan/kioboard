@@ -733,6 +733,7 @@ class Kioboard {
         if (this.isPermanent) {
             return this;
         }
+        this.pointerId = -1;
         this.onBeforeHide();
         this.element.classList.remove(this.classVisible);
         this.input.removeEventListener("blur", this.handleHide, { capture: true });
@@ -772,13 +773,12 @@ class Kioboard {
      * @returns {void}
      */
     #holdKeyHandler(key) {
-        if (["shift", "drag"].includes(key)) {
-            return;
+        if (key && (["enter", "space", "backspace", "delete", "tab", "arrowLeft", "arrowRight"].includes(key) || key?.length === 1)) {
+            this.heldTimeout = setTimeout(() => {
+                this.emit(key);
+                this.#holdKeyHandler(key); // Loop
+            }, this.heldTimeout ? 100 : 1000);
         }
-        this.heldTimeout = setTimeout(() => {
-            this.emit(key);
-            this.#holdKeyHandler(key); // Loop
-        }, this.heldTimeout ? 100 : 1000);
     }
 
     /**
@@ -797,21 +797,23 @@ class Kioboard {
      */
     handleKeyDown(evt) {
         if (this.pointerId > -1) return;  // We already have a pointer down
-        this.pointerId = evt.pointerId;
 
-        // @ts-ignore
-        const elButton = evt.target.closest("[data-kioboard-key]");
+        const elTarget = /** @type {HTMLElement} */ (evt.target);
+        const elButton = /** @type {HTMLElement} */ (elTarget?.closest("[data-kioboard-key]"));
         const isOwnButton = this.element.contains(elButton);
 
-        if (!isOwnButton) {
+        evt.preventDefault(); // preventDef. matters right here, before the other code
+
+        if (!elButton || !isOwnButton) {
             return;
         }
 
-        evt.preventDefault();
+        this.pointerId = evt.pointerId;
         this.element.setPointerCapture(evt.pointerId);
 
         // INPUT!
         const key = elButton.dataset.kioboardKey;
+        if (!key) return;
 
         // Insert key or run its assigned action callback
         this.emit(key);
@@ -833,9 +835,8 @@ class Kioboard {
      */
     handleKeyUp(evt) {
         // Not the pointer we're interested in (Probable mistouch or 2nd pointer is down)
-        if (evt.pointerId !== this.pointerId) return;
+        if (!this.element.hasPointerCapture(evt.pointerId) || evt.pointerId !== this.pointerId) return;
         this.element.releasePointerCapture(evt.pointerId);
-
         this.pointerId = -1;
 
         this.#holdKeyEnd();
