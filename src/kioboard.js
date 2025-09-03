@@ -388,7 +388,7 @@ class Kioboard {
      * @returns {Kioboard}
      * @example
      * ```js
-     * kio.style({
+     * kio.setStyle({
      *   hue: 194,
      *   saturation: 94,
      *   lightness: 49,

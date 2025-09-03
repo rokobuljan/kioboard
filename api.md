@@ -268,7 +268,7 @@ Set CSS styles
 
 **Example**  
 ```js
-kio.style({
+kio.setStyle({
   hue: 194,
   saturation: 94,
   lightness: 49,
