@@ -734,6 +734,7 @@ class Kioboard {
             return this;
         }
         this.pointerId = -1;
+        this.#holdKeyEnd();
         this.onBeforeHide();
         this.element.classList.remove(this.classVisible);
         this.input.removeEventListener("blur", this.handleHide, { capture: true });
@@ -773,7 +774,12 @@ class Kioboard {
      * @returns {void}
      */
     #holdKeyHandler(key) {
-        if (key && (["enter", "space", "backspace", "delete", "tab", "arrowLeft", "arrowRight"].includes(key) || key?.length === 1)) {
+        if (!key) return;
+        if (
+            (this.input.tagName === "TEXTAREA" && key === "enter") ||
+            ["space", "backspace", "delete", "tab", "arrowLeft", "arrowRight"].includes(key) ||
+            key?.length === 1
+        ) {
             this.heldTimeout = setTimeout(() => {
                 this.emit(key);
                 this.#holdKeyHandler(key); // Loop
