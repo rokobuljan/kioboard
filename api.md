@@ -19,7 +19,7 @@ ___
 <dt><a href="#Actions">Actions</a> : <code>Object.&lt;string, Action&gt;</code></dt>
 <dd><p>Object with Action callbacks</p>
 </dd>
-<dt><a href="#LayerRows">LayerRows</a> : <code>Array.&lt;(string|Array)&gt;</code></dt>
+<dt><a href="#LayerRows">LayerRows</a> : <code>Array.&lt;(string|Array.&lt;string&gt;)&gt;</code></dt>
 <dd><p>The rows with keys like [&quot;q w e&quot;, &quot;a s d&quot;, ...]</p>
 </dd>
 <dt><a href="#Layers">Layers</a> : <code>Object.&lt;string, LayerRows&gt;</code></dt>
@@ -48,12 +48,17 @@ Kioboard
     * [new Kioboard(options)](#new_Kioboard_new)
     * [.commonActions](#Kioboard+commonActions) : [<code>Actions</code>](#Actions)
     * [.commonIcons](#Kioboard+commonIcons) : [<code>Icons</code>](#Icons)
+    * [.inputs[0]](#Kioboard+inputs[0]) : <code>HTMLInputElement</code> \| <code>HTMLTextAreaElement</code>
+    * [.scrollOptions](#Kioboard+scrollOptions) : <code>ScrollIntoViewOptions</code>
     * [.load(layout, [callback])](#Kioboard+load) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.setLayout(layout)](#Kioboard+setLayout) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.setActions(actions)](#Kioboard+setActions) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.setStyle(styles)](#Kioboard+setStyle) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.on(keys, callback)](#Kioboard+on) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.off(keys, callback)](#Kioboard+off) ⇒ [<code>Kioboard</code>](#Kioboard)
+    * [.playSound()](#Kioboard+playSound) ⇒ <code>void</code>
+    * [.playDefaultSound()](#Kioboard+playDefaultSound) ⇒ <code>void</code>
+    * [.setSound(enabled, [src])](#Kioboard+setSound) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.emit(keys)](#Kioboard+emit) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.sequence(keys, speed, callback)](#Kioboard+sequence) ⇒ <code>function</code>
     * [.clearKioboard()](#Kioboard+clearKioboard) ⇒ [<code>Kioboard</code>](#Kioboard)
@@ -70,6 +75,7 @@ Kioboard
     * [.hasSelection()](#Kioboard+hasSelection) ⇒ <code>boolean</code>
     * [.setRange(val, from, to)](#Kioboard+setRange) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.insert(val, from, to)](#Kioboard+insert)
+    * [._preventDefault(evt)](#Kioboard+_preventDefault)
     * [.init()](#Kioboard+init) ⇒ [<code>Kioboard</code>](#Kioboard)
     * [.destroy()](#Kioboard+destroy) ⇒ [<code>Kioboard</code>](#Kioboard)
 
@@ -83,7 +89,7 @@ Kioboard
 | options.parent | <code>string</code> \| <code>Element</code> \| <code>undefined</code> | <code>&quot;body&quot;</code> | Element to insert kioboard into |
 | options.element | <code>HTMLElement</code> |  | Kioboard Element |
 | options.inputs | <code>string</code> \| <code>NodeList</code> \| <code>HTMLElement</code> \| <code>HTMLCollection</code> \| <code>undefined</code> | <code>&quot;[data-kioboard]&quot;</code> | Selector string, Element or elements. The input(s) to bind to |
-| options.input | <code>HTMLElement</code> | <code>options.inputs[0]</code> | The currently active input |
+| options.input | <code>HTMLInputElement</code> \| <code>HTMLTextAreaElement</code> | <code>options.inputs[0]</code> | The currently active input |
 | options.layerNameInitial | <code>string</code> | <code>&quot;default&quot;</code> | Initial layer name |
 | options.layerName | <code>string</code> | <code>&quot;default&quot;</code> | Current layer name |
 | options.layerNameDefault | <code>string</code> | <code>&quot;default&quot;</code> | Name definition for "default" layout |
@@ -99,7 +105,9 @@ Kioboard
 | options.isPermanent | <code>boolean</code> | <code>false</code> | Never hide kioboard |
 | options.isScroll | <code>boolean</code> | <code>true</code> | Scroll input into view when focused |
 | options.isOSK | <code>boolean</code> | <code>false</code> | Allow OS's default on-screen-keyboard |
-| options.scrollOptions | <code>Object</code> |  | https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView |
+| options.soundEnabled | <code>boolean</code> | <code>false</code> | Enable typing sound |
+| options.soundSrc | <code>string</code> |  | Custom audio file URL for typing sound |
+| options.scrollOptions | <code>ScrollIntoViewOptions</code> |  | https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView |
 | options.shiftState | <code>number</code> |  | Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used |
 | options.key | <code>string</code> |  | The last pressed key |
 | options.pointerId | <code>number</code> |  | The pointer ID(-1 when no pointer) |
@@ -167,6 +175,14 @@ can override each of these in their own layout.
 Beautifully crafted Kioboard icons.
 The user can override any of those from their own layouts.
 
+**Kind**: instance property of [<code>Kioboard</code>](#Kioboard)  
+<a name="Kioboard+inputs[0]"></a>
+
+### kioboard.inputs[0] : <code>HTMLInputElement</code> \| <code>HTMLTextAreaElement</code>
+**Kind**: instance property of [<code>Kioboard</code>](#Kioboard)  
+<a name="Kioboard+scrollOptions"></a>
+
+### kioboard.scrollOptions : <code>ScrollIntoViewOptions</code>
 **Kind**: instance property of [<code>Kioboard</code>](#Kioboard)  
 <a name="Kioboard+load"></a>
 
@@ -329,6 +345,37 @@ kio.off("X");
 ```js
 // Remove only a specific callback
 kio.off("X", myXKeyCallback); 
+```
+<a name="Kioboard+playSound"></a>
+
+### kioboard.playSound() ⇒ <code>void</code>
+Play typing sound if enabled
+
+**Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
+<a name="Kioboard+playDefaultSound"></a>
+
+### kioboard.playDefaultSound() ⇒ <code>void</code>
+Play default click sound using Web Audio API
+
+**Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
+<a name="Kioboard+setSound"></a>
+
+### kioboard.setSound(enabled, [src]) ⇒ [<code>Kioboard</code>](#Kioboard)
+Set typing sound options
+
+**Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| enabled | <code>boolean</code> |  | Enable or disable typing sound |
+| [src] | <code>string</code> | <code>&quot;default&quot;</code> | Optional custom audio file URL, or "default" for built-in sound |
+
+**Example**  
+```js
+kio.setSound(true); // Enable with default built-in sound
+kio.setSound(true, "default"); // Same as above
+kio.setSound(true, "/path/to/click.mp3"); // Enable with custom sound
+kio.setSound(false); // Disable
 ```
 <a name="Kioboard+emit"></a>
 
@@ -552,6 +599,17 @@ Respects also the input's maxlength.
 ```js
 kio.insert(".com");
 ```
+<a name="Kioboard+_preventDefault"></a>
+
+### kioboard.\_preventDefault(evt)
+Prevent default event behavior
+
+**Kind**: instance method of [<code>Kioboard</code>](#Kioboard)  
+
+| Param | Type |
+| --- | --- |
+| evt | <code>Event</code> | 
+
 <a name="Kioboard+init"></a>
 
 ### kioboard.init() ⇒ [<code>Kioboard</code>](#Kioboard)
@@ -594,7 +652,7 @@ Object with Action callbacks
 **Kind**: global typedef  
 <a name="LayerRows"></a>
 
-## LayerRows : <code>Array.&lt;(string\|Array)&gt;</code>
+## LayerRows : <code>Array.&lt;(string\|Array.&lt;string&gt;)&gt;</code>
 The rows with keys like ["q w e", "a s d", ...]
 
 **Kind**: global typedef  

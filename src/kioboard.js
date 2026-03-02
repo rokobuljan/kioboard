@@ -16,7 +16,7 @@ const el = (sel, par = document) => par.querySelector(sel);
  * @ignore
  * @param {string} sel Selector
  * @param {Document|Element} par Optional parent defaults to window.document
- * @returns {NodeListOf}
+ * @returns {NodeListOf<HTMLElement>}
  */
 const els = (sel, par = document) => par.querySelectorAll(sel);
 
@@ -55,7 +55,7 @@ class Kioboard {
      * @returns {void}
      */
     /** @typedef {Object<string, Action>} Actions Object with Action callbacks */
-    /** @typedef {Array<string | Array>} LayerRows The rows with keys like ["q w e", "a s d", ...] */
+    /** @typedef {Array<string | Array<string>>} LayerRows The rows with keys like ["q w e", "a s d", ...] */
     /** @typedef {Object<string, LayerRows>} Layers Object with layer names (as keys) and rows as Array */
     /** @typedef {Object<string, string>} Icons */
     /**
@@ -166,7 +166,7 @@ class Kioboard {
      * @param {string|Element|undefined} options.parent=body - Element to insert kioboard into
      * @param {HTMLElement} options.element - Kioboard Element
      * @param {string|NodeList|HTMLElement|HTMLCollection|undefined} options.inputs=[data-kioboard]] Selector string, Element or elements. The input(s) to bind to
-     * @param {HTMLElement} options.input=options.inputs[0]] The currently active input
+     * @param {HTMLInputElement|HTMLTextAreaElement} options.input=options.inputs[0]] The currently active input
      * @param {string} options.layerNameInitial=default Initial layer name
      * @param {string} options.layerName=default Current layer name
      * @param {string} options.layerNameDefault=default Name definition for "default" layout
@@ -184,7 +184,7 @@ class Kioboard {
      * @param {boolean} options.isOSK=false Allow OS's default on-screen-keyboard
      * @param {boolean} options.soundEnabled=false Enable typing sound
      * @param {string} options.soundSrc=undefined Custom audio file URL for typing sound
-     * @param {Object} options.scrollOptions https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+     * @param {ScrollIntoViewOptions} options.scrollOptions https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
      * @param {number} options.shiftState Shift states: 0=Off 1=On 2=Caps-lock. When 0 the "default" layer will be used
      * @param {string} options.key The last pressed key 
      * @param {number} options.pointerId The pointer ID(-1 when no pointer) 
@@ -242,7 +242,7 @@ class Kioboard {
         this.isOSK = false;
         this.soundEnabled = false;
         this.soundSrc = "default";
-        this.scrollOptions = { behavior: "smooth", block: "start", inline: "nearest" };
+        this.scrollOptions = /** @type {ScrollIntoViewOptions} */ { behavior: "smooth", block: "start", inline: "nearest" };
         this.shiftState = 0;
         this.key = "";
         this.pointerId = -1;
@@ -266,7 +266,8 @@ class Kioboard {
         }
 
         this.inputs = !("length" in this.inputs) ? [this.inputs] : [...this.inputs];
-        this.input = this.inputs[0]; // The focused input or textarea element
+
+        this.input = /** @type {HTMLInputElement|HTMLTextAreaElement} */ (this.inputs[0]); // The focused input or textarea element
 
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
@@ -473,18 +474,18 @@ class Kioboard {
      */
     playSound() {
         if (!this.soundEnabled) return;
-        
+
         if (this.soundSrc === "default" || !this.soundSrc) {
             this.playDefaultSound();
             return;
         }
-        
+
         if (!this.soundAudio) {
             this.soundAudio = new Audio(this.soundSrc);
         }
-        
+
         this.soundAudio.currentTime = 0;
-        this.soundAudio.play().catch(() => {});
+        this.soundAudio.play().catch(() => { });
     }
 
     /**
@@ -493,21 +494,21 @@ class Kioboard {
      */
     playDefaultSound() {
         if (!this.audioContext) {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            this.audioContext = new window.AudioContext();
         }
-        
+
         const oscillator = this.audioContext.createOscillator();
         const gainNode = this.audioContext.createGain();
-        
+
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
-        
+
         oscillator.frequency.value = 800;
         oscillator.type = "sine";
-        
+
         gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.05);
-        
+
         oscillator.start(this.audioContext.currentTime);
         oscillator.stop(this.audioContext.currentTime + 0.05);
     }
@@ -558,7 +559,7 @@ class Kioboard {
 
             if (this.emitter?.events.has(this.key)) {
                 // Run a custom action
-                this.emitter.events.get(this.key).forEach((callback) => {
+                this.emitter.events.get(this.key).forEach((/** @type {Function} */ callback) => {
                     // If the action value is (as expected) a callback
                     if (!(typeof callback === "function")) return;
                     // trigger the callback:
@@ -611,7 +612,8 @@ class Kioboard {
      */
     sequence(keys, speed = 100, callback = () => { }) {
         keys = [...keysArray(keys)];
-        let tOut = null;
+        /** @type {number} */
+        let tOut;
         const loop = () => {
             if (keys.length === 0) {
                 callback.call(this, keys);
@@ -620,7 +622,7 @@ class Kioboard {
             const key = keys.shift();
             this.emit(`${key}`);
             this.onKeyDown(key);
-            tOut = setTimeout(() => {
+            tOut = window.setTimeout(() => {
                 loop();
             }, speed);
         };
@@ -786,7 +788,7 @@ class Kioboard {
         this.onBeforeShow();
         this.element.classList.add(this.classVisible);
         if (this.isScroll) {
-            this.input.scrollIntoView(this.scrollOptions);
+            this.input.scrollIntoView(/** @type {ScrollIntoViewOptions} */ (this.scrollOptions));
         }
         this.input.addEventListener("blur", this.handleHide, { capture: true });
         this.isVisible = true;
@@ -823,7 +825,7 @@ class Kioboard {
      * @param {Event} evt
      */
     handleShow(evt) {
-        this.input = evt.target;
+        this.input = /** @type {HTMLInputElement|HTMLTextAreaElement} */ (evt.target);
         if (this.input.disabled) {
             return;
         }
@@ -939,7 +941,7 @@ class Kioboard {
      * ```
      */
     hasSelection() {
-        return this.input.selectionEnd - this.input.selectionStart > 0;
+        return (this.input?.selectionEnd ?? 0) - (this.input?.selectionStart ?? 0) > 0;
     }
 
     /**
@@ -965,7 +967,7 @@ class Kioboard {
      * kio.insert(".com");
      * ```
      */
-    insert(val = "", from = this.input.selectionStart, to = this.input.selectionEnd) {
+    insert(val = "", from = this.input.selectionStart ?? 0, to = this.input.selectionEnd ?? 0) {
         from = Math.max(0, from);
         let newValue = this.input.value.substring(0, from) + val + this.input.value.substring(to, this.input.value.length);
         const maxLength = this.input.getAttribute("maxlength");
@@ -978,6 +980,10 @@ class Kioboard {
         return this;
     }
 
+    /**
+     * Prevent default event behavior
+     * @param {Event} evt
+     */
     _preventDefault(evt) {
         evt.preventDefault();
     }
@@ -986,6 +992,9 @@ class Kioboard {
 
     drag() {
         this.element.classList.add("kioboard-moving");
+        /**
+         * @param {PointerEvent} evt
+         */
         const onDrag = (evt) => {
             evt.preventDefault();
             this._dragOffset.x += evt.movementX;
